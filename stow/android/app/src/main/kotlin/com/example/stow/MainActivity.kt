@@ -1,4 +1,4 @@
-package com.example.stow
+package io.mycontainers.stow
 
 import io.flutter.embedding.android.FlutterActivity
 
