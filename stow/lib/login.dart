@@ -104,7 +104,18 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 300,
             ),
-            const Text('New User? Create Account')
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/create_account',
+                  arguments: 'Welcome to Stow!',
+                );
+              },
+              child: const Text(
+                'New User? Create Account',
+                style: TextStyle(color: Colors.black, fontSize: 15),
+              ),
+            ),
           ],
         ),
       ),

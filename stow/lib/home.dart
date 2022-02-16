@@ -26,8 +26,10 @@ class Home extends StatelessWidget {
                 onPressed: () {
                   authService.signOut();
                 },
-                child: const Text("Sign Out",
-                style: TextStyle(color: Colors.white, fontSize: 25),),
+                child: const Text(
+                  "Sign Out",
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+                ),
               ),
             ),
           ],

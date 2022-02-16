@@ -7,6 +7,7 @@ import 'package:stow/user.dart';
 import 'authentication.dart';
 import 'login.dart';
 import 'user_auth.dart';
+import 'route_generator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,15 +22,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        /*
-        Provider<Authentication>(
-          create: (_) => Authentication(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) => context.read<Authentication>().authStateChanges,
-          initialData: null,
-        ),
-        */
         Provider<AuthService>(
           create: (_) => AuthService(),
         )
@@ -41,6 +33,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
         ),
         home: AuthenticationWrapper(key: key),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }
