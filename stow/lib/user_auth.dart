@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:stow/database.dart';
 import 'user.dart';
 
 class AuthService {
@@ -34,6 +35,8 @@ class AuthService {
   ) async {
     final cred = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
+
+    await DatabaseService(cred.user.uid).updateUserData(cred.user.email);
     return _userFromFirebase(cred.user);
   }
 
