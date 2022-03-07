@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:stow/user_auth.dart';
 import 'login.dart';
 import 'create_account.dart';
+import 'pantry.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -19,6 +20,15 @@ class RouteGenerator {
         if (args is String) {
           return MaterialPageRoute(
             builder: (_) => CreateAccount(
+              data: args,
+            ),
+          );
+        }
+        return errorRoute();
+      case '/pantry':
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => Pantry(
               data: args,
             ),
           );

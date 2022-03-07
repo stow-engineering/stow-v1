@@ -87,7 +87,12 @@ class Home extends StatelessWidget {
             padding:
                 const EdgeInsets.only(left: 0, right: 220, top: 30, bottom: 0),
             child: TextButton.icon(
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.of(context).pushNamed(
+                  '/pantry',
+                  arguments: '',
+                )
+              },
               icon: const Icon(Icons.arrow_forward_ios,
                   size: 15, color: Colors.grey),
               label: const Text(
