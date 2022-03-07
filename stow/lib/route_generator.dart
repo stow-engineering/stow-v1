@@ -4,6 +4,7 @@ import 'package:stow/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:stow/user_auth.dart';
+import 'package:stow/barcode_scanner.dart';
 import 'login.dart';
 import 'create_account.dart';
 
@@ -24,6 +25,8 @@ class RouteGenerator {
           );
         }
         return errorRoute();
+      case '/barcode':
+        return MaterialPageRoute(builder: (_) => BarcodeScanner());
       default:
         return errorRoute();
     }
