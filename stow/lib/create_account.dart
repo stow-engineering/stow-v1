@@ -22,6 +22,8 @@ class CreateAccount extends StatelessWidget {
     final passwordController = TextEditingController();
     final emailController = TextEditingController();
     final confirmController = TextEditingController();
+    final firstController = TextEditingController();
+    final lastController = TextEditingController();
     final authService = Provider.of<AuthService>(context);
     return Scaffold(
       appBar: AppBar(
@@ -107,6 +109,38 @@ class CreateAccount extends StatelessWidget {
                       },
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 30.0, right: 30.0, top: 25.0, bottom: 25.0),
+                    child: TextFormField(
+                      controller: firstController,
+                      decoration: const InputDecoration(
+                        hintText: 'First Name',
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please provide a first name';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 30.0, right: 30.0, top: 25.0, bottom: 25.0),
+                    child: TextFormField(
+                      controller: lastController,
+                      decoration: const InputDecoration(
+                        hintText: 'Last Name',
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please provide a last name';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                   Container(
                     height: 50,
                     width: 250,
@@ -166,7 +200,10 @@ class CreateAccount extends StatelessWidget {
                             passwordsMatch &&
                             emailValid) {
                           authService.createUserWithEmailPassword(
-                              emailController.text, passwordController.text);
+                              emailController.text,
+                              passwordController.text,
+                              firstController.text,
+                              lastController.text);
                         } else {
                           String errorMessage = "";
                           if (!requiredLength) {
