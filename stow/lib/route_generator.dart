@@ -7,6 +7,7 @@ import 'package:stow/user_auth.dart';
 import 'login.dart';
 import 'create_account.dart';
 import 'pantry.dart';
+import 'provision.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -31,6 +32,15 @@ class RouteGenerator {
             builder: (_) => Pantry(
               data: args,
             ),
+          );
+        }
+        return errorRoute();
+      case '/provision':
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => Provision(
+                //data: args,
+                ),
           );
         }
         return errorRoute();

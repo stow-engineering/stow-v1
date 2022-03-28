@@ -139,6 +139,24 @@ class _HomeState extends State<Home> {
               ),
             ),
             Padding(
+              padding: const EdgeInsets.only(
+                  left: 0, right: 220, top: 30, bottom: 0),
+              child: TextButton.icon(
+                onPressed: () => {
+                  Navigator.of(context).pushNamed(
+                    '/provision',
+                    arguments: '',
+                  )
+                },
+                icon: const Icon(Icons.arrow_forward_ios,
+                    size: 15, color: Colors.grey),
+                label: const Text(
+                  "Add New Container",
+                  style: TextStyle(color: Colors.grey, fontSize: 15),
+                ),
+              ),
+            ),
+            Padding(
               padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 15),
               child: Card(
                 elevation: 0.0,
