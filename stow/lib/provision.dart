@@ -3,9 +3,11 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-//import 'package:flutter_blue_plus/gen/flutterblueplus.pb.dart';
 
 import 'widgets.dart';
+
+//Place UUID varibales here, not sure if this creates problems
+//Guid stowServiceUUID = Guid("2d8bdb4c-8be8-4980-a066-4f531f08c626");
 
 class Provision extends StatelessWidget {
   const Provision({Key? key}) : super(key: key);
@@ -125,6 +127,9 @@ class FindDevicesScreen extends StatelessWidget {
                 initialData: const [],
                 builder: (c, snapshot) => Column(
                   children: snapshot.data!
+                      .where((e) =>
+                          e.device.name ==
+                          "Stow") //filter to devices named stow
                       .map(
                         (r) => ScanResultTile(
                           result: r,
@@ -181,6 +186,8 @@ class DeviceScreen extends StatelessWidget {
 
   List<Widget> _buildServiceTiles(List<BluetoothService> services) {
     return services
+        .where(
+            (e) => e.uuid.toString() == "2d8bdb4c-8be8-4980-a066-4f531f08c626")
         .map(
           (s) => ServiceTile(
             service: s,
