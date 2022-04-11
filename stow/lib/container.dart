@@ -7,6 +7,7 @@ class Container {
   int value;
   String uid;
   String barcode;
+  bool full;
 
-  Container(this.value, this.uid, this.barcode, {int });
+  Container(this.value, this.uid, this.barcode, this.full);
 }

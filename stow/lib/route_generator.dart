@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:stow/add_container.dart';
 import 'package:stow/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:stow/user.dart';
 import 'package:stow/user_auth.dart';
 import 'login.dart';
 import 'create_account.dart';
@@ -26,10 +28,19 @@ class RouteGenerator {
         }
         return errorRoute();
       case '/pantry':
-        if (args is String) {
+        if (args is StowUser) {
           return MaterialPageRoute(
             builder: (_) => Pantry(
-              data: args,
+              user: args,
+            ),
+          );
+        }
+        return errorRoute();
+      case '/add_container':
+        if (args is StowUser) {
+          return MaterialPageRoute(
+            builder: (_) => AddContainer(
+              user: args,
             ),
           );
         }

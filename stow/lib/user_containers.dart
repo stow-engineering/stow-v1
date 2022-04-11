@@ -20,9 +20,8 @@ class _NumberContainers extends State<NumberContainers> {
     return FutureBuilder<List<String>>(
       future: service.getAddresses(),
       builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-        //print(snapshot.data);
         if (snapshot.hasError) {
-          return Text("Something went wrong");
+          return const Icon(Icons.error);
         }
 
         if (snapshot.hasData) {
@@ -42,3 +41,18 @@ class _NumberContainers extends State<NumberContainers> {
     );
   }
 }
+
+// class NumFull extends StatefulWidget {
+//   final StowUser user;
+//   const NumFull({Key? key, required this.user}) : super(key: key);
+
+//   @override
+//   State<NumFull> createState() => _NumFullState();
+// }
+
+// class _NumFullState extends State<NumFull> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }

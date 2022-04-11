@@ -35,52 +35,51 @@ class DatabaseService {
     }
   }
 
-  //Watches for changes in the container collection
-  Stream<List<customContainer.Container>> get containers {
-    return containerCollection.snapshots().map(_containerListFromSnapshot);
+  Future<bool> getFull(String address) async {
+    DocumentSnapshot snapshot =
+        await containerCollection.doc(address.substring(1)).get();
+    var data = snapshot.data();
+    if (data.containsKey('full')) {
+      bool full = data['full'];
+      return full;
+    } else {
+      throw NullThrownError;
+    }
   }
 
-  // Future<String> getFirstname() async {
-  //   return FutureBuilder<DocumentSnapshot>(
-  //     future: userCollection.doc(uid).get(),
-  //     builder:
-  //         (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-  //       if (snapshot.hasError) {
-  //         return Text("Something went wrong");
-  //       }
-
-  //       if (snapshot.hasData && !snapshot.data!.exists) {
-  //         return Text("Document does not exist");
-  //       }
-
-  //       if (snapshot.connectionState == ConnectionState.done) {
-  //         Map<String, dynamic> data =
-  //             snapshot.data!.data() as Map<String, dynamic>;
-  //         return Text("${data['first_name']}");
-  //       }
-
-  //       return Text("loading");
-  //     },
-  //   );
+  // Future<List<customContainer.Container>> getContainers() async {
+  //   DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+  //   var data = snapshot.data();
+  //   List<customContainer.Container> resultList = [];
+  //   if (data.containsKey('containers')) {
+  //     final containerList = List<String>.from(data['containers']);
+  //     for (int i = 0; i < containerList.length; i++) {
+  //       DocumentSnapshot containerSnapshot =
+  //           await containerCollection.doc(containerList[i]).get();
+  //       var containerData = containerSnapshot.data();
+  //       resultList.add()
+  //     }
+  //   } else {
+  //     List<customContainer.Container> empty = [];
+  //     return empty;
+  //   }
   // }
+
+  //Watches for changes in the container collection
+  Future<Stream<List<customContainer.Container>>> get containers async {
+    final containerList = await getAddresses();
+    return containerCollection
+        .where('mac', whereIn: containerList)
+        .snapshots()
+        .map(_containerListFromSnapshot);
+  }
 
   //Container list from snapshot
   List<customContainer.Container> _containerListFromSnapshot(
       QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return customContainer.Container(
-          doc.data()['value'] ?? 0, doc.id, doc.data()['barcode'] ?? '');
+      return customContainer.Container(doc.data()['value'] ?? 0, doc.id,
+          doc.data()['barcode'] ?? '', doc.data()['full'] ?? true);
     }).toList();
   }
-
-  // Stream<DocumentSnapshot> get userData {
-  //   var containerDocs = [];
-  //   containerCollection.doc(uid).get();
-  //   for(int i = 0; i < 0; i++){
-  //     containerCollection.doc(uid).snaps();
-  //   }
-  // }
-
-  //}
-
 }

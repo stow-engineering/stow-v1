@@ -13,14 +13,16 @@ class _ContainerListState extends State<ContainerList> {
   Widget build(BuildContext context) {
     final containers = Provider.of<List<customContainer.Container>>(context);
 
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: containers.length,
-      itemBuilder: (context, index) {
-        return ContainerDisplay(containers[index]);
-      },
-    );
+    return containers == null
+        ? Container()
+        : ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: containers.length,
+            itemBuilder: (context, index) {
+              return ContainerDisplay(containers[index]);
+            },
+          );
   }
 }
 
