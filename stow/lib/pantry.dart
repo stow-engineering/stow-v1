@@ -62,8 +62,8 @@ class _PantryState extends State<Pantry> {
                 floatingActionButton: FloatingActionButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(
-                        '/add_container',
-                        arguments: widget.user,
+                        '/provision',
+                        arguments: 'provision',
                       );
                     },
                     child: const Icon(Icons.add)),
