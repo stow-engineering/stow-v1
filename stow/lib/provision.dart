@@ -109,6 +109,7 @@ class _PairScreenState extends State<PairScreen> {
                   services.forEach((s) => s.characteristics.forEach((c) async {
                         if (c.uuid.toString() ==
                             "a0edbb2a-405d-4331-8540-7afaf0e934b9") {
+                          ssid = ssid + " " + pw + " ";
                           await c.write(ssid.codeUnits, withoutResponse: true);
                           await c.setNotifyValue(true);
                           c.value.listen((event) {
