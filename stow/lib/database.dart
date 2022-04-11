@@ -23,6 +23,12 @@ class DatabaseService {
     });
   }
 
+  Future updateContainerData(String name, String size, String mac) async {
+    return await containerCollection
+        .doc(mac)
+        .set({'barcode': null, 'full': false, 'mac': mac, 'value': 0});
+  }
+
   Future<List<String>> getAddresses() async {
     DocumentSnapshot snapshot = await userCollection.doc(uid).get();
     var data = snapshot.data();
