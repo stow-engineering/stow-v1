@@ -8,6 +8,7 @@ import 'login.dart';
 import 'create_account.dart';
 import 'pantry.dart';
 import 'provision.dart';
+import 'register.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -41,6 +42,15 @@ class RouteGenerator {
             builder: (_) => Provision(
                 //data: args,
                 ),
+          );
+        }
+        return errorRoute();
+      case '/register':
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => Register(
+              mac: args,
+            ),
           );
         }
         return errorRoute();
