@@ -78,8 +78,13 @@ class DatabaseService {
   List<customContainer.Container> _containerListFromSnapshot(
       QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return customContainer.Container(doc.data()['value'] ?? 0, doc.id,
-          doc.data()['barcode'] ?? '', doc.data()['full'] ?? true);
+      customContainer.Container container;
+      container = customContainer.Container();
+      return container.copyWith(
+          value: doc.data()['value'] ?? 0,
+          uid: doc.id,
+          barcode: doc.data()['barcode'] ?? '',
+          full: doc.data()['full'] ?? true);
     }).toList();
   }
 }

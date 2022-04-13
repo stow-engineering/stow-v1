@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'database.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key, required this.mac}) : super(key: key);
