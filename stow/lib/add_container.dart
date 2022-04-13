@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:stow/container_chart.dart';
 import 'package:stow/database.dart';
 import 'package:stow/user.dart';
+import 'add_container_argument.dart';
 import 'container_list.dart';
 import 'user_auth.dart';
 import 'login.dart';
@@ -16,8 +17,8 @@ import 'container.dart' as customContainer;
 import 'user_containers.dart';
 
 class AddContainer extends StatefulWidget {
-  final StowUser user;
-  const AddContainer({Key? key, required this.user}) : super(key: key);
+  final AddContainerArg arg;
+  const AddContainer({Key? key, required this.arg}) : super(key: key);
 
   @override
   State<AddContainer> createState() => _AddContainerState();
@@ -28,7 +29,7 @@ class _AddContainerState extends State<AddContainer> {
   String? selectedValue;
   @override
   Widget build(BuildContext context) {
-    DatabaseService service = DatabaseService(widget.user.uid);
+    DatabaseService service = DatabaseService(widget.arg.user.uid);
     final nameController = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
@@ -92,7 +93,10 @@ class _AddContainerState extends State<AddContainer> {
                       onPressed: () {
                         final size = selectedValue;
                         final name = nameController.text;
-                        //service.updateContainerData(name, size!, mac);
+                        service.updateContainerData(
+                            name, size!, widget.arg.mac);
+                        service.updateContainers(widget.arg.mac);
+                        setState(() {});
                       },
                       child: const Text(
                         'Create my container!',

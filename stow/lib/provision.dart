@@ -7,6 +7,8 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
+import 'add_container_argument.dart';
+import 'user.dart';
 import 'widgets.dart';
 
 //Place UUID varibales here, not sure if this creates problems
@@ -14,9 +16,15 @@ import 'widgets.dart';
 String ssid = "LAWDAWG";
 String pw = "ilovepizza";
 
-class Provision extends StatelessWidget {
-  const Provision({Key? key}) : super(key: key);
+class Provision extends StatefulWidget {
+  final StowUser user;
+  const Provision({Key? key, required this.user}) : super(key: key);
 
+  @override
+  State<Provision> createState() => _ProvisionState();
+}
+
+class _ProvisionState extends State<Provision> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<BluetoothState>(
@@ -26,7 +34,7 @@ class Provision extends StatelessWidget {
           final state = snapshot.data;
           if (state == BluetoothState.on) {
             //return const FindDevicesScreen();
-            return const PairScreen();
+            return PairScreen(user: widget.user);
           }
           return BluetoothOffScreen(state: state);
         });
@@ -34,7 +42,8 @@ class Provision extends StatelessWidget {
 }
 
 class PairScreen extends StatefulWidget {
-  const PairScreen({Key? key}) : super(key: key);
+  final StowUser user;
+  const PairScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   State<PairScreen> createState() => _PairScreenState();
@@ -214,8 +223,10 @@ class _PairScreenState extends State<PairScreen> {
                                     return ElevatedButton(
                                         onPressed: () => {
                                               Navigator.of(context).pushNamed(
-                                                '/register',
-                                                arguments: d.id.toString(),
+                                                '/add_container',
+                                                arguments: AddContainerArg(
+                                                    widget.user,
+                                                    d.id.toString()),
                                               )
                                             },
                                         child: Text("Register"));

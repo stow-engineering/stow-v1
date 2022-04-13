@@ -65,10 +65,12 @@ class _PantryState extends State<Pantry> {
                       //   '/add_container',
                       //   arguments: widget.user,
                       // );
-                      Navigator.of(context).pushNamed(
-                        '/provision',
-                        arguments: 'provision',
-                      );
+                      Navigator.of(context)
+                          .pushNamed(
+                            '/provision',
+                            arguments: widget.user,
+                          )
+                          .then((_) => setState(() {}));
                     },
                     child: const Icon(Icons.add)),
                 appBar: AppBar(),
@@ -142,8 +144,21 @@ class _PantryState extends State<Pantry> {
             //   height: 60,
             //   child: CircularProgressIndicator(),
             // );
-            return const Scaffold(
-              body: Center(
+            return Scaffold(
+              floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    // Navigator.of(context).pushNamed(
+                    //   '/add_container',
+                    //   arguments: widget.user,
+                    // );
+                    Navigator.of(context).pushNamed(
+                      '/provision',
+                      arguments: widget.user,
+                    );
+                  },
+                  child: const Icon(Icons.add)),
+              appBar: AppBar(),
+              body: const Center(
                 child: Padding(
                   padding:
                       EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 15),

@@ -23,10 +23,36 @@ class DatabaseService {
     });
   }
 
+  Future updateContainers(String mac) async {
+    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+    var data = snapshot.data();
+    if (data.containsKey('containers')) {
+      final myList = List<String>.from(data['containers']);
+      myList.add(mac);
+      return await userCollection.doc(uid).update({'containers': myList});
+    }
+
+    return await userCollection.doc(uid).update({
+      'containers': [mac],
+    });
+  }
+
   Future updateContainerData(String name, String size, String mac) async {
-    return await containerCollection
-        .doc(mac)
-        .set({'barcode': null, 'full': false, 'mac': mac, 'value': 0});
+    return await containerCollection.doc(mac).set({
+      'barcode': null,
+      'full': false,
+      'mac': mac,
+      'value': 0,
+      'name': name,
+      'size': size
+    });
+  }
+
+  //updates container with name
+  Future updateContainerName(String mac, String name) async {
+    return await containerCollection.doc(mac).update({
+      'name': name,
+    });
   }
 
   Future<List<String>> getAddresses() async {
@@ -42,8 +68,7 @@ class DatabaseService {
   }
 
   Future<bool> getFull(String address) async {
-    DocumentSnapshot snapshot =
-        await containerCollection.doc(address.substring(1)).get();
+    DocumentSnapshot snapshot = await containerCollection.doc(address).get();
     var data = snapshot.data();
     if (data.containsKey('full')) {
       bool full = data['full'];
@@ -84,8 +109,13 @@ class DatabaseService {
   List<customContainer.Container> _containerListFromSnapshot(
       QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return customContainer.Container(doc.data()['value'] ?? 0, doc.id,
-          doc.data()['barcode'] ?? '', doc.data()['full'] ?? true);
+      customContainer.Container container;
+      container = customContainer.Container();
+      return container.copyWith(
+          value: doc.data()['value'] ?? 0,
+          uid: doc.id,
+          barcode: doc.data()['barcode'] ?? '',
+          full: doc.data()['full'] ?? true);
     }).toList();
   }
 }
