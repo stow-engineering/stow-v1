@@ -74,18 +74,34 @@ class _HomeState extends State<Home> {
       //     child: const Icon(Icons.add)),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int selected) => {
-          if(selected == 0){
-            Navigator.of(context).pushNamed('/home',arguments: widget.user,)
-          }
-          else if(selected == 1){
-            Navigator.of(context).pushNamed('/groceries',arguments: widget.user,)
-          }
-          else if(selected == 2){
-            Navigator.of(context).pushNamed('/pantry',arguments: widget.user,)
-          }
-          else if(selected == 3){
-            Navigator.of(context).pushNamed('/recipes',arguments: widget.user,)
-          }
+          if (selected == 0)
+            {
+              Navigator.of(context).pushNamed(
+                '/home',
+                arguments: widget.user,
+              )
+            }
+          else if (selected == 1)
+            {
+              Navigator.of(context).pushNamed(
+                '/pantry',
+                arguments: widget.user,
+              )
+            }
+          else if (selected == 2)
+            {
+              Navigator.of(context).pushNamed(
+                '/recipes',
+                arguments: widget.user,
+              )
+            }
+          else if (selected == 3)
+            {
+              Navigator.of(context).pushNamed(
+                '/groceries',
+                arguments: widget.user,
+              )
+            }
         },
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
