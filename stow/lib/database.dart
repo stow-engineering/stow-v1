@@ -19,7 +19,7 @@ class DatabaseService {
       'email': email,
       'first_name': firstName,
       'last_name': lastName,
-      'containers': null
+      'containers': []
     });
   }
 

@@ -137,10 +137,22 @@ class _PantryState extends State<Pantry> {
               ),
             );
           } else {
-            return const SizedBox(
-              width: 60,
-              height: 60,
-              child: CircularProgressIndicator(),
+            // return const SizedBox(
+            //   width: 60,
+            //   height: 60,
+            //   child: CircularProgressIndicator(),
+            // );
+            return const Scaffold(
+              body: Center(
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 15),
+                  child: Text(
+                    'Add Containers to View Pantry!',
+                    style: TextStyle(color: Colors.black, fontSize: 35),
+                  ),
+                ),
+              ),
             );
           }
 
