@@ -23,6 +23,13 @@ class DatabaseService {
     });
   }
 
+  //updates container with name
+  Future updateContainerName(String mac, String name) async {
+    return await containerCollection.doc(mac).update({
+      'name': name,
+    });
+  }
+
   Future<List<String>> getAddresses() async {
     DocumentSnapshot snapshot = await userCollection.doc(uid).get();
     var data = snapshot.data();
