@@ -7,10 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:stow/user.dart';
 import 'package:stow/user_auth.dart';
+import 'groceries.dart';
+import 'home.dart';
 import 'login.dart';
 import 'create_account.dart';
 import 'pantry.dart';
 import 'provision.dart';
+import 'recipes.dart';
 import 'register.dart';
 
 class RouteGenerator {
@@ -34,6 +37,33 @@ class RouteGenerator {
         if (args is StowUser) {
           return MaterialPageRoute(
             builder: (_) => Pantry(
+              user: args,
+            ),
+          );
+        }
+        return errorRoute();
+      case '/home':
+        if (args is StowUser) {
+          return MaterialPageRoute(
+            builder: (_) => Home(
+              user: args,
+            ),
+          );
+        }
+        return errorRoute();
+      case '/groceries':
+        if (args is StowUser) {
+          return MaterialPageRoute(
+            builder: (_) => Groceries(
+              user: args,
+            ),
+          );
+        }
+        return errorRoute();
+      case '/recipes':
+        if (args is StowUser) {
+          return MaterialPageRoute(
+            builder: (_) => RecipesPage(
               user: args,
             ),
           );
