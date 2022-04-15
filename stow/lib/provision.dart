@@ -58,6 +58,7 @@ class _PairScreenState extends State<PairScreen> {
   List<bool> isSuccess = [];
   List<bool> isNotified = [];
   List<bool> isRegisterReady = [];
+  List<Guid> service = [Guid("a1593384-978b-4c21-9cc8-b89370582763")];
 
   @override
   initState() {
@@ -248,8 +249,6 @@ class _PairScreenState extends State<PairScreen> {
               initialData: const [],
               builder: (c, snapshot) => Column(
                 children: snapshot.data!
-                    .where((e) =>
-                        e.device.name == "Stow") //filter to devices named stow
                     .map((r) => ListTile(
                           title: Text(r.device.name),
                           trailing: ElevatedButton(
@@ -297,8 +296,9 @@ class _PairScreenState extends State<PairScreen> {
           } else {
             return FloatingActionButton(
                 child: const Icon(Icons.search),
-                onPressed: () => FlutterBluePlus.instance
-                    .startScan(timeout: const Duration(seconds: 4)));
+                onPressed: () => FlutterBluePlus.instance.startScan(
+                    withServices: service,
+                    timeout: const Duration(seconds: 4)));
           }
         },
       ),
