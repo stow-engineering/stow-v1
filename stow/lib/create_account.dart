@@ -30,8 +30,8 @@ class CreateAccount extends StatelessWidget {
         title: const Text('Sign Up'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RichText(
               text: TextSpan(

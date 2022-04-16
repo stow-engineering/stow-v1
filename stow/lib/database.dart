@@ -112,6 +112,8 @@ class DatabaseService {
       customContainer.Container container;
       container = customContainer.Container();
       return container.copyWith(
+          name: doc.data()['name'] ?? '',
+          size: doc.data()['size'] ?? 'Small',
           value: doc.data()['value'] ?? 0,
           uid: doc.id,
           barcode: doc.data()['barcode'] ?? '',

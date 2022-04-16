@@ -115,7 +115,9 @@ class _PantryState extends State<Pantry> {
                                         return const SizedBox(
                                           width: 60,
                                           height: 60,
-                                          child: CircularProgressIndicator(),
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()),
                                         );
                                       }
                                     },
@@ -133,7 +135,7 @@ class _PantryState extends State<Pantry> {
                         style: TextStyle(color: Colors.black, fontSize: 35),
                       ),
                     ),
-                    ContainerList(),
+                    ContainerList(uid: widget.user.uid),
                   ],
                 ),
               ),
