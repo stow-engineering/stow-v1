@@ -16,10 +16,11 @@ class HttpService {
     };
 
     print("About to make request");
-    var uri = Uri.https('rapidapi.com', '/recipes/findByIngredients', queryParameters);
+    var uri = Uri.https('spoonacular-recipe-food-nutrition-v1.p.rapidapi.com', '/recipes/findByIngredients', queryParameters);
     print(uri);
-    var res = await http.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=onion&number=3', headers: {'X-RapidAPI-Key': '27fd16c583mshf25e75b9907dc8dp1eda47jsn0e7eb5d6e744'});//, 'X-Rapidapi-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'});
-
+    //var res = await http.get('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=onion&number=3', headers: {'X-RapidAPI-Key': '27fd16c583mshf25e75b9907dc8dp1eda47jsn0e7eb5d6e744'});//, 'X-Rapidapi-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'});
+    var res = await http.get(uri, headers: {'X-RapidAPI-Key': '27fd16c583mshf25e75b9907dc8dp1eda47jsn0e7eb5d6e744'});
+    
     if(res.statusCode == 200){
       List<dynamic> body = jsonDecode(res.body);
       print("raw response" + res.body);
