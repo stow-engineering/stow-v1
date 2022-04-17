@@ -55,6 +55,20 @@ class DatabaseService {
     });
   }
 
+  Future deleteContainer(String mac) async {
+    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+    var data = snapshot.data();
+    if (data.containsKey('containers')) {
+      final myList = List<String>.from(data['containers']);
+      myList.remove(mac);
+      return await userCollection.doc(uid).update({'containers': myList});
+    }
+
+    return await userCollection.doc(uid).update({
+      'containers': [mac],
+    });
+  }
+
   Future<List<String>> getAddresses() async {
     DocumentSnapshot snapshot = await userCollection.doc(uid).get();
     var data = snapshot.data();
