@@ -19,7 +19,32 @@ class DatabaseService {
       'email': email,
       'first_name': firstName,
       'last_name': lastName,
-      'containers': null
+      'containers': []
+    });
+  }
+
+  Future updateContainers(String mac) async {
+    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+    var data = snapshot.data();
+    if (data.containsKey('containers')) {
+      final myList = List<String>.from(data['containers']);
+      myList.add(mac);
+      return await userCollection.doc(uid).update({'containers': myList});
+    }
+
+    return await userCollection.doc(uid).update({
+      'containers': [mac],
+    });
+  }
+
+  Future updateContainerData(String name, String size, String mac) async {
+    return await containerCollection.doc(mac).set({
+      'barcode': null,
+      'full': false,
+      'mac': mac,
+      'value': 0,
+      'name': name,
+      'size': size
     });
   }
 
@@ -27,6 +52,20 @@ class DatabaseService {
   Future updateContainerName(String mac, String name) async {
     return await containerCollection.doc(mac).update({
       'name': name,
+    });
+  }
+
+  Future deleteContainer(String mac) async {
+    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+    var data = snapshot.data();
+    if (data.containsKey('containers')) {
+      final myList = List<String>.from(data['containers']);
+      myList.remove(mac);
+      return await userCollection.doc(uid).update({'containers': myList});
+    }
+
+    return await userCollection.doc(uid).update({
+      'containers': [mac],
     });
   }
 
@@ -43,8 +82,7 @@ class DatabaseService {
   }
 
   Future<bool> getFull(String address) async {
-    DocumentSnapshot snapshot =
-        await containerCollection.doc(address.substring(1)).get();
+    DocumentSnapshot snapshot = await containerCollection.doc(address).get();
     var data = snapshot.data();
     if (data.containsKey('full')) {
       bool full = data['full'];
@@ -88,6 +126,8 @@ class DatabaseService {
       customContainer.Container container;
       container = customContainer.Container();
       return container.copyWith(
+          name: doc.data()['name'] ?? '',
+          size: doc.data()['size'] ?? 'Small',
           value: doc.data()['value'] ?? 0,
           uid: doc.id,
           barcode: doc.data()['barcode'] ?? '',

@@ -61,10 +61,16 @@ class _PantryState extends State<Pantry> {
               child: Scaffold(
                 floatingActionButton: FloatingActionButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        '/provision',
-                        arguments: 'provision',
-                      );
+                      // Navigator.of(context).pushNamed(
+                      //   '/add_container',
+                      //   arguments: widget.user,
+                      // );
+                      Navigator.of(context)
+                          .pushNamed(
+                            '/provision',
+                            arguments: widget.user,
+                          )
+                          .then((_) => setState(() {}));
                     },
                     child: const Icon(Icons.add)),
                 appBar: AppBar(),
@@ -109,7 +115,9 @@ class _PantryState extends State<Pantry> {
                                         return const SizedBox(
                                           width: 60,
                                           height: 60,
-                                          child: CircularProgressIndicator(),
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()),
                                         );
                                       }
                                     },
@@ -127,16 +135,41 @@ class _PantryState extends State<Pantry> {
                         style: TextStyle(color: Colors.black, fontSize: 35),
                       ),
                     ),
-                    ContainerList(),
+                    ContainerList(uid: widget.user.uid),
                   ],
                 ),
               ),
             );
           } else {
-            return const SizedBox(
-              width: 60,
-              height: 60,
-              child: CircularProgressIndicator(),
+            // return const SizedBox(
+            //   width: 60,
+            //   height: 60,
+            //   child: CircularProgressIndicator(),
+            // );
+            return Scaffold(
+              floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    // Navigator.of(context).pushNamed(
+                    //   '/add_container',
+                    //   arguments: widget.user,
+                    // );
+                    Navigator.of(context).pushNamed(
+                      '/provision',
+                      arguments: widget.user,
+                    );
+                  },
+                  child: const Icon(Icons.add)),
+              appBar: AppBar(),
+              body: const Center(
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 15),
+                  child: Text(
+                    'Add Containers to View Pantry!',
+                    style: TextStyle(color: Colors.black, fontSize: 35),
+                  ),
+                ),
+              ),
             );
           }
 

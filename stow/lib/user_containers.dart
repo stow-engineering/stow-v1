@@ -36,7 +36,11 @@ class _NumberContainers extends State<NumberContainers> {
           }
         }
 
-        return CircularProgressIndicator();
+        return const SizedBox(
+          child: CircularProgressIndicator(),
+          width: 10,
+          height: 10,
+        );
       },
     );
   }

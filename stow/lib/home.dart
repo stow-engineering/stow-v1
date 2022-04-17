@@ -74,24 +74,40 @@ class _HomeState extends State<Home> {
       //     child: const Icon(Icons.add)),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int selected) => {
-          if(selected == 0){
-            Navigator.of(context).pushNamed('/home',arguments: widget.user,)
-          }
-          else if(selected == 1){
-            Navigator.of(context).pushNamed('/groceries',arguments: widget.user,)
-          }
-          else if(selected == 2){
-            Navigator.of(context).pushNamed('/pantry',arguments: widget.user,)
-          }
-          else if(selected == 3){
-            Navigator.of(context).pushNamed('/recipes',arguments: widget.user,)
-          }
+          if (selected == 0)
+            {
+              Navigator.of(context).pushNamed(
+                '/home',
+                arguments: widget.user,
+              )
+            }
+          else if (selected == 1)
+            {
+              Navigator.of(context).pushNamed(
+                '/pantry',
+                arguments: widget.user,
+              )
+            }
+          else if (selected == 2)
+            {
+              Navigator.of(context).pushNamed(
+                '/recipes',
+                arguments: widget.user,
+              )
+            }
+          else if (selected == 3)
+            {
+              Navigator.of(context).pushNamed(
+                '/groceries',
+                arguments: widget.user,
+              )
+            }
         },
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.local_grocery_store), label: 'Groceries'),
+          // BottomNavigationBarItem(
+          //     icon: Icon(Icons.local_grocery_store), label: 'Groceries'),
           BottomNavigationBarItem(icon: Icon(Icons.kitchen), label: 'Pantry'),
           BottomNavigationBarItem(icon: Icon(Icons.blender), label: 'Recipes'),
         ],
@@ -136,10 +152,12 @@ class _HomeState extends State<Home> {
                 const EdgeInsets.only(left: 0, right: 220, top: 30, bottom: 0),
             child: TextButton.icon(
               onPressed: () => {
-                Navigator.of(context).pushNamed(
-                  '/pantry',
-                  arguments: widget.user,
-                )
+                Navigator.of(context)
+                    .pushNamed(
+                      '/pantry',
+                      arguments: widget.user,
+                    )
+                    .then((_) => setState(() {}))
               },
               icon: const Icon(Icons.arrow_forward_ios,
                   size: 15, color: Colors.grey),
@@ -182,7 +200,8 @@ class _HomeState extends State<Home> {
                               return const SizedBox(
                                 width: 60,
                                 height: 60,
-                                child: CircularProgressIndicator(),
+                                child:
+                                    Center(child: CircularProgressIndicator()),
                               );
                             }
                           },
