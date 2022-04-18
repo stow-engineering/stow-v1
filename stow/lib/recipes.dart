@@ -22,8 +22,9 @@ import 'user_containers.dart';
 
 class RecipesPage extends StatefulWidget {
   final StowUser user;
+  final List<customContainer.Container> containerData;
 
-  const RecipesPage({Key? key, required this.user}) : super(key: key);
+  const RecipesPage({Key? key, required this.user, required this.containerData}) : super(key: key);
 
    @override
    State<RecipesPage> createState() => _RecipesPageState();
@@ -44,66 +45,53 @@ class RecipesPage extends StatefulWidget {
   Widget build(BuildContext context) {
     DatabaseService service = DatabaseService(widget.user.uid);
     const int displayNum = 3;
+
+    List<String> containerNames = <String>[];
+    for(var item in widget.containerData){
+      containerNames.add(item.name);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Recipes"),
       ),  
-      body: FutureBuilder<Stream<List<customContainer.Container>>>(
-        future: DatabaseService(widget.user.uid).containers,
-        builder: (BuildContext context, AsyncSnapshot<Stream<List<customContainer.Container>>> snapshotCont) {
-          List<String> containerNames = <String>[];
-          StreamSubscription<List<customContainer.Container>>? containers = snapshotCont.data?.listen(
-            (data) {
-              //print(data.forEach((element) {print(element['name']);}));
-              for(var item in data){
-                //print(item.name);
-                containerNames.add(item.name);
-              }
-            }
-          );
-          return FutureBuilder(
-            future: httpService.getRecipes(<String>['apple', 'onion', 'cheese'], displayNum),
-            builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
-              if(snapshot.hasData && snapshotCont.hasData){
-                //snapshotCont.data!.forEach((element) {print(element.toList().elementAt(1));});
-                //List<Container> containers = snapshotCont.data ?? <Container>[]
-                //print(Provider.of<List<customContainer.Container>>(snapshotCont));
-                // print("DISPLAYING DATA");
-                List<Recipe> recipes = snapshot.data ?? <Recipe>[];
-                
-                // return ListView(
-                //   children: recipes
-                //     .map((Recipe recipe) => ListTile(
-                //           title: Text(recipe.title),
-                //         )
-                //     ).toList(),
-                // );
-                return SafeArea(
-                  child: ListView.builder(
-                    itemCount: displayNum,
-                    itemBuilder: (BuildContext context, int index){
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return RecipeDetail(recipe: recipes[index]);
-                              }
-                            )
-                          );
-                        },
-                        child: buildRecipeCard(recipes[index]),
+      body: FutureBuilder(
+        future: httpService.getRecipes(containerNames, displayNum),
+        builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
+          if(snapshot.hasData){
+            List<Recipe> recipes = snapshot.data ?? <Recipe>[];
+            
+            // return ListView(
+            //   children: recipes
+            //     .map((Recipe recipe) => ListTile(
+            //           title: Text(recipe.title),
+            //         )
+            //     ).toList(),
+            // );
+            return SafeArea(
+              child: ListView.builder(
+                itemCount: displayNum,
+                itemBuilder: (BuildContext context, int index){
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return RecipeDetail(recipe: recipes[index]);
+                          }
+                        )
                       );
                     },
-                  )
-                );
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
-          );
+                    child: buildRecipeCard(recipes[index]),
+                  );
+                },
+              )
+            );
+          }
+          return const Center(child: CircularProgressIndicator());
         },
-      )
+      ),
     );
   }
 }
