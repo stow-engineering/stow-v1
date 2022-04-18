@@ -99,7 +99,7 @@ class RecipesPage extends StatefulWidget {
 
 Widget buildRecipeCard(Recipe recipe) {
   return Card(
-    color: Colors.grey[100],
+    elevation: 0,
     child: Column(
       children: <Widget>[
         Image.network(recipe.imageUrl, width: 200, height: 200),
