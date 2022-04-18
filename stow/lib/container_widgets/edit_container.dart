@@ -110,9 +110,9 @@ class _EditContainerState extends State<EditContainer> {
                           return TextFormField(
                               controller: nameController,
                               decoration: InputDecoration(
-                                hintText: widget.arg.container.name == null
-                                    ? 'New Container Name'
-                                    : widget.arg.container.name,
+                                hintText: snapshot.data!.code == null
+                                    ? widget.arg.container.name
+                                    : snapshot.data!.code,
                               ));
                         } else if (snapshot.hasError) {
                           return TextFormField(
