@@ -7,9 +7,9 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
-import 'add_container_argument.dart';
-import 'user.dart';
-import 'widgets.dart';
+import '../../models/add_container_argument.dart';
+import '../../models/user.dart';
+import '../../utils/widgets.dart';
 
 //Place UUID varibales here, not sure if this creates problems
 //Guid stowServiceUUID = Guid("2d8bdb4c-8be8-4980-a066-4f531f08c626");

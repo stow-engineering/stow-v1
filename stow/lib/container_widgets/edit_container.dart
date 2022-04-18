@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:stow/database.dart';
-import 'edit_container_argument.dart';
+
+import '../models/edit_container_argument.dart';
+import '../../utils/firebase.dart';
 
 class EditContainer extends StatefulWidget {
   final EditContainerArgument arg;
@@ -17,7 +18,7 @@ class _EditContainerState extends State<EditContainer> {
 
   @override
   Widget build(BuildContext context) {
-    DatabaseService service = DatabaseService(widget.arg.uid);
+    FirebaseService service = FirebaseService(widget.arg.uid);
     final nameController = TextEditingController();
     return Scaffold(
         backgroundColor: Colors.white,
@@ -142,7 +143,7 @@ class _EditContainerState extends State<EditContainer> {
   }
 
   Future<void> _showMyDialog(
-      BuildContext context, String message, DatabaseService service) async {
+      BuildContext context, String message, FirebaseService service) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!

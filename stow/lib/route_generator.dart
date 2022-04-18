@@ -1,22 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
-import 'package:stow/add_container.dart';
-import 'package:stow/add_container_argument.dart';
-import 'package:stow/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:stow/user.dart';
-import 'package:stow/user_auth.dart';
-import 'edit_container.dart';
-import 'edit_container_argument.dart';
-import 'groceries.dart';
-import 'home.dart';
-import 'login.dart';
-import 'create_account.dart';
-import 'pantry.dart';
-import 'provision.dart';
-import 'recipes.dart';
-import 'register.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:stow/pages/add_container/add_container.dart';
+import 'package:stow/models/add_container_argument.dart';
+
+import 'container_widgets/edit_container.dart';
+import 'models/user.dart';
+import 'models/edit_container_argument.dart';
+import 'pages/create_account/create_account.dart';
+import 'pages/groceries/groceries.dart';
+import 'pages/home/home.dart';
+import 'pages/login/login.dart';
+import 'pages/pantry/pantry.dart';
+import 'pages/provision/provision.dart';
+import 'pages/recipes/recipes.dart';
+import 'pages/register/register.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:stow/database.dart';
-import 'user.dart';
 
-class AuthService {
+import 'firebase.dart';
+import '../models/user.dart';
+
+class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   StowUser? _userFromFirebase(User? user) {
@@ -34,7 +35,7 @@ class AuthService {
     final cred = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    await DatabaseService(cred.user.uid)
+    await FirebaseService(cred.user.uid)
         .updateUserData(cred.user.email, firstName, lastName);
     return _userFromFirebase(cred.user);
   }

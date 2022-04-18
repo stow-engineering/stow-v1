@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'container.dart' as customContainer;
 
-class DatabaseService {
+import '../models/container.dart' as customContainer;
+
+class FirebaseService {
   final String uid;
-  DatabaseService(this.uid);
+  FirebaseService(this.uid);
 
   //Collection reference
   final CollectionReference containerCollection =

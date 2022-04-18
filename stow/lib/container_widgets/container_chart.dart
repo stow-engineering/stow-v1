@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:stow/database.dart';
-import 'container_series.dart';
-import 'user.dart';
+import 'package:flutter/material.dart';
+
+import '../models/container_series.dart';
+import '../../utils/firebase.dart';
 
 class ContainerChart extends StatelessWidget {
   final List<ContainerSeries>? data;
@@ -24,7 +24,7 @@ class ContainerChart extends StatelessWidget {
 }
 
 class NumFull {
-  static Future<List<ContainerSeries>> getData(DatabaseService service) async {
+  static Future<List<ContainerSeries>> getData(FirebaseService service) async {
     List<String> addresses = await service.getAddresses();
     int numFull = 0;
     int numEmpty = 0;

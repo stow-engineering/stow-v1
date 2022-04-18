@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
-import 'package:stow/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:stow/user_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+
+import '../../utils/authentication.dart';
 
 class CreateAccount extends StatelessWidget {
   CreateAccount({
@@ -24,7 +24,7 @@ class CreateAccount extends StatelessWidget {
     final confirmController = TextEditingController();
     final firstController = TextEditingController();
     final lastController = TextEditingController();
-    final authService = Provider.of<AuthService>(context);
+    final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),

@@ -1,19 +1,18 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/container_chart.dart';
-import 'package:stow/database.dart';
-import 'package:stow/user.dart';
-import 'container_list.dart';
-import 'user_auth.dart';
-import 'login.dart';
-import 'container_series.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'container_chart.dart';
-import 'container.dart' as customContainer;
-import 'user_containers.dart';
+
+import '../../container_widgets/container_chart.dart';
+import '../../container_widgets/container_list.dart';
+import '../../container_widgets/user_containers.dart';
+import '../../models/container.dart' as customContainer;
+import '../../models/container_series.dart';
+import '../../models/user.dart';
+import '../../utils/firebase.dart';
+import '../login/login.dart';
 
 class Pantry extends StatefulWidget {
   final StowUser user;
@@ -49,9 +48,9 @@ class _PantryState extends State<Pantry> {
 
   @override
   Widget build(BuildContext context) {
-    DatabaseService service = DatabaseService(widget.user.uid);
+    FirebaseService service = FirebaseService(widget.user.uid);
     return FutureBuilder<Stream<List<customContainer.Container>>>(
-        future: DatabaseService(widget.user.uid).containers,
+        future: FirebaseService(widget.user.uid).containers,
         builder: (_,
             AsyncSnapshot<Stream<List<customContainer.Container>>> snapshot) {
           //if (snapshot.connectionState == ConnectionState.active) {

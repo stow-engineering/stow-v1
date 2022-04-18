@@ -1,21 +1,20 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/container_chart.dart';
-import 'package:stow/database.dart';
-import 'package:stow/user.dart';
-import 'container_list.dart';
-import 'user_auth.dart';
-import 'login.dart';
-import 'container_series.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'container_chart.dart';
-import 'container.dart' as customContainer;
-import 'database.dart';
+
+import '../../container_widgets/container_chart.dart';
+import '../../container_widgets/container_list.dart';
+import '../../container_widgets/user_containers.dart';
+import '../../models/container.dart' as customContainer;
+import '../../models/container_series.dart';
+import '../../models/user.dart';
+import '../../utils/authentication.dart';
+import '../../utils/firebase.dart';
+import '../login/login.dart';
 import 'first_name.dart';
-import 'user_containers.dart';
 
 class Home extends StatefulWidget {
   final StowUser user;
@@ -40,33 +39,109 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService service = DatabaseService(widget.user.uid);
-    final GetFirstName firstName = GetFirstName(widget.user.uid);
-    final authService = Provider.of<AuthService>(context);
+    final FirebaseService service = FirebaseService(widget.user.uid);
+    final GetName firstName = GetName(widget.user.uid, false);
+    final GetName fullName = GetName(widget.user.uid, true);
+    final authService = Provider.of<AuthenticationService>(context);
     final GlobalKey<ScaffoldState> _key = GlobalKey();
 
     return Scaffold(
       key: _key,
       drawer: Drawer(
-        child: ListView(
-          children: [
-            // ListTile(
-            //     title: const Text('Sign Out'),
-            //     onTap: () {
-            //       authService.signOut();
-            //     }),
-            OutlinedButton(
+          child: ListView(
+              children: [
+            const Icon(Icons.person_rounded, size: 200, color: Colors.black),
+            Center(child: fullName),
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: TextButton(
                 onPressed: () {
-                  authService.signOut();
+                  Navigator.of(context).pushNamed(
+                    '/profile',
+                    arguments: 'Welcome to Stow!',
+                  );
                 },
-                // style: const ButtonStyle(side: BorderSide(color: Colors.red, width: 2),)
-                child: const Text(
-                  "Sign Out",
-                  style: TextStyle(color: Colors.red),
-                )),
+                child: Row(children: const [
+                  Icon(Icons.settings, color: Colors.black),
+                  Text(
+                    'Profile & Settings',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300),
+                  ),
+                ]),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/pantry',
+                  arguments: widget.user,
+                );
+              },
+              child: Row(children: const [
+                Icon(Icons.kitchen, color: Colors.black),
+                Text(
+                  'Check your pantry',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300),
+                ),
+              ]),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/recipes',
+                  arguments: widget.user,
+                );
+              },
+              child: Row(children: const [
+                Icon(Icons.blender, color: Colors.black),
+                Text(
+                  'Browse recipes',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300),
+                ),
+              ]),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/groceries',
+                  arguments: widget.user,
+                );
+              },
+              child: Row(children: const [
+                Icon(Icons.settings, color: Colors.black),
+                Text(
+                  'Update grocery lists',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300),
+                ),
+              ]),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 50),
+              child: OutlinedButton(
+                  onPressed: () {
+                    authService.signOut();
+                  },
+                  // style: const ButtonStyle(side: BorderSide(color: Colors.red, width: 2),)
+                  child: const Text(
+                    "Sign Out",
+                    style: TextStyle(color: Colors.red),
+                  )),
+            )
           ],
-        ),
-      ),
+              padding: const EdgeInsets.only(
+                  top: 40, bottom: 40, left: 20, right: 20))),
       backgroundColor: Colors.white,
       // floatingActionButton: FloatingActionButton(
       //     onPressed: () {},
@@ -114,18 +189,25 @@ class _HomeState extends State<Home> {
       ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
-          leading: IconButton(
-        icon: Icon(Icons.menu),
-        onPressed: () => {_key.currentState!.openDrawer()},
-      )),
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          color: Color.fromARGB(255, 211, 220, 230),
+          onPressed: () => {_key.currentState!.openDrawer()},
+          iconSize: 45,
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
       // body: ContainerList(),
       body: ListView(
         children: <Widget>[
-          Container(
-            width: 300,
-            height: 250,
-            child: Image.asset('assets/hat.png'),
-          ),
+          Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Container(
+                width: 300,
+                height: 250,
+                child: Image.asset('assets/hat.png'),
+              )),
           Padding(
             padding:
                 const EdgeInsets.only(left: 0, right: 0, top: 30, bottom: 15),
@@ -137,13 +219,6 @@ class _HomeState extends State<Home> {
                   style: TextStyle(color: Colors.black, fontSize: 35),
                 ),
                 firstName,
-                // Text(
-                //   "Andrew",
-                //   style: TextStyle(
-                //       color: Colors.green,
-                //       fontSize: 35,
-                //       fontWeight: FontWeight.bold),
-                // ),
               ],
             ),
           ),

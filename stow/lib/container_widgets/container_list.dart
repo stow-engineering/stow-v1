@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'container.dart' as customContainer;
-import 'edit_container_argument.dart';
+
+import '../models/container.dart' as customContainer;
+import '../models/edit_container_argument.dart';
 
 class ContainerList extends StatefulWidget {
   final String uid;
