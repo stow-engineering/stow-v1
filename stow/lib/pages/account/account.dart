@@ -7,9 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../../container_widgets/container_chart.dart';
 import '../../container_widgets/container_list.dart';
-import '../../container_widgets/user_containers.dart';
-import '../../models/container.dart' as customContainer;
-import '../../models/container_series.dart';
 import '../../models/user.dart';
 import '../../utils/authentication.dart';
 import '../../utils/firebase.dart';
@@ -32,6 +29,10 @@ class _AccountPageState extends State<AccountPage> {
     final GetName fullName = GetName(widget.user.uid, true);
     final authService = Provider.of<AuthenticationService>(context);
     final GlobalKey<ScaffoldState> _key = GlobalKey();
+
+    final emailController = TextEditingController();
+    final firstNameController = TextEditingController();
+    final lastNameController = TextEditingController();
 
     return Scaffold(
       key: _key,
@@ -232,6 +233,7 @@ class _AccountPageState extends State<AccountPage> {
                     padding: const EdgeInsets.only(
                         left: 30.0, right: 30.0, top: 30.0, bottom: 20.0),
                     child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                             labelText: widget.user.email,
                             hintText: 'Update Email',
@@ -252,6 +254,7 @@ class _AccountPageState extends State<AccountPage> {
                     padding: const EdgeInsets.only(
                         left: 30.0, right: 30.0, top: 10.0, bottom: 20.0),
                     child: TextFormField(
+                      controller: firstNameController,
                       decoration: InputDecoration(
                           labelText: 'First Name',
                           hintText: 'Han',
@@ -273,6 +276,7 @@ class _AccountPageState extends State<AccountPage> {
                     padding: const EdgeInsets.only(
                         left: 30.0, right: 30.0, top: 10.0, bottom: 30.0),
                     child: TextFormField(
+                      controller: lastNameController,
                       decoration: InputDecoration(
                           labelText: 'Last Name',
                           hintText: 'Solo',
@@ -297,7 +301,10 @@ class _AccountPageState extends State<AccountPage> {
                         color: Colors.green,
                         borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        service.updateUserDataNoContainers(emailController.text,
+                            firstNameController.text, lastNameController.text);
+                      },
                       child: const Text(
                         'Update Info',
                         style: TextStyle(color: Colors.white, fontSize: 20),

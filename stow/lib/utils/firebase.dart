@@ -24,6 +24,14 @@ class FirebaseService {
     });
   }
 
+  // Updates a users info
+  Future updateUserDataNoContainers(
+      String email, String firstName, String lastName) async {
+    return await userCollection
+        .doc(uid)
+        .set({'email': email, 'first_name': firstName, 'last_name': lastName});
+  }
+
   Future updateContainers(String mac) async {
     DocumentSnapshot snapshot = await userCollection.doc(uid).get();
     var data = snapshot.data();
