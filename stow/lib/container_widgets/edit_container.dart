@@ -87,7 +87,7 @@ class _EditContainerState extends State<EditContainer> {
                       onPressed: () {
                         final size = selectedValue;
                         final name = nameController.text;
-                        service.updateContainerData(
+                        service.updateContainerNameAndSize(
                             name, size!, widget.arg.container.uid);
                         // setState(() async {
                         //   List<BluetoothDevice> devices =
