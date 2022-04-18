@@ -14,7 +14,7 @@ import '../../models/user.dart';
 import '../../utils/authentication.dart';
 import '../../utils/firebase.dart';
 import '../login/login.dart';
-import 'first_name.dart';
+import 'get_name.dart';
 
 class Home extends StatefulWidget {
   final StowUser user;
@@ -50,15 +50,16 @@ class _HomeState extends State<Home> {
       drawer: Drawer(
           child: ListView(
               children: [
-            const Icon(Icons.person_rounded, size: 200, color: Colors.black),
+            const Icon(Icons.person_rounded,
+                size: 200, color: Color.fromARGB(255, 0, 176, 80)),
             Center(child: fullName),
             Padding(
               padding: const EdgeInsets.only(top: 30),
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(
-                    '/profile',
-                    arguments: 'Welcome to Stow!',
+                    '/account',
+                    arguments: widget.user,
                   );
                 },
                 child: Row(children: const [
@@ -120,6 +121,22 @@ class _HomeState extends State<Home> {
                 Icon(Icons.settings, color: Colors.black),
                 Text(
                   'Update grocery lists',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300),
+                ),
+              ]),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed('/barcode', arguments: widget.user);
+              },
+              child: Row(children: const [
+                Icon(Icons.scanner, color: Colors.black),
+                Text(
+                  'Scan barcode',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

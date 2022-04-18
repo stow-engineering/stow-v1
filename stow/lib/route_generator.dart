@@ -8,9 +8,12 @@ import 'package:stow/models/add_container_argument.dart';
 import 'container_widgets/edit_container.dart';
 import 'models/user.dart';
 import 'models/edit_container_argument.dart';
+import 'pages/account/account.dart';
+import 'pages/barcode/barcode.dart';
 import 'pages/create_account/create_account.dart';
 import 'pages/groceries/groceries.dart';
 import 'pages/home/home.dart';
+import 'pages/login/initial_login.dart';
 import 'pages/login/login.dart';
 import 'pages/pantry/pantry.dart';
 import 'pages/provision/provision.dart';
@@ -30,6 +33,15 @@ class RouteGenerator {
           return MaterialPageRoute(
             builder: (_) => CreateAccount(
               data: args,
+            ),
+          );
+        }
+        return errorRoute();
+      case '/barcode':
+        if (args is StowUser) {
+          return MaterialPageRoute(
+            builder: (_) => BarcodePage(
+              user: args,
             ),
           );
         }
@@ -102,6 +114,15 @@ class RouteGenerator {
           return MaterialPageRoute(
             builder: (_) => Register(
               mac: args,
+            ),
+          );
+        }
+        return errorRoute();
+      case '/account':
+        if (args is StowUser) {
+          return MaterialPageRoute(
+            builder: (_) => AccountPage(
+              user: args,
             ),
           );
         }

@@ -39,6 +39,7 @@ dependencies:
   flutter_blue_plus: ^1.1.2
   http:
   google_fonts: ^1.1.2
+  flutter_barcode_scanner: ^2.0.0
 
 dependency_overrides:
   intl: ^0.17.0-nullsafety.2

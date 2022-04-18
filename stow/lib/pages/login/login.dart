@@ -39,13 +39,6 @@ class _LoginPageState extends State<LoginPage> {
                       key: _formKey,
                       child: Column(
                         children: <Widget>[
-                          const Padding(
-                            padding: EdgeInsets.only(top: 20.0),
-                            child: Text("Let's get cooking 🍽",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                )),
-                          ),
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 30.0,
@@ -124,13 +117,9 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           authService.signInWithEmailPassword(
                               emailController.text, passwordController.text);
-                          /*
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => HomePage()));
-                        */
                         },
                         child: const Text(
-                          'Login',
+                          'Sign In',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
@@ -145,21 +134,6 @@ class _LoginPageState extends State<LoginPage> {
                             color: Color.fromARGB(255, 169, 176, 183),
                             fontSize: 15,
                             decoration: TextDecoration.underline),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 300,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          '/create_account',
-                          arguments: 'Welcome to Stow!',
-                        );
-                      },
-                      child: const Text(
-                        'New User? Create Account',
-                        style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                     ),
                   ],

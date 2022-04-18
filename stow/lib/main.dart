@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'models/user.dart';
 import 'pages/home/home.dart';
 import 'pages/login/login.dart';
+import 'pages/login/initial_login.dart';
 import 'utils/authentication.dart';
 import 'route_generator.dart';
 
