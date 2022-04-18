@@ -107,13 +107,12 @@ class _EditContainerState extends State<EditContainer> {
                       future: futureBarcode,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          scannedName = snapshot.data!.code;
                           return TextFormField(
                               controller: nameController,
                               decoration: InputDecoration(
-                                hintText: snapshot.data!.code == null
-                                    ? widget.arg.container.name
-                                    : snapshot.data!.code,
+                                hintText: widget.arg.container.name == null
+                                    ? 'New Container Name'
+                                    : widget.arg.container.name,
                               ));
                         } else if (snapshot.hasError) {
                           return TextFormField(
@@ -150,10 +149,8 @@ class _EditContainerState extends State<EditContainer> {
                     child: TextButton(
                       onPressed: () {
                         final size = selectedValue;
-                        final name = nameController.text == null
-                            ? scannedName
-                            : nameController.text;
-                        service.updateContainerNameAndSize(
+                        final name = nameController.text;
+                        service.updateContainerData(
                             name, size!, widget.arg.container.uid);
                         // setState(() async {
                         //   List<BluetoothDevice> devices =
