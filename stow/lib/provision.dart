@@ -98,7 +98,7 @@ class _PairScreenState extends State<PairScreen> {
                                       });
                                     }
                                   : null,
-                              child: Text("Select")),
+                              child: const Text("Select")),
                         ))
                     .toList(),
               ),
@@ -177,7 +177,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     //final passController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Connect Devices"),
+        title: const Text("Connect Devices"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -276,8 +276,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                               if (snapshot.data ==
                                       BluetoothDeviceState.connected &&
                                   !isSyncing[idRef.indexOf(d.id.toString())]) {
-                                return Text(
-                                    "Ready to Connect Stow Device to WiFi");
+                                return const Text("Ready");
                               } else if (isSyncing[
                                   idRef.indexOf(d.id.toString())]) {
                                 if (isNotified[
@@ -293,12 +292,13 @@ class _ConnectScreenState extends State<ConnectScreen> {
                                                     d.id.toString()),
                                               )
                                             },
-                                        child: Text("Register"));
+                                        child: const Text("Register"));
                                   } else {
-                                    return Text("Connection Failed, Try Again");
+                                    return const Text(
+                                        "Connection Failed, Try Again");
                                   }
                                 }
-                                return Text("Connecting");
+                                return const CircularProgressIndicator(); //Text("Connecting...");
                               }
                               return Text(snapshot.data.toString());
                             },
