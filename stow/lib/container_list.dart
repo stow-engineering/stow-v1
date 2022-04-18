@@ -51,13 +51,28 @@ class ContainerDisplay extends StatelessWidget {
                   );
                 },
               ),
-              leading: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.blue[450],
+              leading: CircularProgressIndicator(
+                value: container.size == 'Small'
+                    ? ((165 - container.value) / 165)
+                    : ((273 - container.value) / 273),
+                backgroundColor: Colors.grey[350],
+                strokeWidth: 8.0,
               ),
               title: Text(container.name.toString(),
                   style: const TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text(container.value.toString())),
+              subtitle: container.size == 'Small'
+                  ? Text((((165 - container.value) / 165) * 100)
+                          .round()
+                          .toString() +
+                      "% [" +
+                      container.size +
+                      "]")
+                  : Text((((273 - container.value) / 273) * 100)
+                          .round()
+                          .toString() +
+                      "% [" +
+                      container.size +
+                      "]")), //Text(container.value.toString())),
         ));
   }
 }
