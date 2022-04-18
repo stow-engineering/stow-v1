@@ -17,6 +17,7 @@ import 'pantry.dart';
 import 'provision.dart';
 import 'recipes.dart';
 import 'register.dart';
+import 'container.dart' as customContainer;
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -63,10 +64,11 @@ class RouteGenerator {
         }
         return errorRoute();
       case '/recipes':
-        if (args is StowUser) {
+        if (args is RecipeArguments) {
           return MaterialPageRoute(
             builder: (_) => RecipesPage(
-              user: args,
+              user: args.user,
+              containerData: args.containerData,
             ),
           );
         }

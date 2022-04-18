@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,8 +22,9 @@ import 'user_containers.dart';
 
 class RecipesPage extends StatefulWidget {
   final StowUser user;
+  final List<customContainer.Container> containerData;
 
-  const RecipesPage({Key? key, required this.user}) : super(key: key);
+  const RecipesPage({Key? key, required this.user, required this.containerData}) : super(key: key);
 
    @override
    State<RecipesPage> createState() => _RecipesPageState();
@@ -40,17 +43,22 @@ class RecipesPage extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
+    DatabaseService service = DatabaseService(widget.user.uid);
     const int displayNum = 3;
+
+    List<String> containerNames = <String>[];
+    for(var item in widget.containerData){
+      containerNames.add(item.name);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Recipes"),
       ),  
       body: FutureBuilder(
-        future: httpService.getRecipes(<String>['apple', 'onion', 'cheese'], displayNum),
+        future: httpService.getRecipes(containerNames, displayNum),
         builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
           if(snapshot.hasData){
-            print(snapshot.data);
-            print("DISPLAYING DATA");
             List<Recipe> recipes = snapshot.data ?? <Recipe>[];
             
             // return ListView(
@@ -80,48 +88,21 @@ class RecipesPage extends StatefulWidget {
                 },
               )
             );
-          // body: SafeArea(
-          //   // 3
-          //   child: Column(
-          //   children: <Widget>[
-          //   // 4
-          //   SizedBox(
-          //   height: 300,
-          //   width: double.infinity,
-          //   child: Image(
-          //   image: AssetImage(widget.recipe.imageUrl),
-          //   ),
-          //   ),
-          //   // 5
-          //   const SizedBox(
-          //   height: 4,
-          //   ),
-          //   // 6
-          //   Text(
-          //   widget.recipe.label,
-          //   style: const TextStyle(fontSize: 18),
-          //   ),
-          //   // TODO: Add Expande
           }
           return const Center(child: CircularProgressIndicator());
         },
-      )
+      ),
     );
   }
 }
 
 
 Widget buildRecipeCard(Recipe recipe) {
-  // 1
   return Card(
     color: Colors.grey[100],
-    // 2
     child: Column(
-     // 3
       children: <Widget>[
-        // 4
         Image.network(recipe.imageUrl, width: 200, height: 200),
-        // 5
         Text(recipe.title,
           style: const TextStyle(
             fontSize: 20,
