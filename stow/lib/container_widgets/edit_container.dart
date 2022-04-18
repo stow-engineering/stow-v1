@@ -107,6 +107,7 @@ class _EditContainerState extends State<EditContainer> {
                       future: futureBarcode,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
+                          scannedName = snapshot.data!.code;
                           return TextFormField(
                               controller: nameController,
                               decoration: InputDecoration(
@@ -149,7 +150,9 @@ class _EditContainerState extends State<EditContainer> {
                     child: TextButton(
                       onPressed: () {
                         final size = selectedValue;
-                        final name = nameController.text;
+                        final name = nameController.text == null
+                            ? scannedName
+                            : nameController.text;
                         service.updateContainerNameAndSize(
                             name, size!, widget.arg.container.uid);
                         // setState(() async {
