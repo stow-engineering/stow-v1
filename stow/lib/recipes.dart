@@ -24,15 +24,16 @@ class RecipesPage extends StatefulWidget {
   final StowUser user;
   final List<customContainer.Container> containerData;
 
-  const RecipesPage({Key? key, required this.user, required this.containerData}) : super(key: key);
+  const RecipesPage({Key? key, required this.user, required this.containerData})
+      : super(key: key);
 
-   @override
-   State<RecipesPage> createState() => _RecipesPageState();
+  @override
+  State<RecipesPage> createState() => _RecipesPageState();
 }
 
- class _RecipesPageState extends State<RecipesPage> {
+class _RecipesPageState extends State<RecipesPage> {
   final HttpService httpService = HttpService();
-  
+
   @override
   void initState() {
     super.initState();
@@ -44,50 +45,38 @@ class RecipesPage extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     DatabaseService service = DatabaseService(widget.user.uid);
-    const int displayNum = 3;
+    const int displayNum = 10;
 
     List<String> containerNames = <String>[];
-    for(var item in widget.containerData){
+    for (var item in widget.containerData) {
       containerNames.add(item.name);
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Recipes"),
-      ),  
+      ),
       body: FutureBuilder(
         future: httpService.getRecipes(containerNames, displayNum),
         builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
-          if(snapshot.hasData){
+          if (snapshot.hasData) {
             List<Recipe> recipes = snapshot.data ?? <Recipe>[];
-            
-            // return ListView(
-            //   children: recipes
-            //     .map((Recipe recipe) => ListTile(
-            //           title: Text(recipe.title),
-            //         )
-            //     ).toList(),
-            // );
+
             return SafeArea(
-              child: ListView.builder(
-                itemCount: displayNum,
-                itemBuilder: (BuildContext context, int index){
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return RecipeDetail(recipe: recipes[index]);
-                          }
-                        )
-                      );
-                    },
-                    child: buildRecipeCard(recipes[index]),
-                  );
-                },
-              )
-            );
+                child: ListView.builder(
+              itemCount: displayNum,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return RecipeDetail(recipe: recipes[index]);
+                    }));
+                  },
+                  child: buildRecipeCard(recipes[index]),
+                );
+              },
+            ));
           }
           return const Center(child: CircularProgressIndicator());
         },
@@ -96,20 +85,32 @@ class RecipesPage extends StatefulWidget {
   }
 }
 
-
 Widget buildRecipeCard(Recipe recipe) {
-  return Card(
-    elevation: 0,
-    child: Column(
-      children: <Widget>[
-        Image.network(recipe.imageUrl, width: 200, height: 200),
-        Text(recipe.title,
-          style: const TextStyle(
-            fontSize: 20,
-            color: Colors.green,
-          )
-        ),
-      ],
+  return Padding(
+    padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 15),
+    child: Card(
+      elevation: 20,
+      //color: Color.fromARGB(255, 193, 238, 176),
+      color: Color.fromARGB(255, 237, 248, 255),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        children: <Widget>[
+          //Image.network(recipe.imageUrl, width: 200, height: 200),
+          Image.network(recipe.imageUrl, fit: BoxFit.fill),
+          Center(
+            child: Text(
+              recipe.title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }
