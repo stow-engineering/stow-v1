@@ -37,7 +37,9 @@ class FirebaseService {
     var data = snapshot.data();
     if (data.containsKey('containers')) {
       final myList = List<String>.from(data['containers']);
-      myList.add(mac);
+      if (!myList.contains(mac)) {
+        myList.add(mac);
+      }
       return await userCollection.doc(uid).update({'containers': myList});
     }
 
@@ -55,6 +57,13 @@ class FirebaseService {
       'name': name,
       'size': size
     });
+  }
+
+  Future updateContainerNameAndSize(
+      String name, String size, String mac) async {
+    return await containerCollection
+        .doc(mac)
+        .update({'name': name, 'size': size});
   }
 
   //updates container with name
