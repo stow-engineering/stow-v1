@@ -192,7 +192,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                     child: TextFormField(
                       key: Key(name),
                       initialValue: name,
-                      // controller: ssidController,
+                      //controller: ssidController,
                       decoration: const InputDecoration(
                         hintText: 'WiFi Name',
                       ),
@@ -284,21 +284,41 @@ class _ConnectScreenState extends State<ConnectScreen> {
                                   if (isSuccess[
                                       idRef.indexOf(d.id.toString())]) {
                                     return ElevatedButton(
-                                        onPressed: () => {
-                                              Navigator.of(context).pushNamed(
-                                                '/add_container',
-                                                arguments: AddContainerArg(
-                                                    widget.user,
-                                                    d.id.toString()),
-                                              )
-                                            },
+                                        onPressed: () async {
+                                          List<BluetoothDevice> devices =
+                                              await FlutterBluePlus
+                                                  .instance.connectedDevices;
+                                          BluetoothDevice dev =
+                                              devices.firstWhere((b) =>
+                                                  b.id.toString() ==
+                                                  d.id.toString());
+                                          List<BluetoothService> services =
+                                              await dev.discoverServices();
+                                          BluetoothService serv =
+                                              services.firstWhere((s) =>
+                                                  s.uuid.toString() ==
+                                                  "2d8bdb4c-8be8-4980-a066-4f531f08c626");
+                                          BluetoothCharacteristic char = serv
+                                              .characteristics
+                                              .firstWhere((c) =>
+                                                  c.uuid.toString() ==
+                                                  "a0edbb2a-405d-4331-8540-7afaf0e934b9");
+                                          await char.write(
+                                              "processing".codeUnits,
+                                              withoutResponse: true);
+                                          Navigator.of(context).pushNamed(
+                                            '/add_container',
+                                            arguments: AddContainerArg(
+                                                widget.user, d.id.toString()),
+                                          );
+                                        },
                                         child: const Text("Register"));
                                   } else {
                                     return const Text(
                                         "Connection Failed, Try Again");
                                   }
                                 }
-                                return const CircularProgressIndicator();
+                                return const CircularProgressIndicator(); //Text("Connecting...");
                               }
                               return Text(snapshot.data.toString());
                             },
