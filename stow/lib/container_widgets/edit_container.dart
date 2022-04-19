@@ -8,10 +8,13 @@ import 'package:http/http.dart' as http;
 import '../models/edit_container_argument.dart';
 import '../../utils/firebase.dart';
 
-Future<Barcode> fetchBarcode(String barcode) async {
+Future<Barcode> fetchBarcode(
+    String barcode, TextEditingController controller) async {
   final response = await http.get(Uri.parse(
       'https://world.openfoodfacts.org/api/v0/product/' + barcode + '.json'));
   if (response.statusCode == 200) {
+    var barcode = Barcode.fromJson(jsonDecode(response.body));
+    controller.text = barcode.code;
     return Barcode.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to retrieve Barcode Information');
@@ -46,6 +49,7 @@ class _EditContainerState extends State<EditContainer> {
   String scanResult = '';
   String scannedName = '';
   late Future<Barcode> futureBarcode;
+  final nameController = TextEditingController();
 
   String? selectedValue;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -53,13 +57,12 @@ class _EditContainerState extends State<EditContainer> {
   @override
   void initState() {
     super.initState();
-    futureBarcode = fetchBarcode('070847037989');
+    futureBarcode = fetchBarcode('070847037989', nameController);
   }
 
   @override
   Widget build(BuildContext context) {
     FirebaseService service = FirebaseService(widget.arg.uid);
-    final nameController = TextEditingController();
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(),
@@ -211,7 +214,25 @@ class _EditContainerState extends State<EditContainer> {
                             color: Colors.blue,
                             borderRadius: BorderRadius.circular(20)),
                         child: TextButton(
-                          onPressed: scanBarcode,
+                          onPressed: () async {
+                            String scanResult;
+                            late Future<Barcode> futureBarcode;
+
+                            scanResult =
+                                await FlutterBarcodeScanner.scanBarcode(
+                                    '#00B050',
+                                    'Cancel',
+                                    true,
+                                    ScanMode.BARCODE);
+
+                            if (!mounted) return;
+
+                            setState(() => this.scanResult = scanResult);
+
+                            futureBarcode =
+                                fetchBarcode(scanResult, nameController);
+                            setState(() => this.futureBarcode = futureBarcode);
+                          },
                           child: Text(
                             'Scan Barcode',
                             style: TextStyle(color: Colors.white, fontSize: 20),
@@ -261,7 +282,7 @@ class _EditContainerState extends State<EditContainer> {
   }
 
   // Perform scanning
-  Future scanBarcode() async {
+  Future scanBarcode(TextEditingController nameController) async {
     String scanResult;
     late Future<Barcode> futureBarcode;
 
@@ -272,7 +293,7 @@ class _EditContainerState extends State<EditContainer> {
 
     setState(() => this.scanResult = scanResult);
 
-    futureBarcode = fetchBarcode(scanResult);
+    futureBarcode = fetchBarcode(scanResult, nameController);
     setState(() => this.futureBarcode = futureBarcode);
   }
 }
