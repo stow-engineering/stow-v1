@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:stow/user.dart';
 import 'package:stow/user_auth.dart';
+import 'package:stow/barcode_scanner.dart';
 import 'edit_container.dart';
 import 'edit_container_argument.dart';
 import 'groceries.dart';
@@ -36,6 +37,8 @@ class RouteGenerator {
           );
         }
         return errorRoute();
+      case '/barcode':
+        return MaterialPageRoute(builder: (_) => BarcodeScanner());
       case '/pantry':
         if (args is StowUser) {
           return MaterialPageRoute(

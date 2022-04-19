@@ -55,21 +55,24 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 30.0, right: 30.0, top: 15.0, bottom: 0),
-                        child: TextFormField(
-                          controller: passwordController,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter Password',
-                          ),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            return null;
-                          },
-                        ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 30.0, right: 30.0, top: 15.0, bottom: 0),
+                    child: TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter Password',
                       ),
                     ],
                   ),

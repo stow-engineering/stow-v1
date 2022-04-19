@@ -68,6 +68,7 @@ class CreateAccount extends StatelessWidget {
                         left: 30.0, right: 30.0, top: 25.0, bottom: 0),
                     child: TextFormField(
                       controller: passwordController,
+                      obscureText: true,
                       decoration: const InputDecoration(
                         hintText: 'Password',
                       ),
@@ -98,6 +99,7 @@ class CreateAccount extends StatelessWidget {
                         left: 30.0, right: 30.0, top: 25.0, bottom: 25.0),
                     child: TextFormField(
                       controller: confirmController,
+                      obscureText: true,
                       decoration: const InputDecoration(
                         hintText: 'Confirm Password',
                       ),
