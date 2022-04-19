@@ -30,13 +30,12 @@ class AuthService {
   }
 
   Future<StowUser?> createUserWithEmailPassword(
-    String email,
-    String password,
-  ) async {
+      String email, String password, String firstName, String lastName) async {
     final cred = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    await DatabaseService(cred.user.uid).updateUserData(cred.user.email);
+    await DatabaseService(cred.user.uid)
+        .updateUserData(cred.user.email, firstName, lastName);
     return _userFromFirebase(cred.user);
   }
 

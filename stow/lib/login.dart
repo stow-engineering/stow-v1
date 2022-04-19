@@ -24,26 +24,36 @@ class _LoginPageState extends State<LoginPage> {
     final passwordController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 200,
-              height: 150,
-              child: Image.asset('assets/stow-logo.png'),
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30.0, right: 30.0, top: 15.0, bottom: 0),
-                    child: TextFormField(
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter Email',
+      body: ListView(
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 200,
+                  height: 150,
+                  child: Image.asset('assets/stow-logo.png'),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 30.0, right: 30.0, top: 15.0, bottom: 0),
+                        child: TextFormField(
+                          controller: emailController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Email',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
@@ -64,63 +74,58 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: const InputDecoration(
                         hintText: 'Enter Password',
                       ),
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    //TODO FORGOT PASSWORD SCREEN GOES HERE
+                  },
+                  child: const Text(
+                    'Forgot Password',
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  width: 250,
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: TextButton(
+                    onPressed: () {
+                      authService.signInWithEmailPassword(
+                          emailController.text, passwordController.text);
+                      /*
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => HomePage()));
+                        */
+                    },
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
                   ),
-                ],
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-              },
-              child: const Text(
-                'Forgot Password',
-                style: TextStyle(color: Colors.black, fontSize: 15),
-              ),
-            ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(20)),
-              child: TextButton(
-                onPressed: () {
-                  authService.signInWithEmailPassword(
-                      emailController.text, passwordController.text);
-                  /*
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => HomePage()));
-                      */
-                },
-                child: const Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
-              ),
+                const SizedBox(
+                  height: 300,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      '/create_account',
+                      arguments: 'Welcome to Stow!',
+                    );
+                  },
+                  child: const Text(
+                    'New User? Create Account',
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 300,
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/create_account',
-                  arguments: 'Welcome to Stow!',
-                );
-              },
-              child: const Text(
-                'New User? Create Account',
-                style: TextStyle(color: Colors.black, fontSize: 15),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
