@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/recipe_model.dart';
+import 'package:stow/models/recipe_model.dart';
 
 class RecipeDetail extends StatefulWidget {
   final Recipe recipe;
@@ -31,8 +31,39 @@ class _RecipeDetailState extends State<RecipeDetail> {
                     fontSize: 20,
                     color: Colors.green,
                   )),
+              const Padding(
+                padding: EdgeInsets.all(7.0),
+                child: Text('Ingredients',
+                    style: TextStyle(
+                      fontSize: 20,
+                    )),
+              ),
+              Expanded(
+                child: ListView.builder(
+                    padding: const EdgeInsets.all(7.0),
+                    itemCount: widget.recipe.ingredients.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final ingredient = widget.recipe.ingredients[index];
+
+                      return Text(
+                          '${ingredient.amount} ${ingredient.unit.toCapitalized()} ${ingredient.name.toTitleCase()}',
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ));
+                    }),
+              ),
             ],
           ),
         )));
   }
+}
+
+//Used to edit case of strings
+extension StringCasingExtension on String {
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
 }

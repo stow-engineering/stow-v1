@@ -1,24 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
-import 'package:stow/pages/add_container/add_container.dart';
+import 'package:flutter/widgets.dart';
+import 'package:stow/container_widgets/edit_container.dart';
 import 'package:stow/models/add_container_argument.dart';
+import 'package:stow/models/edit_container_argument.dart';
+import 'package:stow/models/user.dart';
+import 'package:stow/pages/account/account.dart';
+import 'package:stow/pages/add_container/add_container.dart';
+import 'package:stow/pages/barcode/barcode.dart';
+import 'package:stow/pages/create_account/create_account.dart';
+import 'package:stow/pages/groceries/groceries.dart';
+import 'package:stow/pages/home/home.dart';
+import 'package:stow/pages/login/login.dart';
+import 'package:stow/pages/pantry/pantry.dart';
+import 'package:stow/pages/provision/provision.dart';
+import 'package:stow/pages/recipes/recipes.dart';
+import 'package:stow/pages/register/register.dart';
 
-import 'container_widgets/edit_container.dart';
-import 'models/user.dart';
-import 'models/edit_container_argument.dart';
-import 'pages/account/account.dart';
-import 'pages/barcode/barcode.dart';
-import 'pages/create_account/create_account.dart';
-import 'pages/groceries/groceries.dart';
-import 'pages/home/home.dart';
-import 'pages/login/initial_login.dart';
-import 'pages/login/login.dart';
-import 'pages/pantry/pantry.dart';
-import 'pages/provision/provision.dart';
-import 'pages/recipes/recipes.dart';
-import 'pages/register/register.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -74,10 +73,11 @@ class RouteGenerator {
         }
         return errorRoute();
       case '/recipes':
-        if (args is StowUser) {
+        if (args is RecipeArguments) {
           return MaterialPageRoute(
             builder: (_) => RecipesPage(
-              user: args,
+              user: args.user,
+              containerData: args.containerData,
             ),
           );
         }

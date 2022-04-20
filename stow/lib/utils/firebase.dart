@@ -110,6 +110,28 @@ class FirebaseService {
     }
   }
 
+  Future<int> getVal(String address) async {
+    DocumentSnapshot snapshot = await containerCollection.doc(address).get();
+    var data = snapshot.data();
+    if (data.containsKey('value')) {
+      int val = data['value'];
+      return val;
+    } else {
+      throw NullThrownError;
+    }
+  }
+
+  Future<String> getSize(String address) async {
+    DocumentSnapshot snapshot = await containerCollection.doc(address).get();
+    var data = snapshot.data();
+    if (data.containsKey('value')) {
+      String size = data['size'];
+      return size;
+    } else {
+      throw NullThrownError;
+    }
+  }
+
   // Future<List<customContainer.Container>> getContainers() async {
   //   DocumentSnapshot snapshot = await userCollection.doc(uid).get();
   //   var data = snapshot.data();

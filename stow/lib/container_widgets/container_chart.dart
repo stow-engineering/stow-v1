@@ -28,9 +28,17 @@ class NumFull {
     List<String> addresses = await service.getAddresses();
     int numFull = 0;
     int numEmpty = 0;
+    int percent = 0;
     for (int i = 0; i < addresses.length; i++) {
       bool full = await service.getFull(addresses[i]);
-      if (full) {
+      int val = await service.getVal(addresses[i]);
+      String size = await service.getSize(addresses[i]);
+      if (size == 'Small') {
+        percent = (((165 - val) / 165) * 100).round();
+      } else {
+        percent = (((273 - val) / 273) * 100).round();
+      }
+      if (percent > 30) {
         numFull++;
       } else {
         numEmpty++;

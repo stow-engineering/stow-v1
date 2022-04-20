@@ -151,10 +151,11 @@ class _EditContainerState extends State<EditContainer> {
                         borderRadius: BorderRadius.circular(20)),
                     child: TextButton(
                       onPressed: () {
-                        final size = selectedValue;
+                        var size = selectedValue;
                         final name = nameController.text;
+                        size ??= widget.arg.container.size;
                         service.updateContainerData(
-                            name, size!, widget.arg.container.uid);
+                            name, size, widget.arg.container.uid);
                         // setState(() async {
                         //   List<BluetoothDevice> devices =
                         //       await FlutterBluePlus.instance.connectedDevices;

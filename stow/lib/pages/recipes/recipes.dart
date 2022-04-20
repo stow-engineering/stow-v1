@@ -1,26 +1,24 @@
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../container_widgets/container_chart.dart';
-import '../../container_widgets/container_list.dart';
-import '../../container_widgets/user_containers.dart';
-import '../../models/container.dart' as customContainer;
-import '../../models/container_series.dart';
-import '../../models/recipe_model.dart';
-import '../../models/user.dart';
-import '../../utils/firebase.dart';
-import '../../utils/http_service.dart';
-import '../login/login.dart';
-import '../recipes/recipe_detail.dart';
+import 'package:stow/models/recipe_model.dart';
+import 'package:stow/models/user.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:stow/pages/recipes/recipe_detail.dart';
+import 'package:stow/utils/firebase.dart';
+import 'package:stow/utils/http_service.dart';
+import 'package:stow/models/container.dart' as customContainer;
 
 class RecipesPage extends StatefulWidget {
   final StowUser user;
+  final List<customContainer.Container> containerData;
 
-  const RecipesPage({Key? key, required this.user}) : super(key: key);
+  const RecipesPage({Key? key, required this.user, required this.containerData})
+      : super(key: key);
 
   @override
   State<RecipesPage> createState() => _RecipesPageState();
@@ -39,89 +37,73 @@ class _RecipesPageState extends State<RecipesPage> {
 
   @override
   Widget build(BuildContext context) {
-    const int displayNum = 3;
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Recipes"),
-        ),
-        body: FutureBuilder(
-          future: httpService
-              .getRecipes(<String>['apple', 'onion', 'cheese'], displayNum),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
-            if (snapshot.hasData) {
-              print(snapshot.data);
-              print("DISPLAYING DATA");
-              List<Recipe> recipes = snapshot.data ?? <Recipe>[];
+    FirebaseService service = FirebaseService(widget.user.uid);
+    const int displayNum = 10;
 
-              // return ListView(
-              //   children: recipes
-              //     .map((Recipe recipe) => ListTile(
-              //           title: Text(recipe.title),
-              //         )
-              //     ).toList(),
-              // );
-              return SafeArea(
-                  child: ListView.builder(
-                itemCount: displayNum,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return RecipeDetail(recipe: recipes[index]);
-                      }));
-                    },
-                    child: buildRecipeCard(recipes[index]),
-                  );
-                },
-              ));
-              // body: SafeArea(
-              //   // 3
-              //   child: Column(
-              //   children: <Widget>[
-              //   // 4
-              //   SizedBox(
-              //   height: 300,
-              //   width: double.infinity,
-              //   child: Image(
-              //   image: AssetImage(widget.recipe.imageUrl),
-              //   ),
-              //   ),
-              //   // 5
-              //   const SizedBox(
-              //   height: 4,
-              //   ),
-              //   // 6
-              //   Text(
-              //   widget.recipe.label,
-              //   style: const TextStyle(fontSize: 18),
-              //   ),
-              //   // TODO: Add Expande
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
-        ));
+    List<String> containerNames = <String>[];
+    for (var item in widget.containerData) {
+      containerNames.add(item.name);
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Recipes"),
+      ),
+      body: FutureBuilder(
+        future: httpService.getRecipes(containerNames, displayNum),
+        builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
+          if (snapshot.hasData) {
+            List<Recipe> recipes = snapshot.data ?? <Recipe>[];
+
+            return SafeArea(
+                child: ListView.builder(
+              itemCount: displayNum,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return RecipeDetail(recipe: recipes[index]);
+                    }));
+                  },
+                  child: buildRecipeCard(recipes[index]),
+                );
+              },
+            ));
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
   }
 }
 
 Widget buildRecipeCard(Recipe recipe) {
-  // 1
-  return Card(
-    color: Colors.grey[100],
-    // 2
-    child: Column(
-      // 3
-      children: <Widget>[
-        // 4
-        Image.network(recipe.imageUrl, width: 200, height: 200),
-        // 5
-        Text(recipe.title,
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.green,
-            )),
-      ],
+  return Padding(
+    padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 15),
+    child: Card(
+      elevation: 20,
+      //color: Color.fromARGB(255, 193, 238, 176),
+      color: Color.fromARGB(255, 237, 248, 255),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        children: <Widget>[
+          //Image.network(recipe.imageUrl, width: 200, height: 200),
+          Image.network(recipe.imageUrl, fit: BoxFit.fill),
+          Center(
+            child: Text(
+              recipe.title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }
