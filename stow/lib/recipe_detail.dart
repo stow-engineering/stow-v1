@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stow/recipe_instructions.dart';
 import 'recipe_model.dart';
 
 class RecipeDetail extends StatefulWidget{
@@ -56,7 +57,22 @@ class _RecipeDetailState extends State<RecipeDetail>{
                     );
                   }
                 ),
-              ),
+              ),//Used to add instructions for recipes
+            //   Expanded(
+            //     child: GestureDetector(
+            //         onTap: () {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (context) {
+            //                 return RecipeInstructions(recipe: widget.recipe);
+            //               }
+            //             )
+            //           );
+            //         },
+            //         child: const Text('View Instructions'),
+            //       ),
+            //   ),
             ],
           ),
         )

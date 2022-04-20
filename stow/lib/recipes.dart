@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:stow/container_chart.dart';
 import 'package:stow/database.dart';
 import 'package:stow/http_service.dart';
-import 'package:stow/recipe.detail.dart';
+import 'package:stow/recipe_detail.dart';
 import 'package:stow/user.dart';
 import 'container_list.dart';
 import 'recipe_model.dart';
