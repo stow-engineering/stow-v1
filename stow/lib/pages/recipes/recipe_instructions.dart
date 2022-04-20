@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stow/database.dart';
-import 'package:stow/http_service.dart';
-import 'package:stow/instructions_model.dart';
-import 'recipe_model.dart';
+import 'package:stow/models/instructions_model.dart';
+import 'package:stow/models/recipe_model.dart';
+import 'package:stow/utils/http_service.dart';
 
 class RecipeInstructions extends StatefulWidget{
   final Recipe recipe;

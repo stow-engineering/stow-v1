@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:stow/ingredient_model.dart';
+import 'package:stow/models/ingredient_model.dart';
 
 class RecipeResponse {
   List<Recipe> results = <Recipe>[];

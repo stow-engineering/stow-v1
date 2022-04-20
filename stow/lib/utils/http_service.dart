@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:stow/instructions_model.dart';
+import 'package:stow/models/instructions_model.dart';
 import 'package:stow/models/recipe_model.dart';
 
 class HttpService {
@@ -31,23 +31,22 @@ class HttpService {
     }
   }
 
-//THIS IS NOT WOKRING NEED TO FIX IN ORDER TO GET RECIPE INSTRUCTIONS
-  // Future<List<Instructions>> getRecipeInstructions(int recipeId) async {
-  //   var uri = Uri.https('spoonacular-recipe-food-nutrition-v1.p.rapidapi.com','recipes/479101/information');//, 'recipes/'+ recipeId.toString() +'/information');
-  //   print(uri);
-  //   var res = await http.get(uri, headers: {'X-RapidAPI-Key': '27fd16c583mshf25e75b9907dc8dp1eda47jsn0e7eb5d6e744'});
+  //THIS IS NOT WOKRING NEED TO FIX IN ORDER TO GET RECIPE INSTRUCTIONS
+  Future<List<Instructions>> getRecipeInstructions(int recipeId) async {
+    var uri = Uri.https('spoonacular-recipe-food-nutrition-v1.p.rapidapi.com','recipes/479101/information');//, 'recipes/'+ recipeId.toString() +'/information');
+    print(uri);
+    var res = await http.get(uri, headers: {'X-RapidAPI-Key': '27fd16c583mshf25e75b9907dc8dp1eda47jsn0e7eb5d6e744'});
 
-  //   if(res.statusCode == 200){
-  //     List<dynamic> body = jsonDecode(res.body);
-  //     // print("raw response" + res.body);
-  //     List<Instructions> instructions = 
-  //       body.map((dynamic item) => Instructions.fromJson(item)).toList();
-  //       print("RETURNING");
-  //     return instructions;
-  //   }
-  //   else {
-  //     print("Get recipe failed. Error code " + res.statusCode.toString());
-  //     throw "Get recipe instructions failed.";
-  //   }
-  // }
+    if(res.statusCode == 200){
+      List<dynamic> body = jsonDecode(res.body);
+      // print("raw response" + res.body);
+      List<Instructions> instructions = 
+        body.map((dynamic item) => Instructions.fromJson(item)).toList();
+      return instructions;
+    }
+    else {
+      print("Get recipe failed. Error code " + res.statusCode.toString());
+      throw "Get recipe instructions failed.";
+    }
+  }
 }
