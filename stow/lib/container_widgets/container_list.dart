@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'container.dart' as customContainer;
-import 'edit_container_argument.dart';
+
+import '../models/container.dart' as customContainer;
+import '../models/edit_container_argument.dart';
 
 class ContainerList extends StatefulWidget {
   final String uid;
@@ -40,8 +41,8 @@ class ContainerDisplay extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.only(top: 8.0),
         child: Card(
-          margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
-          child: ListTile(
+            margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
+            child: ListTile(
               trailing: IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
@@ -61,18 +62,33 @@ class ContainerDisplay extends StatelessWidget {
               title: Text(container.name.toString(),
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               subtitle: container.size == 'Small'
-                  ? Text((((165 - container.value) / 165) * 100)
-                          .round()
-                          .toString() +
-                      "% [" +
-                      container.size +
-                      "]")
-                  : Text((((273 - container.value) / 273) * 100)
-                          .round()
-                          .toString() +
-                      "% [" +
-                      container.size +
-                      "]")), //Text(container.value.toString())),
-        ));
+                  ? Text(calculateVolume(true, container))
+                  : Text(calculateVolume(
+                      false, container)), //Text(container.value.toString())),
+            )));
+  }
+
+  String calculateVolume(bool small, customContainer.Container container) {
+    if (small) {
+      double valueFull = ((165 - container.value) / 165) * 100;
+      int value = valueFull.round();
+      if (value >= 0 && value <= 100) {
+        return value.toString() + "% [" + container.size + "]";
+      } else if (value < 0) {
+        return "0% [" + container.size + "]";
+      } else {
+        return "100% [" + container.size + "]";
+      }
+    } else {
+      double valueFull = ((273 - container.value) / 273) * 100;
+      int value = valueFull.round();
+      if (value >= 0 && value <= 100) {
+        return value.toString() + "% [" + container.size + "]";
+      } else if (value < 0) {
+        return "0% [" + container.size + "]";
+      } else {
+        return "100% [" + container.size + "]";
+      }
+    }
   }
 }

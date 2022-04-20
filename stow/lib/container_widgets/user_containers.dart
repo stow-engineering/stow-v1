@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'container.dart' as customContainer;
-import 'database.dart';
-import 'user.dart';
+
+import '../models/container.dart' as customContainer;
+import '../models/user.dart';
+import '../utils/firebase.dart';
 
 class NumberContainers extends StatefulWidget {
   final StowUser user;
@@ -16,7 +17,7 @@ class NumberContainers extends StatefulWidget {
 class _NumberContainers extends State<NumberContainers> {
   @override
   FutureBuilder<List<String>> build(BuildContext context) {
-    final DatabaseService service = DatabaseService(widget.user.uid);
+    final FirebaseService service = FirebaseService(widget.user.uid);
     return FutureBuilder<List<String>>(
       future: service.getAddresses(),
       builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {

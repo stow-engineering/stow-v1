@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'database.dart';
-import 'user_auth.dart';
-import 'container.dart' as customContainer;
+
+import '../../models/container.dart' as customContainer;
+import '../../utils/firebase.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.mac}) : super(key: key);
@@ -17,7 +17,7 @@ class _RegisterState extends State<Register> {
   final _nameController = TextEditingController();
   String _name = '';
   String _user = '';
-  DatabaseService service = DatabaseService("");
+  FirebaseService service = FirebaseService("");
 
   @override
   void initState() {

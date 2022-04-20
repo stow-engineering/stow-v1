@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/home.dart';
-import 'package:stow/user.dart';
-import 'authentication.dart';
-import 'login.dart';
-import 'user_auth.dart';
+
+import 'models/user.dart';
+import 'pages/home/home.dart';
+import 'pages/login/login.dart';
+import 'pages/login/initial_login.dart';
+import 'utils/authentication.dart';
 import 'route_generator.dart';
 
 void main() async {
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AuthService>(
-          create: (_) => AuthService(),
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(),
         )
       ],
       child: MaterialApp(
@@ -45,7 +46,7 @@ class AuthenticationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userAuth = Provider.of<AuthService>(context);
+    final userAuth = Provider.of<AuthenticationService>(context);
     return StreamBuilder<StowUser?>(
       stream: userAuth.user,
       builder: (_, AsyncSnapshot<StowUser?> snapshot) {

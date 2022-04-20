@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'container.dart' as customContainer;
 
-class DatabaseService {
+import '../models/container.dart' as customContainer;
+
+class FirebaseService {
   final String uid;
-  DatabaseService(this.uid);
+  FirebaseService(this.uid);
 
   //Collection reference
   final CollectionReference containerCollection =
@@ -23,12 +24,22 @@ class DatabaseService {
     });
   }
 
+  // Updates a users info
+  Future updateUserDataNoContainers(
+      String email, String firstName, String lastName) async {
+    return await userCollection
+        .doc(uid)
+        .set({'email': email, 'first_name': firstName, 'last_name': lastName});
+  }
+
   Future updateContainers(String mac) async {
     DocumentSnapshot snapshot = await userCollection.doc(uid).get();
     var data = snapshot.data();
     if (data.containsKey('containers')) {
       final myList = List<String>.from(data['containers']);
-      myList.add(mac);
+      if (!myList.contains(mac)) {
+        myList.add(mac);
+      }
       return await userCollection.doc(uid).update({'containers': myList});
     }
 
@@ -46,6 +57,13 @@ class DatabaseService {
       'name': name,
       'size': size
     });
+  }
+
+  Future updateContainerNameAndSize(
+      String name, String size, String mac) async {
+    return await containerCollection
+        .doc(mac)
+        .update({'name': name, 'size': size});
   }
 
   //updates container with name
