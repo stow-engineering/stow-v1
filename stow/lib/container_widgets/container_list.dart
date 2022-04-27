@@ -58,6 +58,7 @@ class ContainerDisplay extends StatelessWidget {
                     : ((273 - container.value) / 273),
                 backgroundColor: Colors.grey[350],
                 strokeWidth: 8.0,
+                color: getColor(container.size, container.value),
               ),
               title: Text(container.name.toString(),
                   style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -89,6 +90,23 @@ class ContainerDisplay extends StatelessWidget {
       } else {
         return "100% [" + container.size + "]";
       }
+    }
+  }
+
+  Color getColor(String size, int value) {
+    double vol = 0.0;
+    if (size == 'Small') {
+      vol = ((165 - container.value) / 165);
+    } else {
+      vol = ((273 - container.value) / 273);
+    }
+
+    if (vol > .60) {
+      return Colors.green;
+    } else if (vol < .20) {
+      return Colors.red;
+    } else {
+      return Colors.yellow;
     }
   }
 }

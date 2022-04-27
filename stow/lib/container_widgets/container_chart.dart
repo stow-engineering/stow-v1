@@ -38,7 +38,7 @@ class NumFull {
       } else {
         percent = (((273 - val) / 273) * 100).round();
       }
-      if (percent > 30) {
+      if (percent > 20) {
         numFull++;
       } else {
         numEmpty++;
