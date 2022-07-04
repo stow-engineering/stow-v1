@@ -19,6 +19,7 @@ import 'provision.dart';
 import 'recipes.dart';
 import 'register.dart';
 import 'container.dart' as customContainer;
+import 'screens/grocery_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -60,7 +61,7 @@ class RouteGenerator {
       case '/groceries':
         if (args is StowUser) {
           return MaterialPageRoute(
-            builder: (_) => Groceries(
+            builder: (_) => GroceryScreen(
               user: args,
             ),
           );
