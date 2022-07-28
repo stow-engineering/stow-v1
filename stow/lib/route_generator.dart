@@ -18,7 +18,6 @@ import 'package:stow/pages/provision/provision.dart';
 import 'package:stow/pages/recipes/recipes.dart';
 import 'package:stow/pages/register/register.dart';
 
-
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -37,14 +36,7 @@ class RouteGenerator {
         }
         return errorRoute();
       case '/barcode':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => BarcodePage(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
+        return MaterialPageRoute(builder: (_) => BarcodeScanner());
       case '/pantry':
         if (args is StowUser) {
           return MaterialPageRoute(
@@ -66,7 +58,7 @@ class RouteGenerator {
       case '/groceries':
         if (args is StowUser) {
           return MaterialPageRoute(
-            builder: (_) => Groceries(
+            builder: (_) => GroceryScreen(
               user: args,
             ),
           );
