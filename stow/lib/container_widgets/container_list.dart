@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../bloc/containers_bloc.dart';
 import '../models/container.dart' as customContainer;
-import '../models/edit_container_argument.dart';
+import '../bloc/containers_state.dart';
 
 class ContainerList extends StatefulWidget {
-  final String uid;
-  const ContainerList({Key? key, required this.uid}) : super(key: key);
+  const ContainerList({Key? key}) : super(key: key);
   @override
   _ContainerListState createState() => _ContainerListState();
 }
@@ -15,26 +16,30 @@ class ContainerList extends StatefulWidget {
 class _ContainerListState extends State<ContainerList> {
   @override
   Widget build(BuildContext context) {
-    final containers = Provider.of<List<customContainer.Container>>(context);
+    //final containers = Provider.of<List<customContainer.Container>>(context);
+    final stateBloc = BlocProvider.of<ContainersBloc>(context);
 
-    return containers == null
-        ? Container()
-        : ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: containers.length,
-            itemBuilder: (context, index) {
-              return ContainerDisplay(containers[index], widget.uid);
-            },
-          );
+    return BlocBuilder<ContainersBloc, ContainersState>(
+        bloc: stateBloc,
+        builder: (context, state) {
+          return state.containers == null
+              ? Container()
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.containers.length,
+                  itemBuilder: (context, index) {
+                    return ContainerDisplay(state.containers[index]);
+                  },
+                );
+        });
   }
 }
 
 class ContainerDisplay extends StatelessWidget {
   final customContainer.Container container;
-  final String uid;
 
-  ContainerDisplay(this.container, this.uid);
+  ContainerDisplay(this.container);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +53,7 @@ class ContainerDisplay extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                     '/edit_container',
-                    arguments: EditContainerArgument(uid, container),
+                    arguments: container,
                   );
                 },
               ),

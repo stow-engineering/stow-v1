@@ -3,9 +3,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-
-import '../models/edit_container_argument.dart';
+import 'package:provider/provider.dart';
+import 'package:stow/bloc/auth_bloc.dart';
+import 'package:stow/bloc/auth_state.dart';
+import 'package:stow/bloc/containers_bloc.dart';
+import 'package:stow/models/user.dart';
+import 'package:stow/models/container.dart' as customContainer;
 import '../../utils/firebase.dart';
 
 Future<Barcode> fetchBarcode(
@@ -38,8 +43,8 @@ class Barcode {
 }
 
 class EditContainer extends StatefulWidget {
-  final EditContainerArgument arg;
-  const EditContainer({Key? key, required this.arg}) : super(key: key);
+  final customContainer.Container container;
+  const EditContainer({Key? key, required this.container}) : super(key: key);
 
   @override
   State<EditContainer> createState() => _EditContainerState();
@@ -62,7 +67,8 @@ class _EditContainerState extends State<EditContainer> {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseService service = FirebaseService(widget.arg.uid);
+    FirebaseService service = Provider.of<FirebaseService>(context);
+    final stateBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(),
@@ -77,7 +83,7 @@ class _EditContainerState extends State<EditContainer> {
               padding: const EdgeInsets.only(
                   left: 30.0, right: 30.0, top: 25.0, bottom: 0),
               child: Center(
-                  child: Text('Edit your ' + widget.arg.container.name,
+                  child: Text('Edit your ' + widget.container.name,
                       style: const TextStyle(
                           color: Colors.black,
                           fontSize: 35,
@@ -113,9 +119,9 @@ class _EditContainerState extends State<EditContainer> {
                           return TextFormField(
                               controller: nameController,
                               decoration: InputDecoration(
-                                hintText: widget.arg.container.name == null
+                                hintText: widget.container.name == null
                                     ? 'New Container Name'
-                                    : widget.arg.container.name,
+                                    : widget.container.name,
                               ));
                         } else if (snapshot.hasError) {
                           return TextFormField(
@@ -153,9 +159,9 @@ class _EditContainerState extends State<EditContainer> {
                       onPressed: () {
                         var size = selectedValue;
                         final name = nameController.text;
-                        size ??= widget.arg.container.size;
+                        size ??= widget.container.size;
                         service.updateContainerData(
-                            name, size, widget.arg.container.uid);
+                            name, size, stateBloc.state.user!.uid);
                         // setState(() async {
                         //   List<BluetoothDevice> devices =
                         //       await FlutterBluePlus.instance.connectedDevices;
@@ -194,7 +200,8 @@ class _EditContainerState extends State<EditContainer> {
                             _showMyDialog(
                                 context,
                                 'Are you sure you want to delete this container?',
-                                service);
+                                service,
+                                stateBloc.state.user);
                           },
                           child: const Text(
                             'Delete',
@@ -244,8 +251,8 @@ class _EditContainerState extends State<EditContainer> {
         ));
   }
 
-  Future<void> _showMyDialog(
-      BuildContext context, String message, FirebaseService service) async {
+  Future<void> _showMyDialog(BuildContext context, String message,
+      FirebaseService service, StowUser? user) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -263,7 +270,7 @@ class _EditContainerState extends State<EditContainer> {
             TextButton(
               child: const Text('Delete'),
               onPressed: () {
-                service.deleteContainer(widget.arg.container.uid);
+                service.deleteContainer(user!.uid);
                 Navigator.of(context).pop();
               },
             ),

@@ -15,9 +15,7 @@ import '../../utils/firebase.dart';
 import '../login/login.dart';
 
 class Groceries extends StatefulWidget {
-  final StowUser user;
-
-  const Groceries({Key? key, required this.user}) : super(key: key);
+  const Groceries({Key? key}) : super(key: key);
 
   @override
   State<Groceries> createState() => _GroceriesState();

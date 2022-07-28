@@ -2,9 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:stow/container_widgets/edit_container.dart';
 import 'package:stow/models/add_container_argument.dart';
-import 'package:stow/models/edit_container_argument.dart';
+import 'package:stow/models/container.dart' as customContainer;
 import 'package:stow/models/user.dart';
 import 'package:stow/pages/account/account.dart';
 import 'package:stow/pages/add_container/add_container.dart';
@@ -17,7 +18,7 @@ import 'package:stow/pages/pantry/pantry.dart';
 import 'package:stow/pages/provision/provision.dart';
 import 'package:stow/pages/recipes/recipes.dart';
 import 'package:stow/pages/register/register.dart';
-
+import 'package:stow/bloc/containers_state.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -45,43 +46,40 @@ class RouteGenerator {
           );
         }
         return errorRoute();
+      //return MaterialPageRoute(builder: (_) => BarcodeScanner());
       case '/pantry':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => Pantry(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
+        return MaterialPageRoute(
+          builder: (_) => const Pantry(),
+        );
+      //return errorRoute();
       case '/home':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => Home(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
+        //if (args is StowUser) {
+        return MaterialPageRoute(
+          builder: (_) => const Home(
+              //user: args,
+              ),
+        );
+      //}
+      //return errorRoute();
       case '/groceries':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => Groceries(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
-      case '/recipes':
-        if (args is RecipeArguments) {
-          return MaterialPageRoute(
-            builder: (_) => RecipesPage(
-              user: args.user,
-              containerData: args.containerData,
-            ),
-          );
-        }
-        return errorRoute();
+        //if (args is StowUser) {
+        return MaterialPageRoute(
+          builder: (_) => const Groceries(
+              //user: args,
+              ),
+        );
+      //}
+      //return errorRoute();
+      // case '/recipes':
+      //   if (args is RecipeArguments) {
+      //     return MaterialPageRoute(
+      //       builder: (_) => RecipesPage(
+      //         user: args.user,
+      //         containerData: args.containerData,
+      //       ),
+      //     );
+      //   }
+      //return errorRoute();
       case '/add_container':
         if (args is AddContainerArg) {
           return MaterialPageRoute(
@@ -101,10 +99,10 @@ class RouteGenerator {
         }
         return errorRoute();
       case '/edit_container':
-        if (args is EditContainerArgument) {
+        if (args is customContainer.Container) {
           return MaterialPageRoute(
             builder: (_) => EditContainer(
-              arg: args,
+              container: args,
             ),
           );
         }
