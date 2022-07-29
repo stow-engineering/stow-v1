@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/src/provider.dart';
+import 'package:stow/bloc/auth_bloc.dart';
 
+import '../../bloc/auth_events.dart';
 import '../../utils/authentication.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,7 +22,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthenticationService>(context);
+    //final authService = Provider.of<AuthenticationService>(context);
+    final authBloc = BlocProvider.of<AuthBloc>(context);
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     return Scaffold(
@@ -115,8 +119,11 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                         onPressed: () {
-                          authService.signInWithEmailPassword(
-                              emailController.text, passwordController.text);
+                          context.read<AuthBloc>().add(LoginEvent(
+                              email: emailController.text,
+                              password: passwordController.text));
+                          // authService.signInWithEmailPassword(
+                          //     emailController.text, passwordController.text);
                         },
                         child: const Text(
                           'Sign In',
@@ -136,6 +143,33 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: TextDecoration.underline),
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          "New User? ",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 169, 176, 183),
+                            fontSize: 15,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                              '/create_account',
+                              arguments: 'Welcome to Stow!',
+                            );
+                          },
+                          child: const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 0, 176, 80),
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

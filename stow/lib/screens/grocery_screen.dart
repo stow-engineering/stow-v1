@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stow/user.dart';
+import 'package:stow/models/user.dart';
 import 'empty_grocery_screen.dart';
 
 class GroceryScreen extends StatefulWidget {

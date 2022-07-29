@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/container.dart' as customContainer;
 import '../models/user.dart';
+import '../bloc/containers_state.dart';
 import '../utils/firebase.dart';
 
 class NumberContainers extends StatefulWidget {
@@ -46,18 +47,3 @@ class _NumberContainers extends State<NumberContainers> {
     );
   }
 }
-
-// class NumFull extends StatefulWidget {
-//   final StowUser user;
-//   const NumFull({Key? key, required this.user}) : super(key: key);
-
-//   @override
-//   State<NumFull> createState() => _NumFullState();
-// }
-
-// class _NumFullState extends State<NumFull> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }

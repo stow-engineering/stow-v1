@@ -1,11 +1,11 @@
 class Container {
-  final int value;
+  int value;
   final String uid;
   final String barcode;
-  final bool full;
+  bool full;
   final String user;
-  final String size;
-  final String name;
+  String size;
+  String name;
 
   Container(
       {this.value = 0,

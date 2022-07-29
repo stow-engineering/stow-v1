@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'container.dart' as customContainer;
-import 'edit_container_argument.dart';
+import 'package:stow/models/container.dart' as customContainer;
 
 class GroceryList extends StatefulWidget {
   final String uid;
@@ -48,7 +47,6 @@ class GroceryDisplay extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                     '/edit_container',
-                    arguments: EditContainerArgument(uid, container),
                   );
                 },
               ),

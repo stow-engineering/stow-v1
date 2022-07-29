@@ -26,8 +26,10 @@ class HttpService {
       // print("Http_service results "+ recipes.toString());
       return recipes;
     } else {
-      // print("Get recipe failed. Error code " + res.statusCode.toString());
-      throw "Get recipe failed.";
+      print("Get recipe failed. Error code " + res.statusCode.toString());
+      List<Recipe> rec = [];
+      return rec;
+      //throw "Get recipe failed.";
     }
   }
 

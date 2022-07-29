@@ -99,6 +99,21 @@ class FirebaseService {
     }
   }
 
+  // Future<List<customContainer.Container>> getUserContainers() async {
+  //   DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+  //   var data = snapshot.data();
+  //   if (data.containsKey('containers')) {
+  //     final addressList = List<String>.from(data['containers']);
+  //     List<customContainer.Container> containerList = [];
+  //     for(int i=0;i<addressList.length;i++){
+  //       DocumentSnapshot containerSnapshot = await containerCollection.doc(addressList[i]).get();
+  //       containerList.add(containerSnapshot.data)
+  //     }
+  //   } else {
+  //     throw NullThrownError();
+  //   }
+  // }
+
   Future<bool> getFull(String address) async {
     DocumentSnapshot snapshot = await containerCollection.doc(address).get();
     var data = snapshot.data();
@@ -159,9 +174,44 @@ class FirebaseService {
         .map(_containerListFromSnapshot);
   }
 
+  //gets current list of containers
+  Future<List<customContainer.Container>?> getContainerList() async {
+    final containerList = await getAddresses();
+    return containerCollection
+        .where('mac', whereIn: containerList)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        customContainer.Container container;
+        container = customContainer.Container();
+        return container.copyWith(
+            name: doc.data()['name'] ?? '',
+            size: doc.data()['size'] ?? 'Small',
+            value: doc.data()['value'] ?? 0,
+            uid: doc.id,
+            barcode: doc.data()['barcode'] ?? '',
+            full: doc.data()['full'] ?? true);
+      }).toList();
+    });
+  }
+
   //Container list from snapshot
   List<customContainer.Container> _containerListFromSnapshot(
       QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      customContainer.Container container;
+      container = customContainer.Container();
+      return container.copyWith(
+          name: doc.data()['name'] ?? '',
+          size: doc.data()['size'] ?? 'Small',
+          value: doc.data()['value'] ?? 0,
+          uid: doc.id,
+          barcode: doc.data()['barcode'] ?? '',
+          full: doc.data()['full'] ?? true);
+    }).toList();
+  }
+
+  List<customContainer.Container> _mapContainers(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       customContainer.Container container;
       container = customContainer.Container();
