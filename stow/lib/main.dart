@@ -46,60 +46,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class AuthenticationWrapper extends StatelessWidget {
-//   const AuthenticationWrapper({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final userAuth = Provider.of<AuthenticationService>(context);
-//     return StreamBuilder<StowUser?>(
-//       stream: userAuth.user,
-//       builder: (_, AsyncSnapshot<StowUser?> snapshot) {
-//         if (snapshot.connectionState == ConnectionState.active) {
-//           final StowUser? user = snapshot.data;
-//           return user == null
-//               ? MaterialApp(
-//                   debugShowCheckedModeBanner: false,
-//                   title: 'Stow',
-//                   theme: ThemeData(
-//                     primarySwatch: Colors.green,
-//                   ),
-//                   initialRoute: '/',
-//                   onGenerateRoute: RouteGenerator.generateRoute,
-//                   home: const Scaffold(
-//                     body: Center(
-//                       child: LoginPage(title: 'Stow'),
-//                     ),
-//                   ),
-//                 )
-//               : MultiProvider(
-//                   providers: [
-//                     Provider(create: (_) => StowUser(user.uid, user.email)),
-//                     Provider(create: (_) => FirebaseService(user.uid)),
-//                   ],
-//                   child: BlocProv(key: key),
-//                 );
-//         } else {
-//           return MaterialApp(
-//             debugShowCheckedModeBanner: false,
-//             title: 'Stow',
-//             theme: ThemeData(
-//               primarySwatch: Colors.green,
-//             ),
-//             initialRoute: '/',
-//             onGenerateRoute: RouteGenerator.generateRoute,
-//             home: const Scaffold(
-//               body: Center(
-//                 child: CircularProgressIndicator(),
-//               ),
-//             ),
-//           );
-//         }
-//       },
-//     );
-//   }
-// }
-
 class AuthenticationWrapper extends StatelessWidget {
   const AuthenticationWrapper({Key? key}) : super(key: key);
 

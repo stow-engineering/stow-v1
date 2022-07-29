@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:stow/barcode_scanner.dart';
 import 'package:stow/container_widgets/edit_container.dart';
 import 'package:stow/models/add_container_argument.dart';
 import 'package:stow/models/container.dart' as customContainer;
@@ -38,15 +39,7 @@ class RouteGenerator {
         }
         return errorRoute();
       case '/barcode':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => BarcodePage(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
-      //return MaterialPageRoute(builder: (_) => BarcodeScanner());
+        return MaterialPageRoute(builder: (_) => BarcodeScanner());
       case '/pantry':
         return MaterialPageRoute(
           builder: (_) => const Pantry(),
@@ -68,18 +61,6 @@ class RouteGenerator {
               //user: args,
               ),
         );
-      //}
-      //return errorRoute();
-      // case '/recipes':
-      //   if (args is RecipeArguments) {
-      //     return MaterialPageRoute(
-      //       builder: (_) => RecipesPage(
-      //         user: args.user,
-      //         containerData: args.containerData,
-      //       ),
-      //     );
-      //   }
-      //return errorRoute();
       case '/add_container':
         if (args is AddContainerArg) {
           return MaterialPageRoute(
