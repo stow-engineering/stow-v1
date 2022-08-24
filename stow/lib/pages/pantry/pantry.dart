@@ -5,6 +5,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stow/bloc/food_bloc.dart';
+import 'package:stow/container_widgets/food_item_list.dart';
+import 'package:stow/expandable_fab/action_button.dart';
+import 'package:stow/expandable_fab/expandable_fab.dart';
 import 'package:stow/utils/authentication.dart';
 
 import '../../bloc/auth_bloc.dart';
@@ -41,16 +45,40 @@ class _PantryState extends State<Pantry> {
         bloc: stateBloc,
         builder: (context, state) {
           return Scaffold(
-            floatingActionButton: FloatingActionButton(
-                onPressed: () {
+            // floatingActionButton: FloatingActionButton(
+            //     onPressed: () {
+            //       Navigator.of(context)
+            //           .pushNamed(
+            //             '/provision',
+            //             arguments: authBloc.state.user,
+            //           )
+            //           .then((_) => setState(() {}));
+            //     },
+            //     child: const Icon(Icons.add)),
+            floatingActionButton:
+                ExpandableFab(initialOpen: false, distance: 80.0, children: [
+              ActionButton(
+                onPressed: () => {
                   Navigator.of(context)
                       .pushNamed(
                         '/provision',
                         arguments: authBloc.state.user,
                       )
-                      .then((_) => setState(() {}));
+                      .then((_) => setState(() {}))
                 },
-                child: const Icon(Icons.add)),
+                icon: const Icon(Icons.delete_outlined),
+              ),
+              ActionButton(
+                onPressed: () => {
+                  Navigator.of(context)
+                      .pushNamed(
+                        '/add_food_item',
+                      )
+                      .then((_) => setState(() {}))
+                },
+                icon: const Icon(Icons.breakfast_dining_outlined),
+              ),
+            ]),
             appBar: AppBar(),
             body: ListView(
               children: <Widget>[
@@ -96,48 +124,50 @@ class _PantryState extends State<Pantry> {
                     ),
                   ),
                 ),
-                const Center(
-                  child: Text(
-                    "Your Pantry",
-                    style: TextStyle(color: Colors.black, fontSize: 35),
-                  ),
+                ContainerListWrapper(),
+                SizedBox(
+                  height: 25,
                 ),
-                ContainerList(),
+                FoodItemListWrapper(),
               ],
             ),
           );
-
-          // } else {
-          //   return Scaffold(
-          //     floatingActionButton: FloatingActionButton(
-          //         onPressed: () {
-          //           // Navigator.of(context).pushNamed(
-          //           //   '/add_container',
-          //           //   arguments: widget.user,
-          //           // );
-          //           Navigator.of(context).pushNamed(
-          //             '/provision',
-          //             arguments: user,
-          //           );
-          //         },
-          //         child: const Icon(Icons.add)),
-          //     appBar: AppBar(),
-          //     body: const Center(
-          //       child: Padding(
-          //         padding:
-          //             EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 15),
-          //         child: Text(
-          //           'Add Containers to View Pantry!',
-          //           style: TextStyle(color: Colors.black, fontSize: 35),
-          //         ),
-          //       ),
-          //     ),
-          //   );
-          // }
-
-          //} else {
-          //  return const CircularProgressIndicator();
-          //}
         });
+  }
+
+  Widget ContainerListWrapper() {
+    final containerBloc = BlocProvider.of<ContainersBloc>(context);
+    if (containerBloc.state.numContainers > 0) {
+      return Column(
+        children: const <Widget>[
+          Center(
+            child: Text(
+              "Containers",
+              style: TextStyle(color: Colors.black, fontSize: 35),
+            ),
+          ),
+          ContainerList()
+        ],
+      );
+    }
+    return SizedBox.shrink();
+  }
+
+  Widget FoodItemListWrapper() {
+    final foodItemBloc = BlocProvider.of<FoodItemsBloc>(context);
+    if (foodItemBloc.state.numItems > 0) {
+      return Column(
+        children: const <Widget>[
+          Center(
+            child: Text(
+              "Food Items",
+              style: TextStyle(color: Colors.black, fontSize: 35),
+            ),
+          ),
+          FoodItemList()
+        ],
+      );
+    }
+    return SizedBox.shrink();
   }
 }

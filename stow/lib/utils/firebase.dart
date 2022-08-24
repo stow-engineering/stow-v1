@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:stow/bloc/food_events.dart';
+import 'package:stow/models/food_item.dart';
 
 import '../models/container.dart' as customContainer;
 
@@ -13,6 +15,8 @@ class FirebaseService {
       FirebaseFirestore.instance.collection('Containers');
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('User');
+  final CollectionReference foodItemCollection =
+      FirebaseFirestore.instance.collection('FoodItems');
 
   //Creates new user in database
   Future updateUserData(String email, String firstName, String lastName) async {
@@ -99,20 +103,17 @@ class FirebaseService {
     }
   }
 
-  // Future<List<customContainer.Container>> getUserContainers() async {
-  //   DocumentSnapshot snapshot = await userCollection.doc(uid).get();
-  //   var data = snapshot.data();
-  //   if (data.containsKey('containers')) {
-  //     final addressList = List<String>.from(data['containers']);
-  //     List<customContainer.Container> containerList = [];
-  //     for(int i=0;i<addressList.length;i++){
-  //       DocumentSnapshot containerSnapshot = await containerCollection.doc(addressList[i]).get();
-  //       containerList.add(containerSnapshot.data)
-  //     }
-  //   } else {
-  //     throw NullThrownError();
-  //   }
-  // }
+  Future<List<String>> getFoodAddresses() async {
+    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+    var data = snapshot.data();
+    if (data.containsKey('FoodItems')) {
+      final myList = List<String>.from(data['FoodItems']);
+      return myList;
+    } else {
+      List<String> empty = [];
+      return empty;
+    }
+  }
 
   Future<bool> getFull(String address) async {
     DocumentSnapshot snapshot = await containerCollection.doc(address).get();
@@ -146,24 +147,6 @@ class FirebaseService {
       throw NullThrownError;
     }
   }
-
-  // Future<List<customContainer.Container>> getContainers() async {
-  //   DocumentSnapshot snapshot = await userCollection.doc(uid).get();
-  //   var data = snapshot.data();
-  //   List<customContainer.Container> resultList = [];
-  //   if (data.containsKey('containers')) {
-  //     final containerList = List<String>.from(data['containers']);
-  //     for (int i = 0; i < containerList.length; i++) {
-  //       DocumentSnapshot containerSnapshot =
-  //           await containerCollection.doc(containerList[i]).get();
-  //       var containerData = containerSnapshot.data();
-  //       resultList.add()
-  //     }
-  //   } else {
-  //     List<customContainer.Container> empty = [];
-  //     return empty;
-  //   }
-  // }
 
   //Watches for changes in the container collection
   Future<Stream<List<customContainer.Container>>> get containers async {
@@ -223,5 +206,68 @@ class FirebaseService {
           barcode: doc.data()['barcode'] ?? '',
           full: doc.data()['full'] ?? true);
     }).toList();
+  }
+
+  //gets current list of containers
+  Future<List<FoodItem>?> getFoodItemList() async {
+    final foodList = await getFoodAddresses();
+    return foodItemCollection
+        .where('uid', whereIn: foodList)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        FoodItem foodItem = FoodItem();
+        return foodItem.copyWith(
+            name: doc.data()['name'] ?? '',
+            value: doc.data()['value'] ?? 0,
+            uid: doc.id,
+            barcode: doc.data()['barcode'] ?? '');
+      }).toList();
+    });
+  }
+
+  Future updateFoodItemData(String name) async {
+    final result = await foodItemCollection
+        .add({'barcode': null, 'value': 0, 'name': name, 'uid': ""});
+    foodItemCollection.doc(result.id).update({'uid': result.id});
+    return result;
+  }
+
+  Future updateExistingFoodItem(FoodItem foodItem) async {
+    return await foodItemCollection.doc(foodItem.uid).set({
+      'barcode': foodItem.barcode,
+      'value': foodItem.value,
+      'name': foodItem.name,
+      'uid': foodItem.uid
+    });
+  }
+
+  Future updateFoodItems(mac) async {
+    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+    var data = snapshot.data();
+    if (data.containsKey('FoodItems')) {
+      final myList = List<String>.from(data['FoodItems']);
+      if (!myList.contains(mac)) {
+        myList.add(mac);
+      }
+      return await userCollection.doc(uid).update({'FoodItems': myList});
+    }
+
+    return await userCollection.doc(uid).update({
+      'FoodItems': [mac],
+    });
+  }
+
+  Future deleteFoodItems(String mac) async {
+    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+    var data = snapshot.data();
+    if (data.containsKey('FoodItems')) {
+      final myList = List<String>.from(data['FoodItems']);
+      myList.remove(mac);
+      await foodItemCollection.doc(mac).delete();
+      return await userCollection.doc(uid).update({'FoodItems': myList});
+    }
+
+    return false;
   }
 }

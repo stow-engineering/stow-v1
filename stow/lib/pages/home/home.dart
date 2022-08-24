@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/containers_events.dart';
+import 'package:stow/bloc/food_bloc.dart';
+import 'package:stow/bloc/food_events.dart';
 import 'package:stow/pages/recipes/recipes_overview.dart';
 import 'package:stow/bloc/containers_state.dart';
 
@@ -36,6 +38,7 @@ class Home extends StatelessWidget {
     final FirebaseService service = Provider.of<FirebaseService>(context);
     final stateBloc = BlocProvider.of<ContainersBloc>(context);
     context.read<ContainersBloc>().add(LoadContainers());
+    context.read<FoodItemsBloc>().add(LoadFoodItems());
     final userBloc = BlocProvider.of<AuthBloc>(context);
     bool loadedContainerData = false;
     final GlobalKey<ScaffoldState> _key = GlobalKey();
@@ -208,20 +211,6 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      // body: ContainerList(),
-
-      // body: FutureBuilder<Stream<List<customContainer.Container>>>(
-      //   future: FirebaseService(user.uid).containers,
-      //   builder: (BuildContext context,
-      //       AsyncSnapshot<Stream<List<customContainer.Container>>>
-      //           snapshotCont) {
-      //     snapshotCont.data?.listen((data) {
-      //       //print(data.forEach((element) {print(element['name']);}));
-      //       for (var item in data) {
-      //         //print(item.name);
-      //         containerData.add(item);
-      //       }
-      //     });
       body: ListView(
         children: <Widget>[
           Container(
@@ -309,24 +298,6 @@ class Home extends StatelessWidget {
                               return ContainerChart(
                                   data: NumFull.getSeries(state.containers));
                             }),
-                        // child: StreamBuilder(
-                        //   stream: containersStateBloc.containerStream,
-                        //   builder: (_,
-                        //       AsyncSnapshot<ContainersState> snapshot) {
-                        //     if (snapshot.hasData) {
-                        //       return ContainerChart(
-                        //           data: NumFull.createContainerSeries(
-                        //               snapshot.data!.containers));
-                        //     } else {
-                        //       return const SizedBox(
-                        //         width: 60,
-                        //         height: 60,
-                        //         child: Center(
-                        //             child: CircularProgressIndicator()),
-                        //       );
-                        //     }
-                        //   },
-                        // ),
                       ),
                     ),
                   ],
@@ -334,7 +305,6 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
-          //RecipesOverview(user: widget.user, containerData: containerData)
         ],
       ),
     );

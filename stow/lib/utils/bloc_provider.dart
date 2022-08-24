@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/containers_bloc.dart';
+import 'package:stow/bloc/expandable_fab_bloc.dart';
+import 'package:stow/bloc/food_bloc.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/pages/home/home.dart';
 import 'package:stow/route_generator.dart';
@@ -19,7 +21,9 @@ class BlocProv extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ContainersBloc>(
-            create: (_) => ContainersBloc(service: service))
+            create: (_) => ContainersBloc(service: service)),
+        BlocProvider<FoodItemsBloc>(
+            create: (_) => FoodItemsBloc(service: service)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
