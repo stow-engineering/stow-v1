@@ -138,15 +138,16 @@ class _PantryState extends State<Pantry> {
   Widget ContainerListWrapper() {
     final containerBloc = BlocProvider.of<ContainersBloc>(context);
     if (containerBloc.state.numContainers > 0) {
-      return Column(
-        children: const <Widget>[
-          Center(
-            child: Text(
-              "Containers",
-              style: TextStyle(color: Colors.black, fontSize: 35),
-            ),
+      return ExpansionTile(
+        initiallyExpanded: true,
+        title: Text(
+          "Containers",
+          style: TextStyle(color: Colors.black, fontSize: 35),
+        ),
+        children: <Widget>[
+          Column(
+            children: const <Widget>[ContainerList()],
           ),
-          ContainerList()
         ],
       );
     }
@@ -156,15 +157,16 @@ class _PantryState extends State<Pantry> {
   Widget FoodItemListWrapper() {
     final foodItemBloc = BlocProvider.of<FoodItemsBloc>(context);
     if (foodItemBloc.state.numItems > 0) {
-      return Column(
-        children: const <Widget>[
-          Center(
-            child: Text(
-              "Food Items",
-              style: TextStyle(color: Colors.black, fontSize: 35),
-            ),
+      return ExpansionTile(
+        initiallyExpanded: true,
+        title: Text(
+          "Food Items",
+          style: TextStyle(color: Colors.black, fontSize: 35),
+        ),
+        children: <Widget>[
+          Column(
+            children: const <Widget>[FoodItemList()],
           ),
-          FoodItemList()
         ],
       );
     }
