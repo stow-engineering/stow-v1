@@ -46,7 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final CollectionReference userCollection =
           FirebaseFirestore.instance.collection('User');
       DocumentSnapshot snapshot = await userCollection.doc(newUser!.uid).get();
-      var data = snapshot.data();
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       String firstname = "";
       String lastname = "";
       if (data.containsKey('first_name')) {

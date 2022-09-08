@@ -93,7 +93,7 @@ class _AddContainerState extends State<AddContainer> {
                         final size = selectedValue;
                         final name = nameController.text;
                         service.updateContainerData(
-                            name, size!, widget.arg.mac);
+                            name, size!, widget.arg.mac, null, null);
                         service.updateContainers(widget.arg.mac);
                         setState(() async {
                           List<BluetoothDevice> devices =

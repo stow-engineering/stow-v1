@@ -125,9 +125,6 @@ class _PantryState extends State<Pantry> {
                   ),
                 ),
                 ContainerListWrapper(),
-                SizedBox(
-                  height: 25,
-                ),
                 FoodItemListWrapper(),
               ],
             ),

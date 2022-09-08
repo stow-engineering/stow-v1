@@ -37,13 +37,13 @@ class FirebaseService {
   }
 
   Future updateContainers(String mac) async {
-    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
+        .doc(uid)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
     var data = snapshot.data();
-    if (data.containsKey('containers')) {
-      final myList = List<String>.from(data['containers']);
-      if (!myList.contains(mac)) {
-        myList.add(mac);
-      }
+    final myList = List<String>.from(data!['containers']);
+    if (!myList.contains(mac)) {
+      myList.add(mac);
       return await userCollection.doc(uid).update({'containers': myList});
     }
 
@@ -52,12 +52,13 @@ class FirebaseService {
     });
   }
 
-  Future updateContainerData(String name, String size, String mac) async {
+  Future updateContainerData(
+      String name, String size, String mac, int? value, bool? full) async {
     return await containerCollection.doc(mac).set({
       'barcode': null,
-      'full': false,
+      'full': full ?? false,
       'mac': mac,
-      'value': 0,
+      'value': value ?? 0,
       'name': name,
       'size': size
     });
@@ -78,8 +79,10 @@ class FirebaseService {
   }
 
   Future deleteContainer(String mac) async {
-    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
-    var data = snapshot.data();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
+        .doc(uid)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('containers')) {
       final myList = List<String>.from(data['containers']);
       myList.remove(mac);
@@ -92,8 +95,10 @@ class FirebaseService {
   }
 
   Future<List<String>> getAddresses() async {
-    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
-    var data = snapshot.data();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
+        .doc(uid)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('containers')) {
       final myList = List<String>.from(data['containers']);
       return myList;
@@ -104,8 +109,10 @@ class FirebaseService {
   }
 
   Future<List<String>> getFoodAddresses() async {
-    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
-    var data = snapshot.data();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
+        .doc(uid)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('FoodItems')) {
       final myList = List<String>.from(data['FoodItems']);
       return myList;
@@ -116,8 +123,10 @@ class FirebaseService {
   }
 
   Future<bool> getFull(String address) async {
-    DocumentSnapshot snapshot = await containerCollection.doc(address).get();
-    var data = snapshot.data();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await containerCollection
+        .doc(address)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('full')) {
       bool full = data['full'];
       return full;
@@ -127,8 +136,10 @@ class FirebaseService {
   }
 
   Future<int> getVal(String address) async {
-    DocumentSnapshot snapshot = await containerCollection.doc(address).get();
-    var data = snapshot.data();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await containerCollection
+        .doc(address)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('value')) {
       int val = data['value'];
       return val;
@@ -138,8 +149,10 @@ class FirebaseService {
   }
 
   Future<String> getSize(String address) async {
-    DocumentSnapshot snapshot = await containerCollection.doc(address).get();
-    var data = snapshot.data();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await containerCollection
+        .doc(address)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('value')) {
       String size = data['size'];
       return size;
@@ -168,12 +181,12 @@ class FirebaseService {
         customContainer.Container container;
         container = customContainer.Container();
         return container.copyWith(
-            name: doc.data()['name'] ?? '',
-            size: doc.data()['size'] ?? 'Small',
-            value: doc.data()['value'] ?? 0,
+            name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
+            size: (doc.data() as Map<String, dynamic>)['size'] ?? 'Small',
+            value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
             uid: doc.id,
-            barcode: doc.data()['barcode'] ?? '',
-            full: doc.data()['full'] ?? true);
+            barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '',
+            full: (doc.data() as Map<String, dynamic>)['full'] ?? true);
       }).toList();
     });
   }
@@ -185,12 +198,12 @@ class FirebaseService {
       customContainer.Container container;
       container = customContainer.Container();
       return container.copyWith(
-          name: doc.data()['name'] ?? '',
-          size: doc.data()['size'] ?? 'Small',
-          value: doc.data()['value'] ?? 0,
+          name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
+          size: (doc.data() as Map<String, dynamic>)['size'] ?? 'Small',
+          value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
           uid: doc.id,
-          barcode: doc.data()['barcode'] ?? '',
-          full: doc.data()['full'] ?? true);
+          barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '',
+          full: (doc.data() as Map<String, dynamic>)['full'] ?? true);
     }).toList();
   }
 
@@ -199,12 +212,12 @@ class FirebaseService {
       customContainer.Container container;
       container = customContainer.Container();
       return container.copyWith(
-          name: doc.data()['name'] ?? '',
-          size: doc.data()['size'] ?? 'Small',
-          value: doc.data()['value'] ?? 0,
+          name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
+          size: (doc.data() as Map<String, dynamic>)['size'] ?? 'Small',
+          value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
           uid: doc.id,
-          barcode: doc.data()['barcode'] ?? '',
-          full: doc.data()['full'] ?? true);
+          barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '',
+          full: (doc.data() as Map<String, dynamic>)['full'] ?? true);
     }).toList();
   }
 
@@ -218,10 +231,10 @@ class FirebaseService {
       return querySnapshot.docs.map((doc) {
         FoodItem foodItem = FoodItem();
         return foodItem.copyWith(
-            name: doc.data()['name'] ?? '',
-            value: doc.data()['value'] ?? 0,
+            name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
+            value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
             uid: doc.id,
-            barcode: doc.data()['barcode'] ?? '');
+            barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '');
       }).toList();
     });
   }
@@ -243,8 +256,10 @@ class FirebaseService {
   }
 
   Future updateFoodItems(mac) async {
-    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
-    var data = snapshot.data();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
+        .doc(uid)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('FoodItems')) {
       final myList = List<String>.from(data['FoodItems']);
       if (!myList.contains(mac)) {
@@ -259,8 +274,10 @@ class FirebaseService {
   }
 
   Future deleteFoodItems(String mac) async {
-    DocumentSnapshot snapshot = await userCollection.doc(uid).get();
-    var data = snapshot.data();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
+        .doc(uid)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('FoodItems')) {
       final myList = List<String>.from(data['FoodItems']);
       myList.remove(mac);

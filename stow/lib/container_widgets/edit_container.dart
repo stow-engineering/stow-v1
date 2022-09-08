@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth_bloc.dart';
 import 'package:stow/bloc/auth_state.dart';
 import 'package:stow/bloc/containers_bloc.dart';
+import 'package:stow/bloc/containers_events.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/models/container.dart' as customContainer;
 import '../../utils/firebase.dart';
@@ -83,7 +84,7 @@ class _EditContainerState extends State<EditContainer> {
               padding: const EdgeInsets.only(
                   left: 30.0, right: 30.0, top: 25.0, bottom: 0),
               child: Center(
-                  child: Text('Edit your ' + widget.container.name,
+                  child: Text('Edit ' + widget.container.name,
                       style: const TextStyle(
                           color: Colors.black,
                           fontSize: 35,
@@ -117,12 +118,31 @@ class _EditContainerState extends State<EditContainer> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return TextFormField(
-                              controller: nameController,
-                              decoration: InputDecoration(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                                labelText: 'Name',
                                 hintText: widget.container.name == null
                                     ? 'New Container Name'
                                     : widget.container.name,
-                              ));
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color:
+                                          Color.fromARGB(255, 211, 220, 230)),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color: Color.fromARGB(255, 0, 176, 80)),
+                                  borderRadius: BorderRadius.circular(15),
+                                )),
+
+                            //   hintText: widget.container.name == null
+                            //       ? 'New Container Name'
+                            //       : widget.container.name,
+                            // )
+                          );
                         } else if (snapshot.hasError) {
                           return TextFormField(
                               decoration: InputDecoration(
@@ -149,52 +169,42 @@ class _EditContainerState extends State<EditContainer> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 75),
                   Container(
-                    height: 50,
-                    width: 250,
+                    height: 40,
+                    width: 372,
                     decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
                       onPressed: () {
                         var size = selectedValue;
                         final name = nameController.text;
                         size ??= widget.container.size;
-                        service.updateContainerData(
-                            name, size, stateBloc.state.user!.uid);
-                        // setState(() async {
-                        //   List<BluetoothDevice> devices =
-                        //       await FlutterBluePlus.instance.connectedDevices;
-                        //   BluetoothDevice dev = devices.firstWhere((d) =>
-                        //       d.id.toString() == widget.arg.container.uid);
-                        //   List<BluetoothService> services =
-                        //       await dev.discoverServices();
-                        //   BluetoothService serv = services.firstWhere((s) =>
-                        //       s.uuid.toString() ==
-                        //       "2d8bdb4c-8be8-4980-a066-4f531f08c626");
-                        //   BluetoothCharacteristic char = serv.characteristics
-                        //       .firstWhere((c) =>
-                        //           c.uuid.toString() ==
-                        //           "a0edbb2a-405d-4331-8540-7afaf0e934b9");
-                        //   await char.write("registered".codeUnits,
-                        //       withoutResponse: true);
-                        // });
+                        // service.updateContainerData(
+                        //     name, size, stateBloc.state.user!.uid);
+                        context.read<ContainersBloc>().add(UpdateContainer(
+                            this.widget.container.uid,
+                            name,
+                            size,
+                            this.widget.container.value,
+                            this.widget.container.full));
                       },
                       child: const Text(
                         'Update',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 30.0, right: 30.0, top: 23, bottom: 10),
+                        left: 0, right: 0, top: 10, bottom: 10),
                     child: Container(
-                        height: 50,
-                        width: 250,
+                        height: 40,
+                        width: 372,
                         decoration: BoxDecoration(
                             color: Colors.red,
-                            borderRadius: BorderRadius.circular(20)),
+                            borderRadius: BorderRadius.circular(10)),
                         child: TextButton(
                           onPressed: () {
                             _showMyDialog(
@@ -205,19 +215,19 @@ class _EditContainerState extends State<EditContainer> {
                           },
                           child: const Text(
                             'Delete',
-                            style: TextStyle(color: Colors.white, fontSize: 25),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         )),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 30.0, right: 30.0, top: 10, bottom: 25.0),
+                        left: 0, right: 0, top: 0, bottom: 25.0),
                     child: Container(
-                        height: 50,
-                        width: 250,
+                        height: 40,
+                        width: 372,
                         decoration: BoxDecoration(
                             color: Colors.blue,
-                            borderRadius: BorderRadius.circular(20)),
+                            borderRadius: BorderRadius.circular(10)),
                         child: TextButton(
                           onPressed: () async {
                             String scanResult;

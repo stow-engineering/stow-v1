@@ -97,18 +97,37 @@ class _EditFoodItemState extends State<EditFoodItem> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 30.0, right: 30.0, top: 25.0, bottom: 0),
+                        left: 30.0, right: 30.0, top: 25.0, bottom: 25.0),
                     child: FutureBuilder<Barcode>(
                       future: futureBarcode,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return TextFormField(
-                              controller: nameController,
-                              decoration: InputDecoration(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                                labelText: 'Name',
                                 hintText: widget.foodItem.name == null
                                     ? 'New FoodItem Name'
                                     : widget.foodItem.name,
-                              ));
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color:
+                                          Color.fromARGB(255, 211, 220, 230)),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color: Color.fromARGB(255, 0, 176, 80)),
+                                  borderRadius: BorderRadius.circular(15),
+                                )),
+                            // decoration: InputDecoration(
+                            //   hintText: widget.foodItem.name == null
+                            //       ? 'New FoodItem Name'
+                            //       : widget.foodItem.name,
+                            // )
+                          );
                         } else if (snapshot.hasError) {
                           return TextFormField(
                               decoration: InputDecoration(
@@ -118,12 +137,13 @@ class _EditFoodItemState extends State<EditFoodItem> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 75),
                   Container(
-                    height: 50,
-                    width: 250,
+                    height: 40,
+                    width: 372,
                     decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
                       onPressed: () {
                         final name = nameController.text;
@@ -138,19 +158,19 @@ class _EditFoodItemState extends State<EditFoodItem> {
                       },
                       child: const Text(
                         'Update',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 30.0, right: 30.0, top: 23, bottom: 10),
+                        left: 0, right: 0, top: 10, bottom: 0),
                     child: Container(
-                        height: 50,
-                        width: 250,
+                        height: 40,
+                        width: 372,
                         decoration: BoxDecoration(
                             color: Colors.red,
-                            borderRadius: BorderRadius.circular(20)),
+                            borderRadius: BorderRadius.circular(10)),
                         child: TextButton(
                           onPressed: () {
                             _showMyDialog(
@@ -162,19 +182,19 @@ class _EditFoodItemState extends State<EditFoodItem> {
                           },
                           child: const Text(
                             'Delete',
-                            style: TextStyle(color: Colors.white, fontSize: 25),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         )),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 30.0, right: 30.0, top: 10, bottom: 25.0),
+                        left: 0, right: 0, top: 10, bottom: 10.0),
                     child: Container(
-                        height: 50,
-                        width: 250,
+                        height: 40,
+                        width: 372,
                         decoration: BoxDecoration(
                             color: Colors.blue,
-                            borderRadius: BorderRadius.circular(20)),
+                            borderRadius: BorderRadius.circular(10)),
                         child: TextButton(
                           onPressed: () async {
                             String scanResult;

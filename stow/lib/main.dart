@@ -7,6 +7,7 @@ import 'package:stow/bloc/auth_bloc.dart';
 import 'package:stow/bloc/auth_state.dart';
 import 'package:stow/utils/bloc_provider.dart';
 import 'package:stow/utils/firebase.dart';
+import 'package:stow/utils/firebase_storage.dart';
 
 import 'models/user.dart';
 import 'pages/home/home.dart';
@@ -74,6 +75,9 @@ class AuthenticationWrapper extends StatelessWidget {
             : MultiProvider(
                 providers: [
                   Provider(create: (_) => FirebaseService(user.uid)),
+                  Provider(
+                    create: (_) => Storage(),
+                  )
                 ],
                 child: BlocProv(key: key),
               );

@@ -44,8 +44,8 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
     try {
       List<customContainer.Container> newContainerList = state.containers;
       newContainerList.add(event.container);
-      service.updateContainerData(
-          event.container.name, event.container.size, event.container.uid);
+      service.updateContainerData(event.container.name, event.container.size,
+          event.container.uid, null, null);
       service.updateContainers(event.container.uid);
       emit(
         state.copyWith(
@@ -89,7 +89,8 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
           newContainerList[i].size = event.size;
         }
       }
-      service.updateContainerData(event.name, event.size, event.mac);
+      service.updateContainerData(
+          event.name, event.size, event.mac, event.value, event.full);
       service.updateContainers(event.mac);
       emit(
         state.copyWith(

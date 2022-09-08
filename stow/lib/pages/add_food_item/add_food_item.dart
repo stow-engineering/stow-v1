@@ -8,6 +8,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth_bloc.dart';
 import 'package:stow/bloc/food_bloc.dart';
+import 'package:stow/fooditem_widgets/horizontal_fooditem_list.dart';
 import 'package:stow/models/food_item.dart';
 import 'package:stow/bloc/food_events.dart';
 import '../../container_widgets/container_chart.dart';
@@ -36,15 +37,70 @@ class _AddFoodItemState extends State<AddFoodItemPage> {
       body: ListView(
         children: <Widget>[
           const Padding(
-            padding: EdgeInsets.only(
-                left: 30.0, right: 30.0, top: 25.0, bottom: 25.0),
-            child: Center(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
               child: Text(
-                "Add a Food Item",
-                style: TextStyle(color: Colors.black, fontSize: 35),
-              ),
-            ),
-          ),
+                "Fruits and Vegetables",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(category: FoodItemCategory.FruitsAndVegtables),
+          const Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "Meat and Seafood",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(category: FoodItemCategory.MeatAndSeafood),
+          const Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "Dairy",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(category: FoodItemCategory.Dairy),
+          const Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "Baked Goods",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(category: FoodItemCategory.BakedGoods),
+          const Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "Dry Goods",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(category: FoodItemCategory.DryGoods),
+          const Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "Baking",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(category: FoodItemCategory.Baking),
+          const Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "Pasta",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(category: FoodItemCategory.PastaAndSauces),
+          const Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "Spices and Condiments",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(
+              category: FoodItemCategory.SpicesAndCondiments),
+          const Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                "Snacks",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          HorizontalFoodItemList(category: FoodItemCategory.Snacks),
+          const SizedBox(height: 20),
           Center(
             child: Form(
               key: _formKey,
@@ -66,12 +122,13 @@ class _AddFoodItemState extends State<AddFoodItemPage> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 25),
                   Container(
-                    height: 50,
-                    width: 250,
+                    height: 40,
+                    width: 372,
                     decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
                       onPressed: () {
                         final name = nameController.text;
@@ -84,8 +141,8 @@ class _AddFoodItemState extends State<AddFoodItemPage> {
                         // service.updateContainers(food_uid.toString());
                       },
                       child: const Text(
-                        'Create Food Item!',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
+                        'Create Custom Food Item!',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
                   ),
@@ -93,6 +150,7 @@ class _AddFoodItemState extends State<AddFoodItemPage> {
               ),
             ),
           ),
+          HorizontalFoodItemList(category: FoodItemCategory.FruitsAndVegtables),
         ],
       ),
     );
