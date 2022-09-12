@@ -209,11 +209,6 @@ class CreateAccount extends StatelessWidget {
                               password: passwordController.text,
                               firstname: firstController.text,
                               lastname: lastController.text));
-                          // authService.createUserWithEmailPassword(
-                          //     emailController.text,
-                          //     passwordController.text,
-                          //     firstController.text,
-                          //     lastController.text);
                         } else {
                           String errorMessage = "";
                           if (!requiredLength) {

@@ -132,11 +132,21 @@ class _AddFoodItemState extends State<AddFoodItemPage> {
                     child: TextButton(
                       onPressed: () {
                         final name = nameController.text;
-                        final food_item =
-                            FoodItem(name: name, value: 0, barcode: "");
-                        context
-                            .read<FoodItemsBloc>()
-                            .add(AddFoodItem(food_item));
+                        DateTime today = DateTime.now();
+                        showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: today,
+                                lastDate: DateTime(
+                                    today.year + 2, today.month, today.day))
+                            .then((date) => {
+                                  context.read<FoodItemsBloc>().add(AddFoodItem(
+                                      FoodItem(
+                                          name: name,
+                                          value: 0,
+                                          barcode: "",
+                                          expDate: date)))
+                                });
                         // var food_uid = service.updateFoodItemData(name);
                         // service.updateContainers(food_uid.toString());
                       },
@@ -150,7 +160,6 @@ class _AddFoodItemState extends State<AddFoodItemPage> {
               ),
             ),
           ),
-          HorizontalFoodItemList(category: FoodItemCategory.FruitsAndVegtables),
         ],
       ),
     );

@@ -230,18 +230,27 @@ class FirebaseService {
         .then((QuerySnapshot querySnapshot) {
       return querySnapshot.docs.map((doc) {
         FoodItem foodItem = FoodItem();
+        Timestamp time =
+            (doc.data() as Map<String, dynamic>)['expDate'] as Timestamp;
+        DateTime date = time.toDate();
         return foodItem.copyWith(
             name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
             value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
             uid: doc.id,
+            expDate: date,
             barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '');
       }).toList();
     });
   }
 
-  Future updateFoodItemData(String name) async {
-    final result = await foodItemCollection
-        .add({'barcode': null, 'value': 0, 'name': name, 'uid': ""});
+  Future updateFoodItemData(String name, DateTime? expDate) async {
+    final result = await foodItemCollection.add({
+      'barcode': null,
+      'value': 0,
+      'name': name,
+      'uid': "",
+      'expDate': expDate
+    });
     foodItemCollection.doc(result.id).update({'uid': result.id});
     return result;
   }
@@ -251,7 +260,8 @@ class FirebaseService {
       'barcode': foodItem.barcode,
       'value': foodItem.value,
       'name': foodItem.name,
-      'uid': foodItem.uid
+      'uid': foodItem.uid,
+      'expDate': foodItem.expDate,
     });
   }
 

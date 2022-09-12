@@ -215,11 +215,21 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
                       icon: Icon(Icons.add),
                       onPressed: () {
                         final name = foodItem;
-                        final food_item =
-                            FoodItem(name: foodItem, value: 0, barcode: "");
-                        context
-                            .read<FoodItemsBloc>()
-                            .add(AddFoodItem(food_item));
+                        DateTime today = DateTime.now();
+                        showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: today,
+                                lastDate: DateTime(
+                                    today.year + 2, today.month, today.day))
+                            .then((date) => {
+                                  context.read<FoodItemsBloc>().add(AddFoodItem(
+                                      FoodItem(
+                                          name: foodItem,
+                                          value: 0,
+                                          barcode: "",
+                                          expDate: date)))
+                                });
                       },
                     ),
                     title: Text(foodItem,

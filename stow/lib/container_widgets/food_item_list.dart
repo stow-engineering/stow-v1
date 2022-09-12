@@ -85,6 +85,29 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final storage = Provider.of<Storage>(context);
     var image = storage.getFoodItemImage(foodItem.name);
+    String date;
+    if (foodItem.expDate == null) {
+      date = "";
+    } else {
+      final months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ];
+      var year = foodItem.expDate?.year.toString();
+      var month = months[foodItem.expDate!.month];
+      var day = foodItem.expDate?.month.toString();
+      date = "$month $day, $year";
+    }
     return Padding(
         padding: EdgeInsets.only(right: 8.0),
         child: Card(
@@ -121,20 +144,21 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
                   width: 250,
                   height: 50,
                   child: ListTile(
-                    trailing: IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          '/edit_food_item',
-                          arguments: foodItem,
-                        );
-                      },
-                    ),
-                    title: Text(foodItem.name.toString(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight
-                                .bold)), //Text(foodItem.value.toString())),
-                  ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            '/edit_food_item',
+                            arguments: foodItem,
+                          );
+                        },
+                      ),
+                      title: Text(foodItem.name.toString(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight
+                                  .bold)), //Text(foodItem.value.toString())),
+                      subtitle: Text(date,
+                          style: TextStyle(fontWeight: FontWeight.bold))),
                 )
               ],
             )));

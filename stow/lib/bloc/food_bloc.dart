@@ -43,14 +43,15 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
     emit(state.copyWith(status: FoodItemsStatus.loading));
     try {
       List<FoodItem> newFoodItemsList = state.foodItems;
-      DocumentReference food_uid =
-          await service.updateFoodItemData(event.foodItem.name);
+      DocumentReference food_uid = await service.updateFoodItemData(
+          event.foodItem.name, event.foodItem.expDate);
       service.updateFoodItems(food_uid.id);
       FoodItem newFoodItem = FoodItem(
           uid: food_uid.id,
           barcode: event.foodItem.barcode,
           name: event.foodItem.name,
-          value: event.foodItem.value);
+          value: event.foodItem.value,
+          expDate: event.foodItem.expDate);
       newFoodItemsList.add(newFoodItem);
       emit(
         state.copyWith(
@@ -91,6 +92,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
       for (int i = 0; i < newFoodItemsList.length; i++) {
         if (newFoodItemsList[i].uid == event.foodItem.uid) {
           newFoodItemsList[i].name = event.foodItem.name;
+          newFoodItemsList[i].expDate = event.foodItem.expDate;
         }
       }
       var food_id = service.updateExistingFoodItem(event.foodItem);
