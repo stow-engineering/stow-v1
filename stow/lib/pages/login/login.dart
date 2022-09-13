@@ -131,9 +131,27 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+                    Container(
+                      height: 40,
+                      width: 372,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: TextButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(LoginEvent(
+                              email: emailController.text,
+                              password: passwordController.text));
+                        },
+                        child: const Text(
+                          'Sign In with Google',
+                          style: TextStyle(color: Colors.green, fontSize: 20),
+                        ),
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
-                        //TODO FORGOT PASSWORD SCREEN GOES HERE
+                        Navigator.of(context).pushNamed('/reset_password');
                       },
                       child: const Text(
                         'Forgot Password',

@@ -51,3 +51,9 @@ class LogoutEvent extends AuthEvent {
   @override
   String toString() => 'Logout Event';
 }
+
+class ResetPasswordEvent extends AuthEvent {
+  ResetPasswordEvent({required this.email});
+
+  String email;
+}

@@ -22,6 +22,7 @@ import 'package:stow/pages/recipes/recipes.dart';
 import 'package:stow/pages/register/register.dart';
 import 'package:stow/bloc/containers_state.dart';
 import 'package:stow/pages/add_food_item/add_food_item.dart';
+import 'package:stow/pages/reset_password/reset_password.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -40,6 +41,10 @@ class RouteGenerator {
           );
         }
         return errorRoute();
+      case '/reset_password':
+        return MaterialPageRoute(
+          builder: (_) => const ResetPassword(title: 'Reset Password'),
+        );
       case '/barcode':
         return MaterialPageRoute(builder: (_) => BarcodeScanner());
       case '/pantry':

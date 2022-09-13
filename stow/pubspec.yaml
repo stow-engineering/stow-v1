@@ -48,6 +48,7 @@ dependencies:
   http:
   #google_fonts: ^1.1.2
   google_fonts: ^3.0.1
+  google_sign_in: ^5.4.1
   bloc: ^8.0.1
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
