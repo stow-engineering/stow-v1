@@ -22,18 +22,22 @@ class Storage {
   }
 
   Future<String>? getFoodItemImage(String name) async {
-    firebase_storage.ListResult result =
-        await storage.ref('FoodItemImages').listAll();
-    for (int i = 0; i < result.items.length; i++) {
-      var imageName = result.items[i].name.toString().split(".")[0];
-      imageName = imageName.toLowerCase();
-      name = name.toLowerCase();
-      if (imageName == name) {
-        return await result.items[i].getDownloadURL();
+    try {
+      firebase_storage.ListResult result =
+          await storage.ref('FoodItemImages').listAll();
+      for (int i = 0; i < result.items.length; i++) {
+        var imageName = result.items[i].name.toString().split(".")[0];
+        imageName = imageName.toLowerCase();
+        name = name.toLowerCase();
+        if (imageName == name) {
+          return await result.items[i].getDownloadURL();
+        }
       }
+      firebase_storage.Reference stockImage =
+          await storage.ref().child('FoodItemImages/stock_food.png');
+      return stockImage.getDownloadURL();
+    } catch (e) {
+      return "HTTP_ERROR";
     }
-    firebase_storage.Reference stockImage =
-        await storage.ref().child('FoodItemImages/stock_food.png');
-    return stockImage.getDownloadURL();
   }
 }
