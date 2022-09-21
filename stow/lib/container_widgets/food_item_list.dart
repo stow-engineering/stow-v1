@@ -122,6 +122,12 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data != null) {
+                        if (snapshot.data == "HTTP_ERROR") {
+                          return const SizedBox(
+                            height: 175,
+                            child: CircularProgressIndicator.adaptive(),
+                          );
+                        }
                         return Container(
                           width: 250,
                           height: 175,
@@ -130,12 +136,14 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
                         );
                       } else {
                         return const SizedBox(
-                          child: CircularProgressIndicator(),
+                          height: 175,
+                          child: CircularProgressIndicator.adaptive(),
                         );
                       }
                     } else {
                       return const SizedBox(
-                        child: CircularProgressIndicator(),
+                        height: 175,
+                        child: CircularProgressIndicator.adaptive(),
                       );
                     }
                   },
