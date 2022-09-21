@@ -112,11 +112,11 @@ class HorizontalContainerDisplay extends StatelessWidget {
                     ),
                     leading: CircularProgressIndicator(
                       value: container.size == 'Small'
-                          ? ((165 - container.value) / 165)
-                          : ((273 - container.value) / 273),
+                          ? 1 - ((165 - container.value) / 165)
+                          : 1 - ((273 - container.value) / 273),
                       color: getColor(container.size == 'Small'
-                          ? ((165 - container.value) / 165)
-                          : ((273 - container.value) / 273)),
+                          ? 1 - ((165 - container.value) / 165)
+                          : 1 - ((273 - container.value) / 273)),
                       backgroundColor: Colors.grey[350],
                       strokeWidth: 8.0,
                     ),
@@ -145,6 +145,7 @@ class HorizontalContainerDisplay extends StatelessWidget {
   String calculateVolume(bool small, customContainer.Container container) {
     if (small) {
       double valueFull = ((165 - container.value) / 165) * 100;
+      valueFull = 100 - valueFull;
       int value = valueFull.round();
       if (value >= 0 && value <= 100) {
         return value.toString() + "% [" + container.size + "]";
