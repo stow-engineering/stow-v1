@@ -112,11 +112,11 @@ class HorizontalContainerDisplay extends StatelessWidget {
                     ),
                     leading: CircularProgressIndicator(
                       value: container.size == 'Small'
-                          ? 1 - ((165 - container.value) / 165)
-                          : 1 - ((273 - container.value) / 273),
+                          ? ((165 - container.value) / 165)
+                          : ((273 - container.value) / 273),
                       color: getColor(container.size == 'Small'
-                          ? 1 - ((165 - container.value) / 165)
-                          : 1 - ((273 - container.value) / 273)),
+                          ? ((165 - container.value) / 165)
+                          : ((273 - container.value) / 273)),
                       backgroundColor: Colors.grey[350],
                       strokeWidth: 8.0,
                     ),
@@ -134,11 +134,11 @@ class HorizontalContainerDisplay extends StatelessWidget {
 
   MaterialColor getColor(double value) {
     if (value > 0.50) {
-      return Colors.green;
+      return Colors.red;
     } else if (value <= 0.50 && value >= 0.25) {
       return Colors.yellow;
     } else {
-      return Colors.red;
+      return Colors.green;
     }
   }
 
