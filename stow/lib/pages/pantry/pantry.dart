@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stow/bloc/containers_events.dart';
 import 'package:stow/bloc/food_bloc.dart';
 import 'package:stow/container_widgets/food_item_list.dart';
 import 'package:stow/expandable_fab/action_button.dart';
@@ -34,6 +35,37 @@ class _PantryState extends State<Pantry> {
   @override
   void initState() {
     super.initState();
+    getIncomingContainers();
+  }
+
+  List<customContainer.Container>? incomingContainers;
+
+  void getIncomingContainers() async {
+    final stateBloc = BlocProvider.of<ContainersBloc>(context);
+    var containerStream = await context.read<FirebaseService>().containers;
+    containerStream.listen((event) {
+      incomingContainers = event;
+      if (incomingContainers != null) {
+        List<customContainer.Container> currentContainers =
+            stateBloc.state.containers;
+        currentContainers.sort();
+        incomingContainers!.sort();
+        bool updatedContainers = false;
+        if (incomingContainers!.length != currentContainers.length) {
+          updatedContainers = true;
+        } else {
+          for (int i = 0; i < incomingContainers!.length; i++) {
+            if (incomingContainers![i].value != currentContainers[i].value) {
+              updatedContainers = true;
+              break;
+            }
+          }
+        }
+        if (updatedContainers) {
+          stateBloc.add(LoadContainers());
+        }
+      }
+    });
   }
 
   @override
@@ -41,6 +73,7 @@ class _PantryState extends State<Pantry> {
     final stateBloc = BlocProvider.of<ContainersBloc>(context);
     final authBloc = BlocProvider.of<AuthBloc>(context);
     FirebaseService service = Provider.of<FirebaseService>(context);
+
     return BlocBuilder<ContainersBloc, ContainersState>(
         bloc: stateBloc,
         builder: (context, state) {
