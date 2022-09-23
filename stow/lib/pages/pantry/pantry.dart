@@ -78,16 +78,6 @@ class _PantryState extends State<Pantry> {
         bloc: stateBloc,
         builder: (context, state) {
           return Scaffold(
-            // floatingActionButton: FloatingActionButton(
-            //     onPressed: () {
-            //       Navigator.of(context)
-            //           .pushNamed(
-            //             '/provision',
-            //             arguments: authBloc.state.user,
-            //           )
-            //           .then((_) => setState(() {}));
-            //     },
-            //     child: const Icon(Icons.add)),
             floatingActionButton:
                 ExpandableFab(initialOpen: false, distance: 80.0, children: [
               ActionButton(
@@ -168,17 +158,21 @@ class _PantryState extends State<Pantry> {
   Widget ContainerListWrapper() {
     final containerBloc = BlocProvider.of<ContainersBloc>(context);
     if (containerBloc.state.numContainers > 0) {
-      return ExpansionTile(
-        initiallyExpanded: true,
-        title: Text(
-          "Containers",
-          style: TextStyle(color: Colors.black, fontSize: 35),
-        ),
-        children: <Widget>[
-          Column(
-            children: const <Widget>[ContainerList()],
+      return Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          initiallyExpanded: true,
+          title: const Text(
+            "Containers",
+            style: TextStyle(
+                color: Colors.black, fontSize: 35, fontWeight: FontWeight.bold),
           ),
-        ],
+          children: <Widget>[
+            Column(
+              children: const <Widget>[ContainerList()],
+            ),
+          ],
+        ),
       );
     }
     return SizedBox.shrink();
@@ -187,17 +181,21 @@ class _PantryState extends State<Pantry> {
   Widget FoodItemListWrapper() {
     final foodItemBloc = BlocProvider.of<FoodItemsBloc>(context);
     if (foodItemBloc.state.numItems > 0) {
-      return ExpansionTile(
-        initiallyExpanded: true,
-        title: Text(
-          "Food Items",
-          style: TextStyle(color: Colors.black, fontSize: 35),
-        ),
-        children: <Widget>[
-          Column(
-            children: const <Widget>[FoodItemList()],
+      return Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          initiallyExpanded: true,
+          title: const Text(
+            "Food Items",
+            style: TextStyle(
+                color: Colors.black, fontSize: 35, fontWeight: FontWeight.bold),
           ),
-        ],
+          children: <Widget>[
+            Column(
+              children: const <Widget>[FoodItemList()],
+            ),
+          ],
+        ),
       );
     }
     return SizedBox.shrink();

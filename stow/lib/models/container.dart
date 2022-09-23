@@ -1,4 +1,4 @@
-class Container {
+class Container extends Comparable {
   int value;
   final String uid;
   final String barcode;
@@ -33,5 +33,17 @@ class Container {
       name: name ?? this.name,
       size: size ?? this.size,
     );
+  }
+
+  @override
+  int compareTo(other) {
+    if (other is! Container) {
+      throw Exception("Not a container");
+    }
+    if (other.value > value) {
+      return -1;
+    } else {
+      return 1;
+    }
   }
 }
