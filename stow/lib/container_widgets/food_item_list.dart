@@ -32,8 +32,6 @@ class _FoodItemListState extends State<FoodItemList> {
                     height: 245,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      //shrinkWrap: true,
-                      //physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.foodItems.length,
                       itemBuilder: (context, index) {
                         return HorizontalFoodItemDisplay(
