@@ -81,13 +81,24 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
 
   final FoodItem foodItem;
 
+  MaterialColor getDaysLeftColor(int daysLeft) {
+    if (daysLeft <= 3) {
+      return Colors.red;
+    } else if (daysLeft <= 6) {
+      return Colors.yellow;
+    } else {
+      return Colors.green;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final storage = Provider.of<Storage>(context);
     var image = storage.getFoodItemImage(foodItem.name);
-    String date;
+    String daysLeftString;
+    int daysLeft = 0;
     if (foodItem.expDate == null) {
-      date = "";
+      daysLeftString = "";
     } else {
       final months = [
         'January',
@@ -103,10 +114,17 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
         'November',
         'December'
       ];
-      var year = foodItem.expDate?.year.toString();
-      var month = months[foodItem.expDate!.month];
-      var day = foodItem.expDate?.month.toString();
-      date = "$month $day, $year";
+      // var year = foodItem.expDate?.year.toString();
+      // var month = months[foodItem.expDate!.month];
+      // var day = foodItem.expDate?.month.toString();
+      // date = "$month $day, $year";
+      DateTime today = DateTime.now();
+      daysLeft = foodItem.expDate!.difference(today).inDays;
+      if (daysLeft < 1) {
+        daysLeftString = "";
+      } else {
+        daysLeftString = daysLeft.toString();
+      }
     }
     return Padding(
         padding: EdgeInsets.only(right: 8.0),
@@ -165,8 +183,23 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight
                                   .bold)), //Text(foodItem.value.toString())),
-                      subtitle: Text(date,
-                          style: TextStyle(fontWeight: FontWeight.bold))),
+                      subtitle: daysLeftString == ""
+                          ? const Text("EXPIRED",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold))
+                          : Row(
+                              children: <Widget>[
+                                Text(daysLeftString,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: getDaysLeftColor(daysLeft))),
+                                const Text(" days until expired",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    )),
+                              ],
+                            )),
                 )
               ],
             )));
