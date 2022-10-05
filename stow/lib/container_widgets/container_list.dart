@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stow/bloc/containers/containers_bloc.dart';
 import 'package:stow/models/food_item.dart';
 import 'package:stow/utils/firebase_storage.dart';
 
-import '../bloc/containers_bloc.dart';
+import '../bloc/containers/containers_bloc.dart';
 import '../models/container.dart' as customContainer;
-import '../bloc/containers_state.dart';
+import '../bloc/containers/containers_state.dart';
 
 class ContainerList extends StatefulWidget {
   const ContainerList({Key? key}) : super(key: key);

@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:stow/bloc/containers_events.dart';
-import 'package:stow/bloc/containers_state.dart';
 import 'package:stow/utils/firebase.dart';
-import '../models/container.dart' as customContainer;
-import '../models/user.dart';
+import 'package:stow/models/container.dart' as customContainer;
+import 'containers_events.dart';
+import 'containers_state.dart';
 
 class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
   ContainersBloc({
