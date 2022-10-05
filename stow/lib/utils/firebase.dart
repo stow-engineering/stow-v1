@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:stow/bloc/food_events.dart';
+import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/models/food_item.dart';
 
 import '../models/container.dart' as customContainer;
@@ -17,6 +17,8 @@ class FirebaseService {
       FirebaseFirestore.instance.collection('User');
   final CollectionReference foodItemCollection =
       FirebaseFirestore.instance.collection('FoodItems');
+  final CollectionReference groceryListCollection =
+      FirebaseFirestore.instance.collection("GroceryLists");
 
   //Creates new user in database
   Future updateUserData(String email, String firstName, String lastName) async {
@@ -296,5 +298,18 @@ class FirebaseService {
     }
 
     return false;
+  }
+
+  Future<List<List<FoodItem>>> getGroceryList(String uid) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await groceryListCollection.doc(uid).get()
+            as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    if (data.containsKey('GroceryLists')) {
+      final groceryLists = List<List<FoodItem>>.from(data['GroceryLists']);
+      return groceryLists;
+    } else {
+      return [];
+    }
   }
 }
