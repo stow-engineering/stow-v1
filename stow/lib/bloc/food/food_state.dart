@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:stow/utils/firebase.dart';
-import '../models/food_item.dart';
-import '../models/user.dart';
+import 'package:stow/models/food_item.dart';
 import 'package:equatable/equatable.dart';
 
 enum FoodItemsStatus { initial, success, error, loading }

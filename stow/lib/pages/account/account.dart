@@ -5,16 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/auth_bloc.dart';
-import 'package:stow/bloc/auth_events.dart';
-
-import '../../container_widgets/container_chart.dart';
-import '../../container_widgets/container_list.dart';
-import '../../models/user.dart';
-import '../../utils/authentication.dart';
-import '../../utils/firebase.dart';
-import '../login/login.dart';
-import '../home/get_name.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
+import 'package:stow/models/user.dart';
+import 'package:stow/pages/home/get_name.dart';
+import 'package:stow/utils/firebase.dart';
 
 class AccountPage extends StatefulWidget {
   final StowUser user;
@@ -142,7 +137,6 @@ class _AccountPageState extends State<AccountPage> {
                   onPressed: () {
                     authService.add(LogoutEvent());
                   },
-                  // style: const ButtonStyle(side: BorderSide(color: Colors.red, width: 2),)
                   child: const Text(
                     "Sign Out",
                     style: TextStyle(color: Colors.red),

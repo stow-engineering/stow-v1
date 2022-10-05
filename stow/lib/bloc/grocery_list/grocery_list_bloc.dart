@@ -1,11 +1,9 @@
-import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:stow/bloc/food_events.dart';
-import 'package:stow/bloc/food_state.dart';
+import 'package:stow/bloc/food/food_events.dart';
+import 'package:stow/bloc/food/food_state.dart';
 import 'package:stow/utils/firebase.dart';
-import '../models/food_item.dart';
+import '../../models/food_item.dart';
 
 class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
   FoodItemsBloc({
@@ -96,7 +94,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
         }
       }
       var food_id = service.updateExistingFoodItem(event.foodItem);
-      //service.updateFoodItems(food_id.toString());
+      service.updateFoodItems(food_id.toString());
       emit(
         state.copyWith(
             status: FoodItemsStatus.success,

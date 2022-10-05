@@ -1,17 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/containers_bloc.dart';
+import 'package:stow/bloc/containers/containers_bloc.dart';
+import 'package:stow/bloc/food/food_bloc.dart';
 import 'package:stow/bloc/recipes_bloc.dart';
-import 'package:stow/bloc/expandable_fab_bloc.dart';
-import 'package:stow/bloc/food_bloc.dart';
-import 'package:stow/models/user.dart';
 import 'package:stow/pages/home/home.dart';
 import 'package:stow/route_generator.dart';
-import 'package:stow/bloc/containers_state.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-//import 'package:bloc/bloc.dart';
 
 class BlocProv extends StatelessWidget {
   const BlocProv({Key? key}) : super(key: key);
@@ -25,8 +21,7 @@ class BlocProv extends StatelessWidget {
             create: (_) => ContainersBloc(service: service)),
         BlocProvider<FoodItemsBloc>(
             create: (_) => FoodItemsBloc(service: service)),
-        BlocProvider<RecipesBloc>(
-            create: (_) => RecipesBloc(service: service)),
+        BlocProvider<RecipesBloc>(create: (_) => RecipesBloc(service: service)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

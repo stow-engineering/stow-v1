@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:stow/bloc/food_events.dart';
+import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/models/food_item.dart';
 import 'package:stow/models/recipe.dart';
 
@@ -20,8 +20,10 @@ class FirebaseService {
       FirebaseFirestore.instance.collection('User');
   final CollectionReference foodItemCollection =
       FirebaseFirestore.instance.collection('FoodItems');
-  final CollectionReference recipeCollection = 
+  final CollectionReference recipeCollection =
       FirebaseFirestore.instance.collection('Recipes');
+  final CollectionReference groceryListCollection =
+      FirebaseFirestore.instance.collection("GroceryLists");
 
   //Creates new user in database
   Future updateUserData(String email, String firstName, String lastName) async {
@@ -99,7 +101,6 @@ class FirebaseService {
     });
   }
 
-
   Future deleteRecipe(String recipeId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
@@ -119,10 +120,15 @@ class FirebaseService {
   }
 
   Future updateRecipeData(
-      String recipeId, String name, List<String> instructions, String userId,
-        List<String> ingredients, int cookTimeMin, int prepTimeMin) async {
+      String recipeId,
+      String name,
+      List<String> instructions,
+      String userId,
+      List<String> ingredients,
+      int cookTimeMin,
+      int prepTimeMin) async {
     //If update recipe is called without an ID probably should just throw error
-    if (recipeId == ""){
+    if (recipeId == "") {
       return await recipeCollection.doc(uid).set({
         'recipeId': uid,
         'name': name,
@@ -132,8 +138,7 @@ class FirebaseService {
         'cookTimeMin': cookTimeMin,
         'prepTimeMin': prepTimeMin
       });
-    }
-    else{
+    } else {
       return await recipeCollection.doc(recipeId).set({
         'recipeId': recipeId,
         'name': name,
@@ -153,7 +158,7 @@ class FirebaseService {
 
     var data = snapshot.data();
     List<String> myList;
-    if(data!.containsKey('recipes')){
+    if (data!.containsKey('recipes')) {
       myList = List<String>.from(data['recipes']);
     } else {
       myList = <String>[];
@@ -168,7 +173,6 @@ class FirebaseService {
       'recipes': [argId],
     });
   }
-
 
   Future<List<String>> getAddresses() async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
@@ -293,7 +297,7 @@ class FirebaseService {
         .get()
         .then(_recipeListFromSnapshot);
 
-        //.map(_recipeListFromSnapshot);
+    //.map(_recipeListFromSnapshot);
     //     .get()
     //     .then((QuerySnapshot querySnapshot) {
     //   return querySnapshot.docs.map((doc) {
@@ -312,12 +316,11 @@ class FirebaseService {
   }
 
   //Recipe list from snapshot
-  List<Recipe> _recipeListFromSnapshot(
-      QuerySnapshot snapshot) {
+  List<Recipe> _recipeListFromSnapshot(QuerySnapshot snapshot) {
     List<Recipe> recipes = [];
     dynamic docs = snapshot.docs;
     //try {
-    for(int i = 0; i < docs.length; i++){
+    for (int i = 0; i < docs.length; i++) {
       dynamic doc = docs[i];
       Recipe recipe = Recipe();
       dynamic temp;
@@ -327,7 +330,7 @@ class FirebaseService {
 
       temp = (doc.data() as Map<String, dynamic>)['instructions'] ?? [];
       List<String> instructions = [];
-      for(int j = 0; j < temp.length; j++){
+      for (int j = 0; j < temp.length; j++) {
         instructions.add(temp[j]);
       }
 
@@ -336,18 +339,20 @@ class FirebaseService {
 
       temp = (doc.data() as Map<String, dynamic>)['ingredients'] ?? [];
       List<String> ingredients = [];
-      for(int j = 0; j < temp.length; j++){
+      for (int j = 0; j < temp.length; j++) {
         ingredients.add(temp[j]);
       }
 
       recipe.ingredients = ingredients;
-      recipe.cookTimeMin = (doc.data() as Map<String, dynamic>)['cookTimeMin'] ?? 0;
-      recipe.prepTimeMin = (doc.data() as Map<String, dynamic>)['prepTimeMin'] ?? 0;
+      recipe.cookTimeMin =
+          (doc.data() as Map<String, dynamic>)['cookTimeMin'] ?? 0;
+      recipe.prepTimeMin =
+          (doc.data() as Map<String, dynamic>)['prepTimeMin'] ?? 0;
 
       recipes.add(recipe);
+    }
+    return recipes;
   }
-  return recipes;
-}
 
   //Container list from snapshot
   List<customContainer.Container> _containerListFromSnapshot(
@@ -455,5 +460,18 @@ class FirebaseService {
     }
 
     return false;
+  }
+
+  Future<List<List<FoodItem>>> getGroceryList(String uid) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await groceryListCollection.doc(uid).get()
+            as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    if (data.containsKey('GroceryLists')) {
+      final groceryLists = List<List<FoodItem>>.from(data['GroceryLists']);
+      return groceryLists;
+    } else {
+      return [];
+    }
   }
 }

@@ -1,14 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:stow/bloc/auth_events.dart';
-import 'package:stow/bloc/auth_state.dart';
-import 'package:stow/bloc/containers_events.dart';
-import 'package:stow/bloc/containers_state.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
+import 'package:stow/bloc/auth/auth_state.dart';
+import 'package:stow/models/user.dart';
 import 'package:stow/utils/authentication.dart';
-import 'package:stow/utils/firebase.dart';
-import '../models/container.dart' as customContainer;
-import '../models/user.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
@@ -113,13 +109,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
-  
+
   void _mapResetPasswordEventToState(
-    ResetPasswordEvent event, Emitter <AuthState> emit
-  ) async {
+      ResetPasswordEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
-     await authService.resetPassword(event.props[0] as String);
+      await authService.resetPassword(event.props[0] as String);
     } catch (error, stacktrace) {
       print(stacktrace);
       emit(state.copyWith(status: AuthStatus.error));

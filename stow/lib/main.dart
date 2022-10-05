@@ -1,18 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/auth_bloc.dart';
-import 'package:stow/bloc/auth_state.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_state.dart';
 import 'package:stow/utils/bloc_provider.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/utils/firebase_storage.dart';
-
 import 'models/user.dart';
-import 'pages/home/home.dart';
 import 'pages/login/login.dart';
-import 'pages/login/initial_login.dart';
 import 'utils/authentication.dart';
 import 'route_generator.dart';
 

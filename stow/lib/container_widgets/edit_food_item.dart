@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/auth_bloc.dart';
-import 'package:stow/bloc/auth_state.dart';
-import 'package:stow/bloc/containers_bloc.dart';
-import 'package:stow/bloc/food_bloc.dart';
-import 'package:stow/bloc/food_events.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/food/food_bloc.dart';
+import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/models/food_item.dart';
 import 'package:stow/models/user.dart';
 import '../../utils/firebase.dart';

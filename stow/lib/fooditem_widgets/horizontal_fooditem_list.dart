@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/food_bloc.dart';
-import 'package:stow/bloc/food_events.dart';
+import 'package:stow/bloc/food/food_bloc.dart';
+import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/models/food_item.dart';
-
-import '../container_widgets/food_item_list.dart';
-import '../utils/firebase_storage.dart';
+import 'package:stow/utils/firebase_storage.dart';
 
 enum FoodItemCategory {
   FruitsAndVegtables,

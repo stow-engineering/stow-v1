@@ -1,29 +1,20 @@
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/containers_events.dart';
-import 'package:stow/bloc/food_bloc.dart';
-import 'package:stow/bloc/food_state.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/containers/containers_bloc.dart';
+import 'package:stow/bloc/containers/containers_events.dart';
+import 'package:stow/bloc/containers/containers_state.dart';
+import 'package:stow/bloc/food/food_bloc.dart';
+import 'package:stow/bloc/food/food_state.dart';
 import 'package:stow/container_widgets/food_item_list.dart';
 import 'package:stow/expandable_fab/action_button.dart';
 import 'package:stow/expandable_fab/expandable_fab.dart';
-import 'package:stow/utils/authentication.dart';
-
-import '../../bloc/auth_bloc.dart';
-import '../../bloc/containers_bloc.dart';
 import '../../container_widgets/container_chart.dart';
 import '../../container_widgets/container_list.dart';
-import '../../container_widgets/user_containers.dart';
 import '../../models/container.dart' as customContainer;
-import '../../models/container_series.dart';
-import '../../models/user.dart';
-import '../../bloc/containers_state.dart';
 import '../../utils/firebase.dart';
-import '../login/login.dart';
 
 class Pantry extends StatefulWidget {
   const Pantry({Key? key}) : super(key: key);
