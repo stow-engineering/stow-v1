@@ -91,7 +91,6 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
       }
       service.updateContainerData(
           event.name, event.size, event.mac, event.value, event.full);
-      service.updateContainers(event.mac);
       emit(
         state.copyWith(
             status: ContainersStatus.success,
