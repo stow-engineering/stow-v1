@@ -44,10 +44,10 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
     emit(state.copyWith(status: RecipesStatus.loading));
     try {
       List<Recipe> newRecipeList = state.recipes;
+      service.updateRecipeData(event.recipe.recipeId, event.recipe.name, event.recipe.instructions,
+        event.recipe.userId, event.recipe.ingredients, event.recipe.cookTimeMin, event.recipe.prepTimeMin);
       newRecipeList.add(event.recipe);
-      service.updateRecipeData(event.recipe.name, event.recipe.instructions,
-          event.recipe.uid);
-      service.updateRecipes(event.recipe.uid);
+      service.updateRecipes(event.recipe.recipeId);
       emit(
         state.copyWith(
             status: RecipesStatus.success,
@@ -66,7 +66,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
     try {
       List<Recipe> newRecipeList = state.recipes;
       newRecipeList.remove(event.recipe);
-      service.deleteRecipe(event.recipe.uid);
+      service.deleteRecipe(event.recipe.recipeId);
       emit(
         state.copyWith(
             status: RecipesStatus.success,
@@ -90,9 +90,9 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
           newRecipeList[i].instructions = event.instructions;
         //}
       }
-      service.updateRecipeData(
-          event.name, event.instructions, event.uid);
-      service.updateRecipes(event.uid);
+      service.updateRecipeData(event.recipeId, event.name, event.instructions,
+        event.userId, event.ingredients, event.cookTimeMin, event.prepTimeMin);
+      service.updateRecipes(event.recipeId);
       emit(
         state.copyWith(
             status: RecipesStatus.success,

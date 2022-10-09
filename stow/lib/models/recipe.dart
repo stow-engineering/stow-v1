@@ -19,29 +19,43 @@
 //   }
 // }
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Recipe {
-final String uid;
+String recipeId;
 String name;
-String instructions;
-final String user;
+List<String> instructions;
+String userId;
+List<String> ingredients;
+int cookTimeMin;
+int prepTimeMin;
 
   Recipe({
-    this.uid = '',
+    this.recipeId = '',
     this.name = '',
-    this.instructions = '',
-    this.user = ''
+    this.instructions = const <String>[],
+    this.userId = '',
+    this.ingredients = const <String>[],
+    this.cookTimeMin = 0,
+    this.prepTimeMin = 0,
   }); 
 
   Recipe copyWith({
-      String? uid,
+      String? recipeId,
       String? name,
-      String? instructions,
-      String? user}) {
+      List<String>? instructions,
+      String? userId,
+      List<String>? ingredients,
+      int? cookTimeMin,
+      int? prepTimeMin}) {
     return Recipe(
-      uid: uid ?? this.uid,
+      recipeId: recipeId ?? this.recipeId,
       name: name ?? this.name,
       instructions: instructions ?? this.instructions,
-      user: user ?? this.user,
+      userId: userId ?? this.userId,
+      ingredients: ingredients ?? this.ingredients,
+      cookTimeMin: cookTimeMin ?? this.cookTimeMin,
+      prepTimeMin: prepTimeMin ?? this.cookTimeMin
     );
   }
 }

@@ -26,13 +26,17 @@ class AddRecipe extends RecipesEvent {
 }
 
 class UpdateRecipe extends RecipesEvent {
-  final String uid;
+  final String recipeId;
   final String name;
-  final String instructions;
-  //final String user;
+  final List<String> instructions;
+  final String userId;
+  final List<String> ingredients;
+  final int cookTimeMin;
+  final int prepTimeMin;
 
-  UpdateRecipe(this.name, this.instructions, this.uid)
-      : super([name, instructions, uid]);
+  UpdateRecipe(this.recipeId, this.name, this.instructions, this.userId, this.ingredients, 
+    this.cookTimeMin, this.prepTimeMin)
+      : super([recipeId, name, instructions, userId, ingredients, cookTimeMin, prepTimeMin]);
 
   @override
   String toString() =>

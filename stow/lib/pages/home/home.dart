@@ -42,6 +42,7 @@ class Home extends StatelessWidget {
     final stateBloc = BlocProvider.of<ContainersBloc>(context);
     final recipeBloc = BlocProvider.of<RecipesBloc>(context);
     context.read<ContainersBloc>().add(LoadContainers());
+    context.read<RecipesBloc>().add(LoadRecipes());
     context.read<FoodItemsBloc>().add(LoadFoodItems());
     //context.read<RecipesBloc>().add(LoadRecipes());
     final userBloc = BlocProvider.of<AuthBloc>(context);

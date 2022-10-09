@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,7 @@ class FirebaseService {
   final CollectionReference foodItemCollection =
       FirebaseFirestore.instance.collection('FoodItems');
   final CollectionReference recipeCollection = 
-      FirebaseFirestore.instance.collection('Recipe');
+      FirebaseFirestore.instance.collection('Recipes');
 
   //Creates new user in database
   Future updateUserData(String email, String firstName, String lastName) async {
@@ -98,45 +100,65 @@ class FirebaseService {
   }
 
 
-  Future deleteRecipe(String argUid) async {
+  Future deleteRecipe(String recipeId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     if (data.containsKey('recipes')) {
       final myList = List<String>.from(data['recipes']);
-      myList.remove(argUid);
+      myList.remove(recipeId);
+      recipeCollection.doc(recipeId).delete();
       return await userCollection.doc(uid).update({'recipes': myList});
     }
 
+    recipeCollection.doc(recipeId).delete();
     return await userCollection.doc(uid).update({
-      'recipes': [argUid],
+      'recipes': [recipeId],
     });
   }
 
   Future updateRecipeData(
-      String name, String instructions, String uid) async {
-    return await recipeCollection.doc(uid).set({
-      'uid': uid,
-      'instructions': instructions,
-      'name': name
-    });
+      String recipeId, String name, List<String> instructions, String userId,
+        List<String> ingredients, int cookTimeMin, int prepTimeMin) async {
+    //If update recipe is called without an ID probably should just throw error
+    if (recipeId == ""){
+      return await recipeCollection.doc(uid).set({
+        'recipeId': uid,
+        'name': name,
+        'instructions': instructions,
+        'userId': userId,
+        'ingredients': ingredients,
+        'cookTimeMin': cookTimeMin,
+        'prepTimeMin': prepTimeMin
+      });
+    }
+    else{
+      return await recipeCollection.doc(recipeId).set({
+        'recipeId': recipeId,
+        'name': name,
+        'instructions': instructions,
+        'userId': userId,
+        'ingredients': ingredients,
+        'cookTimeMin': cookTimeMin,
+        'prepTimeMin': prepTimeMin
+      });
+    }
   }
 
-
-  Future updateRecipes(String argUid) async {
+  Future updateRecipes(String argId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
     var data = snapshot.data();
     final myList = List<String>.from(data!['recipes']);
-    if (!myList.contains(argUid)) {
-      myList.add(argUid);
+    if (!myList.contains(argId)) {
+      myList.add(argId);
       return await userCollection.doc(uid).update({'recipes': myList});
     }
 
     return await userCollection.doc(uid).update({
-      'recipes': [argUid],
+      'recipes': [argId],
     });
   }
 
@@ -254,20 +276,66 @@ class FirebaseService {
   //gets current list of recpies
   Future<List<Recipe>?> getRecipeList() async {
     final recipeList = await getRecipeAddresses();
-    return containerCollection
-        .where('uid', whereIn: recipeList)
+    return recipeCollection
+        .where('recipeId', whereIn: recipeList)
         .get()
-        .then((QuerySnapshot querySnapshot) {
-      return querySnapshot.docs.map((doc) {
-        Recipe recipe;
-        recipe = Recipe();
-        return recipe.copyWith(
-            uid: doc.id,
-            name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
-            instructions: (doc.data() as Map<String, dynamic>)['instructions'] ?? '');
-      }).toList();
-    });
+        .then(_recipeListFromSnapshot);
+
+        //.map(_recipeListFromSnapshot);
+    //     .get()
+    //     .then((QuerySnapshot querySnapshot) {
+    //   return querySnapshot.docs.map((doc) {
+    //     Recipe recipe;
+    //     recipe = Recipe();
+    //     return recipe.copyWith(
+    //         id: (doc.data() as Map<String, dynamic>)['id'] ?? '',
+    //         name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
+    //         //instructions: (doc.data() as Map<String, dynamic>)['instructions'] ?? List<String>,
+    //         userId: (doc.data() as Map<String, dynamic>)['userId'] ?? '',
+    //         //ingredients: (doc.data() as Map<String, dynamic>)['ingredients'] ?? '',
+    //         cookTimeMin: (doc.data() as Map<String, dynamic>)['cookTimeMin'] ?? 0,
+    //         prepTimeMin: (doc.data() as Map<String, dynamic>)['prepTimeMin'] ?? 0);
+    //   }).toList();
+    // });
   }
+
+  //Recipe list from snapshot
+  List<Recipe> _recipeListFromSnapshot(
+      QuerySnapshot snapshot) {
+    List<Recipe> recipes = [];
+    dynamic docs = snapshot.docs;
+    //try {
+    for(int i = 0; i < docs.length; i++){
+      dynamic doc = docs[i];
+      Recipe recipe = Recipe();
+      dynamic temp;
+
+      recipe.recipeId = (doc.data() as Map<String, dynamic>)['recipeId'] ?? '';
+      recipe.name = (doc.data() as Map<String, dynamic>)['name'] ?? '';
+
+      temp = (doc.data() as Map<String, dynamic>)['instructions'] ?? [];
+      List<String> instructions = [];
+      for(int j = 0; j < temp.length; j++){
+        instructions.add(temp[j]);
+      }
+
+      recipe.instructions = instructions;
+      recipe.userId = (doc.data() as Map<String, dynamic>)['userId'] ?? '';
+
+      temp = (doc.data() as Map<String, dynamic>)['ingredients'] ?? [];
+      List<String> ingredients = [];
+      for(int j = 0; j < temp.length; j++){
+        ingredients.add(temp[j]);
+      }
+
+      recipe.ingredients = ingredients;
+      recipe.cookTimeMin = (doc.data() as Map<String, dynamic>)['cookTimeMin'] ?? 0;
+      recipe.prepTimeMin = (doc.data() as Map<String, dynamic>)['prepTimeMin'] ?? 0;
+
+      recipes.add(recipe);
+  }
+  return recipes;
+}
 
   //Container list from snapshot
   List<customContainer.Container> _containerListFromSnapshot(
