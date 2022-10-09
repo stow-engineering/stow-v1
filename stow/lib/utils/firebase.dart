@@ -165,7 +165,9 @@ class FirebaseService {
   Future<Stream<List<customContainer.Container>>> get containers async {
     final containerList = await getAddresses();
     return containerCollection
-        .where('mac', whereIn: containerList)
+        .where('mac',
+            whereIn:
+                containerList.isEmpty ? ['Invalid Mac Address'] : containerList)
         .snapshots()
         .map(_containerListFromSnapshot);
   }
