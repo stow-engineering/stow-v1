@@ -307,7 +307,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                                               "processing".codeUnits,
                                               withoutResponse: true);
                                           Navigator.of(context).pushNamed(
-                                            '/add_container',
+                                            '/add-container',
                                             arguments: AddContainerArg(
                                                 widget.user, d.id.toString()),
                                           );

@@ -62,7 +62,7 @@ class FoodItemDisplay extends StatelessWidget {
                 icon: Icon(Icons.edit),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
-                    '/edit_food_item',
+                    '/edit-food-item',
                     arguments: foodItem,
                   );
                 },
@@ -174,7 +174,7 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
                         icon: Icon(Icons.edit),
                         onPressed: () {
                           Navigator.of(context).pushNamed(
-                            '/edit_food_item',
+                            '/edit-food-item',
                             arguments: foodItem,
                           );
                         },

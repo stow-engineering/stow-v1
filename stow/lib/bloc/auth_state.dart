@@ -7,30 +7,11 @@ import '../models/container.dart' as customContainer;
 import '../models/user.dart';
 import 'package:equatable/equatable.dart';
 
-// abstract class AuthState {
-//   const AuthState();
+/// Refactor Notes: 
+/// 
+/// -> Rename to extension method
+/// -> Incorporate additional logging
 
-//   @override
-//   List<Object?> get props => [];
-// }
-
-// class AuthenticationInitial extends AuthState {
-//   @override
-//   List<Object?> get props => [];
-// }
-
-// class AuthenticationSuccess extends AuthState {
-//   final StowUser user;
-//   const AuthenticationSuccess({required this.user});
-
-//   @override
-//   List<Object?> get props => [user];
-// }
-
-// class AuthenticationFailure extends AuthState {
-//   @override
-//   List<Object?> get props => [];
-// }
 
 enum AuthStatus { initial, success, error, loading }
 
