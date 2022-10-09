@@ -11,7 +11,6 @@ import 'package:stow/bloc/containers_events.dart';
 import 'package:stow/bloc/food_bloc.dart';
 import 'package:stow/bloc/food_events.dart';
 import 'package:stow/bloc/recipes_events.dart';
-import 'package:stow/pages/recipes/recipes_overview.dart';
 import 'package:stow/bloc/containers_state.dart';
 
 import '../../bloc/auth_bloc.dart';

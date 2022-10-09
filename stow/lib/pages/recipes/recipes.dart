@@ -9,7 +9,6 @@ import 'package:stow/bloc/recipes_events.dart';
 import 'package:stow/models/recipe.dart';
 import 'package:stow/models/user.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:stow/pages/recipes/recipe_detail.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/utils/http_service.dart';
 import 'package:stow/models/container.dart' as customContainer;
