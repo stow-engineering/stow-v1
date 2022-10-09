@@ -71,6 +71,12 @@ class HorizontalContainerDisplay extends StatelessWidget {
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data != null) {
+                        if (snapshot.data == "HTTP_ERROR") {
+                          return const SizedBox(
+                            height: 175,
+                            child: CircularProgressIndicator.adaptive(),
+                          );
+                        }
                         return Container(
                           width: 250,
                           height: 175,
@@ -79,12 +85,14 @@ class HorizontalContainerDisplay extends StatelessWidget {
                         );
                       } else {
                         return const SizedBox(
-                          child: CircularProgressIndicator(),
+                          height: 175,
+                          child: CircularProgressIndicator.adaptive(),
                         );
                       }
                     } else {
                       return const SizedBox(
-                        child: CircularProgressIndicator(),
+                        height: 175,
+                        child: CircularProgressIndicator.adaptive(),
                       );
                     }
                   },
@@ -106,6 +114,9 @@ class HorizontalContainerDisplay extends StatelessWidget {
                       value: container.size == 'Small'
                           ? ((165 - container.value) / 165)
                           : ((273 - container.value) / 273),
+                      color: getColor(container.size == 'Small'
+                          ? 1 - ((165 - container.value) / 165)
+                          : 1 - ((273 - container.value) / 273)),
                       backgroundColor: Colors.grey[350],
                       strokeWidth: 8.0,
                     ),
@@ -119,6 +130,16 @@ class HorizontalContainerDisplay extends StatelessWidget {
                 )
               ],
             )));
+  }
+
+  MaterialColor getColor(double value) {
+    if (value > 0.50) {
+      return Colors.red;
+    } else if (value <= 0.50 && value >= 0.25) {
+      return Colors.yellow;
+    } else {
+      return Colors.green;
+    }
   }
 
   String calculateVolume(bool small, customContainer.Container container) {
@@ -169,8 +190,9 @@ class ContainerDisplay extends StatelessWidget {
               ),
               leading: CircularProgressIndicator(
                 value: container.size == 'Small'
-                    ? ((165 - container.value) / 165)
-                    : ((273 - container.value) / 273),
+                    ? 1 - ((165 - container.value) / 165)
+                    : 1 - ((273 - container.value) / 273),
+                color: Colors.green,
                 backgroundColor: Colors.grey[350],
                 strokeWidth: 8.0,
               ),

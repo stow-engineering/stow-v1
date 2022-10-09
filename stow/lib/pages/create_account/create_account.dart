@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:stow/bloc/auth_bloc.dart';
+import 'package:stow/bloc/auth_events.dart';
+import 'package:stow/utils/bloc_provider.dart';
 
 import '../../utils/authentication.dart';
 
@@ -24,7 +27,7 @@ class CreateAccount extends StatelessWidget {
     final confirmController = TextEditingController();
     final firstController = TextEditingController();
     final lastController = TextEditingController();
-    final authService = Provider.of<AuthenticationService>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
@@ -201,11 +204,11 @@ class CreateAccount extends StatelessWidget {
                             hasSymbol &&
                             passwordsMatch &&
                             emailValid) {
-                          authService.createUserWithEmailPassword(
-                              emailController.text,
-                              passwordController.text,
-                              firstController.text,
-                              lastController.text);
+                          context.read<AuthBloc>().add(CreateAccountEvent(
+                              email: emailController.text,
+                              password: passwordController.text,
+                              firstname: firstController.text,
+                              lastname: lastController.text));
                         } else {
                           String errorMessage = "";
                           if (!requiredLength) {
