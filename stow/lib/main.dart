@@ -1,7 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stow/bloc/auth_bloc.dart';
+import 'package:stow/bloc/auth_state.dart';
+import 'package:stow/utils/bloc_provider.dart';
+import 'package:stow/utils/firebase.dart';
+import 'package:stow/utils/firebase_storage.dart';
 
 import 'models/user.dart';
 import 'pages/home/home.dart';
@@ -21,22 +27,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    // return MultiProvider(
+    //   providers: [
+    //     Provider<AuthenticationService>(
+    //       create: (_) => AuthenticationService(),
+    //     ),
+    //   ],
+    //   child: AuthenticationWrapper(key: key),
+    // );
+    AuthenticationService authService = AuthenticationService();
+    return MultiBlocProvider(
       providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(),
+        BlocProvider(
+          create: (_) => AuthBloc(authService: authService),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Stow',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-        ),
-        home: AuthenticationWrapper(key: key),
-        initialRoute: '/',
-        onGenerateRoute: RouteGenerator.generateRoute,
-      ),
+      child: const AuthenticationWrapper(),
     );
   }
 }
@@ -46,22 +52,35 @@ class AuthenticationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userAuth = Provider.of<AuthenticationService>(context);
-    return StreamBuilder<StowUser?>(
-      stream: userAuth.user,
-      builder: (_, AsyncSnapshot<StowUser?> snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          final StowUser? user = snapshot.data;
-          return user == null
-              ? const LoginPage(title: 'Stow')
-              : Home(key: key, user: user);
-        } else {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
+    final stateBloc = BlocProvider.of<AuthBloc>(context);
+    return BlocBuilder<AuthBloc, AuthState>(
+      bloc: stateBloc,
+      builder: (context, state) {
+        final StowUser? user = state.user;
+        return user == null
+            ? MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Stow',
+                theme: ThemeData(
+                  primarySwatch: Colors.green,
+                ),
+                initialRoute: '/',
+                onGenerateRoute: RouteGenerator.generateRoute,
+                home: const Scaffold(
+                  body: Center(
+                    child: LoginPage(title: 'Stow'),
+                  ),
+                ),
+              )
+            : MultiProvider(
+                providers: [
+                  Provider(create: (_) => FirebaseService(user.uid)),
+                  Provider(
+                    create: (_) => Storage(),
+                  )
+                ],
+                child: BlocProv(key: key),
+              );
       },
     );
   }

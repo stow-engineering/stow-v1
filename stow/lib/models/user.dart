@@ -1,6 +1,6 @@
 class StowUser {
   String uid;
-  String email;
+  String? email;
 
   StowUser(this.uid, this.email);
 }

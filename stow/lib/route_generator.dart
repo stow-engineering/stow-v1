@@ -2,22 +2,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:stow/barcode_scanner.dart';
 import 'package:stow/container_widgets/edit_container.dart';
+import 'package:stow/container_widgets/edit_food_item.dart';
 import 'package:stow/models/add_container_argument.dart';
-import 'package:stow/models/edit_container_argument.dart';
+import 'package:stow/models/container.dart' as customContainer;
+import 'package:stow/models/food_item.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/pages/account/account.dart';
 import 'package:stow/pages/add_container/add_container.dart';
 import 'package:stow/pages/barcode/barcode.dart';
 import 'package:stow/pages/create_account/create_account.dart';
-import 'package:stow/pages/groceries/groceries.dart';
 import 'package:stow/pages/home/home.dart';
 import 'package:stow/pages/login/login.dart';
 import 'package:stow/pages/pantry/pantry.dart';
 import 'package:stow/pages/provision/provision.dart';
 import 'package:stow/pages/recipes/recipes.dart';
 import 'package:stow/pages/register/register.dart';
-
+import 'package:stow/bloc/containers_state.dart';
+import 'package:stow/pages/add_food_item/add_food_item.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -37,51 +41,26 @@ class RouteGenerator {
         }
         return errorRoute();
       case '/barcode':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => BarcodePage(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
-      case '/pantry':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => Pantry(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
-      case '/home':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => Home(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
-      case '/groceries':
-        if (args is StowUser) {
-          return MaterialPageRoute(
-            builder: (_) => Groceries(
-              user: args,
-            ),
-          );
-        }
-        return errorRoute();
+        return MaterialPageRoute(builder: (_) => BarcodeScanner());
       case '/recipes':
-        if (args is RecipeArguments) {
-          return MaterialPageRoute(
-            builder: (_) => RecipesPage(
-              user: args.user,
-              containerData: args.containerData,
-            ),
-          );
-        }
-        return errorRoute();
+        return MaterialPageRoute(
+          builder: (_) => const RecipesPage(),
+        );
+      //return errorRoute();
+      case '/pantry':
+        return MaterialPageRoute(
+          builder: (_) => const Pantry(),
+        );
+      //return errorRoute();
+      case '/home':
+        //if (args is StowUser) {
+        return MaterialPageRoute(
+          builder: (_) => const Home(
+              //user: args,
+              ),
+        );
+      //}
+      //return errorRoute();
       case '/add_container':
         if (args is AddContainerArg) {
           return MaterialPageRoute(
@@ -100,11 +79,24 @@ class RouteGenerator {
           );
         }
         return errorRoute();
+      case '/add_food_item':
+        return MaterialPageRoute(
+          builder: (_) => AddFoodItemPage(),
+        );
       case '/edit_container':
-        if (args is EditContainerArgument) {
+        if (args is customContainer.Container) {
           return MaterialPageRoute(
             builder: (_) => EditContainer(
-              arg: args,
+              container: args,
+            ),
+          );
+        }
+        return errorRoute();
+      case '/edit_food_item':
+        if (args is FoodItem) {
+          return MaterialPageRoute(
+            builder: (_) => EditFoodItem(
+              foodItem: args,
             ),
           );
         }

@@ -17,7 +17,7 @@ class AuthenticationService {
     return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 
-  User get myUser {
+  User? get myUser {
     return _firebaseAuth.currentUser;
   }
 
@@ -35,9 +35,15 @@ class AuthenticationService {
     final cred = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    await FirebaseService(cred.user.uid)
-        .updateUserData(cred.user.email, firstName, lastName);
-    return _userFromFirebase(cred.user);
+    if (cred.user?.uid != null) {
+      String userUid = cred.user?.uid ?? "";
+      String userEmail = cred.user?.email ?? "";
+      await FirebaseService(userUid)
+          .updateUserData(userEmail, firstName, lastName);
+      return _userFromFirebase(cred.user);
+    }
+
+    return null;
   }
 
   Future<void> signOut() async {

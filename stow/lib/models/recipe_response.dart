@@ -1,15 +1,15 @@
-import 'recipe.dart';
+// import 'recipe.dart';
 
-class RecipeResponse {
-  List<Recipe> results = <Recipe>[];
+// class RecipeResponse {
+//   List<Recipe> results = <Recipe>[];
 
-  RecipeResponse(this.results);
+//   RecipeResponse(this.results);
 
-  RecipeResponse.fromJson(Map<String, dynamic> json) {
-    if (json['results'] != null) {
-      json['results'].forEach((v) {
-        results.add(Recipe.fromJson(v));
-      });
-    }
-  }
-}
+//   RecipeResponse.fromJson(Map<String, dynamic> json) {
+//     if (json['results'] != null) {
+//       json['results'].forEach((v) {
+//         results.add(Recipe.fromJson(v));
+//       });
+//     }
+//   }
+// }
