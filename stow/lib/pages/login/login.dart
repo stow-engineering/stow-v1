@@ -122,8 +122,6 @@ class _LoginPageState extends State<LoginPage> {
                           context.read<AuthBloc>().add(LoginEvent(
                               email: emailController.text,
                               password: passwordController.text));
-                          // authService.signInWithEmailPassword(
-                          //     emailController.text, passwordController.text);
                         },
                         child: const Text(
                           'Sign In',
@@ -133,7 +131,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        //TODO FORGOT PASSWORD SCREEN GOES HERE
+                        Navigator.of(context).pushNamed(
+                              '/reset-password'
+                            );
                       },
                       child: const Text(
                         'Forgot Password',
@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(
-                              '/create_account',
+                              '/create-account',
                               arguments: 'Welcome to Stow!',
                             );
                           },
