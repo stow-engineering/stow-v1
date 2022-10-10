@@ -27,14 +27,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return MultiProvider(
-    //   providers: [
-    //     Provider<AuthenticationService>(
-    //       create: (_) => AuthenticationService(),
-    //     ),
-    //   ],
-    //   child: AuthenticationWrapper(key: key),
-    // );
     AuthenticationService authService = AuthenticationService();
     return MultiBlocProvider(
       providers: [

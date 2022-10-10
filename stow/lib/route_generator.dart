@@ -16,6 +16,7 @@ import 'package:stow/pages/barcode/barcode.dart';
 import 'package:stow/pages/create_account/create_account.dart';
 import 'package:stow/pages/home/home.dart';
 import 'package:stow/pages/login/login.dart';
+import 'package:stow/pages/login/reset_password.dart';
 import 'package:stow/pages/pantry/pantry.dart';
 import 'package:stow/pages/provision/provision.dart';
 import 'package:stow/pages/recipes/recipes.dart';
@@ -31,7 +32,7 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(
             builder: (_) => const LoginPage(title: 'Stow'));
-      case '/create_account':
+      case '/create-account':
         if (args is String) {
           return MaterialPageRoute(
             builder: (_) => CreateAccount(
@@ -40,6 +41,11 @@ class RouteGenerator {
           );
         }
         return errorRoute();
+      case '/reset-password':
+        {
+          return MaterialPageRoute(
+              builder: (_) => const ResetPasswordPage(title: 'Stow'));
+        }
       case '/barcode':
         return MaterialPageRoute(builder: (_) => BarcodeScanner());
       case '/pantry':
@@ -56,7 +62,7 @@ class RouteGenerator {
         );
       //}
       //return errorRoute();
-      case '/add_container':
+      case '/add-container':
         if (args is AddContainerArg) {
           return MaterialPageRoute(
             builder: (_) => AddContainer(
@@ -74,11 +80,11 @@ class RouteGenerator {
           );
         }
         return errorRoute();
-      case '/add_food_item':
+      case '/add-food-item':
         return MaterialPageRoute(
           builder: (_) => AddFoodItemPage(),
         );
-      case '/edit_container':
+      case '/edit-container':
         if (args is customContainer.Container) {
           return MaterialPageRoute(
             builder: (_) => EditContainer(
@@ -87,7 +93,7 @@ class RouteGenerator {
           );
         }
         return errorRoute();
-      case '/edit_food_item':
+      case '/edit-food-item':
         if (args is FoodItem) {
           return MaterialPageRoute(
             builder: (_) => EditFoodItem(

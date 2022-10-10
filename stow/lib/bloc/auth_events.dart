@@ -6,6 +6,10 @@ import 'package:stow/utils/firebase.dart';
 import '../models/container.dart' as customContainer;
 import '../models/user.dart';
 
+/// Refactor Notes:
+/// 
+/// - Include more detailed logs
+
 @immutable
 abstract class AuthEvent {
   const AuthEvent();
@@ -27,8 +31,23 @@ class CreateAccountEvent extends AuthEvent {
 
   @override
   List<Object> get props => [email, password, firstname, lastname];
+
   @override
   String toString() => 'Create Account Event';
+}
+
+class ResetPasswordEvent extends AuthEvent {
+  ResetPasswordEvent({
+    required this.email
+  });
+
+  String email;
+
+  @override
+  List<Object> get props => [email];
+  
+  @override
+  String toString() => 'Reset Password Event';
 }
 
 class LoginEvent extends AuthEvent {

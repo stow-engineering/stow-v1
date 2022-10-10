@@ -46,7 +46,7 @@ class GroceryDisplay extends StatelessWidget {
                 icon: Icon(Icons.edit),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
-                    '/edit_container',
+                    '/edit-container',
                   );
                 },
               ),

@@ -96,7 +96,7 @@ class _PantryState extends State<Pantry> {
                 onPressed: () => {
                   Navigator.of(context)
                       .pushNamed(
-                        '/add_food_item',
+                        '/add-food-item',
                       )
                       .then((_) => setState(() {}))
                 },

@@ -47,7 +47,7 @@ class InitialLoginPage extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           Navigator.of(context).pushNamed(
-                            '/create_account',
+                            '/create-account',
                             arguments: 'Welcome to Stow!',
                           );
                         },
@@ -71,6 +71,25 @@ class InitialLoginPage extends StatelessWidget {
                           // style: const ButtonStyle(side: BorderSide(color: Colors.red, width: 2),)
                           child: const Text(
                             "Log In",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 0, 176, 80),
+                                fontSize: 20),
+                          )),
+                    ),
+                    Container(
+                      height: 40,
+                      width: 372,
+                      margin: EdgeInsets.only(top: 20),
+                      child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                              '/reset-password',
+                              arguments: 'Stow',
+                            );
+                          },
+                          // style: const ButtonStyle(side: BorderSide(color: Colors.red, width: 2),)
+                          child: const Text(
+                            "Reset Password",
                             style: TextStyle(
                                 color: Color.fromARGB(255, 0, 176, 80),
                                 fontSize: 20),

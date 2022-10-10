@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<CreateAccountEvent>(_mapCreateEventToState);
     on<LoginEvent>(_mapLoginEventToState);
     on<LogoutEvent>(_mapLogoutEventToState);
+    on<ResetPasswordEvent>(_mapResetPasswordEventToState);
   }
   final AuthenticationService authService;
 
@@ -111,5 +112,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
     );
+  }
+  
+  void _mapResetPasswordEventToState(
+    ResetPasswordEvent event, Emitter <AuthState> emit
+  ) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+     await authService.resetPassword(event.props[0] as String);
+    } catch (error, stacktrace) {
+      print(stacktrace);
+      emit(state.copyWith(status: AuthStatus.error));
+    }
   }
 }
