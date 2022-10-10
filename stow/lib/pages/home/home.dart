@@ -64,6 +64,7 @@ class Home extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                     '/account',
+                    arguments: userBloc.state.user,
                   );
                 },
                 child: Row(children: const [

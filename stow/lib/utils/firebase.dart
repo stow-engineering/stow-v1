@@ -165,7 +165,9 @@ class FirebaseService {
   Future<Stream<List<customContainer.Container>>> get containers async {
     final containerList = await getAddresses();
     return containerCollection
-        .where('mac', whereIn: containerList)
+        .where('mac',
+            whereIn:
+                containerList.isEmpty ? ['Invalid Mac Address'] : containerList)
         .snapshots()
         .map(_containerListFromSnapshot);
   }
@@ -174,7 +176,9 @@ class FirebaseService {
   Future<List<customContainer.Container>?> getContainerList() async {
     final containerList = await getAddresses();
     return containerCollection
-        .where('mac', whereIn: containerList)
+        .where('mac',
+            whereIn:
+                containerList.isEmpty ? ['Invalid Container'] : containerList)
         .get()
         .then((QuerySnapshot querySnapshot) {
       return querySnapshot.docs.map((doc) {
@@ -225,7 +229,8 @@ class FirebaseService {
   Future<List<FoodItem>?> getFoodItemList() async {
     final foodList = await getFoodAddresses();
     return foodItemCollection
-        .where('uid', whereIn: foodList)
+        .where('uid',
+            whereIn: foodList.isEmpty ? ['Invalid Food Item'] : foodList)
         .get()
         .then((QuerySnapshot querySnapshot) {
       return querySnapshot.docs.map((doc) {
