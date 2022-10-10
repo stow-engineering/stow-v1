@@ -32,13 +32,15 @@ class CreateAccountEvent extends AuthEvent {
 }
 
 class LoginEvent extends AuthEvent {
-  LoginEvent({required this.email, required this.password});
+  LoginEvent(
+      {required this.email, required this.password, required this.context});
 
   String email;
   String password;
+  BuildContext context;
 
   @override
-  List<Object> get props => [email, password];
+  List<Object> get props => [email, password, context];
 
   @override
   String toString() => 'Login Event';

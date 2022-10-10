@@ -61,6 +61,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           firstname: firstname,
           lastname: lastname));
     } catch (error, stacktrace) {
+      _showMyDialog(
+          event.context, "You entered either an invalid username or password");
       print(stacktrace);
       emit(state.copyWith(status: AuthStatus.error));
     }
@@ -82,5 +84,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       print(stacktrace);
       emit(state.copyWith(status: AuthStatus.error));
     }
+  }
+
+  Future<void> _showMyDialog(BuildContext context, String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('User Not Found!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

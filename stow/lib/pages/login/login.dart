@@ -121,7 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           context.read<AuthBloc>().add(LoginEvent(
                               email: emailController.text,
-                              password: passwordController.text));
+                              password: passwordController.text,
+                              context: context));
                           // authService.signInWithEmailPassword(
                           //     emailController.text, passwordController.text);
                         },
