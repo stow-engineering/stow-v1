@@ -96,7 +96,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
         }
       }
       var food_id = service.updateExistingFoodItem(event.foodItem);
-      service.updateFoodItems(food_id.toString());
+      //service.updateFoodItems(food_id.toString());
       emit(
         state.copyWith(
             status: FoodItemsStatus.success,

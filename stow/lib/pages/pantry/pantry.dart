@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/containers_events.dart';
 import 'package:stow/bloc/food_bloc.dart';
+import 'package:stow/bloc/food_state.dart';
 import 'package:stow/container_widgets/food_item_list.dart';
 import 'package:stow/expandable_fab/action_button.dart';
 import 'package:stow/expandable_fab/expandable_fab.dart';
@@ -95,7 +96,7 @@ class _PantryState extends State<Pantry> {
                 onPressed: () => {
                   Navigator.of(context)
                       .pushNamed(
-                        '/add_food_item',
+                        '/add-food-item',
                       )
                       .then((_) => setState(() {}))
                 },
@@ -180,24 +181,32 @@ class _PantryState extends State<Pantry> {
 
   Widget FoodItemListWrapper() {
     final foodItemBloc = BlocProvider.of<FoodItemsBloc>(context);
-    if (foodItemBloc.state.numItems > 0) {
-      return Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          initiallyExpanded: true,
-          title: const Text(
-            "Food Items",
-            style: TextStyle(
-                color: Colors.black, fontSize: 35, fontWeight: FontWeight.bold),
-          ),
-          children: <Widget>[
-            Column(
-              children: const <Widget>[FoodItemList()],
-            ),
-          ],
-        ),
-      );
-    }
-    return SizedBox.shrink();
+    return BlocBuilder<FoodItemsBloc, FoodItemsState>(
+        bloc: foodItemBloc,
+        builder: (context, state) {
+          if (foodItemBloc.state.numItems > 0) {
+            return Theme(
+              data:
+                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                initiallyExpanded: true,
+                title: const Text(
+                  "Food Items",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold),
+                ),
+                children: <Widget>[
+                  Column(
+                    children: const <Widget>[FoodItemList()],
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return SizedBox.shrink();
+          }
+        });
   }
 }

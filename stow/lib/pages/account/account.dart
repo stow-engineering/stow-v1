@@ -3,7 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stow/bloc/auth_bloc.dart';
+import 'package:stow/bloc/auth_events.dart';
 
 import '../../container_widgets/container_chart.dart';
 import '../../container_widgets/container_list.dart';
@@ -27,7 +30,7 @@ class _AccountPageState extends State<AccountPage> {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final FirebaseService service = FirebaseService(widget.user.uid);
     final GetName fullName = GetName(widget.user.uid, true);
-    final authService = Provider.of<AuthenticationService>(context);
+    final authService = BlocProvider.of<AuthBloc>(context);
     final GlobalKey<ScaffoldState> _key = GlobalKey();
 
     final emailController = TextEditingController();
@@ -137,7 +140,7 @@ class _AccountPageState extends State<AccountPage> {
               padding: EdgeInsets.only(top: 50),
               child: OutlinedButton(
                   onPressed: () {
-                    authService.signOut();
+                    authService.add(LogoutEvent());
                   },
                   // style: const ButtonStyle(side: BorderSide(color: Colors.red, width: 2),)
                   child: const Text(
