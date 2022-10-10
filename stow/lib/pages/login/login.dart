@@ -121,7 +121,9 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           context.read<AuthBloc>().add(LoginEvent(
                               email: emailController.text,
-                              password: passwordController.text));
+                              password: passwordController.text,
+                              context: context));
+
                         },
                         child: const Text(
                           'Sign In',
