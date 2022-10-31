@@ -105,7 +105,7 @@ class HorizontalContainerDisplay extends StatelessWidget {
                       icon: Icon(Icons.edit),
                       onPressed: () {
                         Navigator.of(context).pushNamed(
-                          '/edit_container',
+                          '/edit-container',
                           arguments: container,
                         );
                       },
@@ -183,7 +183,7 @@ class ContainerDisplay extends StatelessWidget {
                 icon: Icon(Icons.edit),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
-                    '/edit_container',
+                    '/edit-container',
                     arguments: container,
                   );
                 },

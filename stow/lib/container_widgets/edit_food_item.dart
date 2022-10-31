@@ -151,10 +151,12 @@ class _EditFoodItemState extends State<EditFoodItem> {
                             name: name,
                             value: widget.foodItem.value,
                             uid: widget.foodItem.uid,
-                            barcode: widget.foodItem.barcode);
+                            barcode: widget.foodItem.barcode,
+                            expDate: widget.foodItem.expDate);
                         context
                             .read<FoodItemsBloc>()
                             .add(UpdateFoodItems(newFoodItem));
+                        Navigator.of(context).pop();
                       },
                       child: const Text(
                         'Update',
@@ -175,10 +177,11 @@ class _EditFoodItemState extends State<EditFoodItem> {
                           onPressed: () {
                             _showMyDialog(
                                 context,
-                                'Are you sure you want to delete this foodItem?',
+                                'Are you sure you want to delete this food item?',
                                 service,
                                 stateBloc.state.user,
                                 widget.foodItem);
+                            //Navigator.of(context).pop();
                           },
                           child: const Text(
                             'Delete',
@@ -248,7 +251,7 @@ class _EditFoodItemState extends State<EditFoodItem> {
               child: const Text('Delete'),
               onPressed: () {
                 context.read<FoodItemsBloc>().add(DeleteFoodItems(foodItem));
-                Navigator.of(context).pop();
+                Navigator.of(context).popUntil((route) => route.isFirst);
               },
             ),
             TextButton(
