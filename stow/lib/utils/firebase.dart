@@ -150,8 +150,15 @@ class FirebaseService {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
+
     var data = snapshot.data();
-    final myList = List<String>.from(data!['recipes']);
+    List<String> myList;
+    if(data!.containsKey('recipes')){
+      myList = List<String>.from(data['recipes']);
+    } else {
+      myList = <String>[];
+    }
+
     if (!myList.contains(argId)) {
       myList.add(argId);
       return await userCollection.doc(uid).update({'recipes': myList});
@@ -161,6 +168,7 @@ class FirebaseService {
       'recipes': [argId],
     });
   }
+
 
   Future<List<String>> getAddresses() async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection

@@ -44,9 +44,13 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
     emit(state.copyWith(status: RecipesStatus.loading));
     try {
       List<Recipe> newRecipeList = state.recipes;
+      if (newRecipeList.isEmpty){
+        newRecipeList = <Recipe>[];
+      }
+      
+      newRecipeList.add(event.recipe);
       service.updateRecipeData(event.recipe.recipeId, event.recipe.name, event.recipe.instructions,
         event.recipe.userId, event.recipe.ingredients, event.recipe.cookTimeMin, event.recipe.prepTimeMin);
-      newRecipeList.add(event.recipe);
       service.updateRecipes(event.recipe.recipeId);
       emit(
         state.copyWith(
@@ -59,6 +63,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
       emit(state.copyWith(status: RecipesStatus.error));
     }
   }
+
 
   void _mapDeleteEventToState(
       DeleteRecipe event, Emitter<RecipesState> emit) async {
