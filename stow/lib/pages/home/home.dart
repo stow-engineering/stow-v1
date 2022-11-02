@@ -10,13 +10,14 @@ import 'package:provider/provider.dart';
 import 'package:stow/bloc/containers_events.dart';
 import 'package:stow/bloc/food_bloc.dart';
 import 'package:stow/bloc/food_events.dart';
-import 'package:stow/pages/recipes/recipes_overview.dart';
+import 'package:stow/bloc/recipes_events.dart';
 import 'package:stow/bloc/containers_state.dart';
 
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_events.dart';
 import '../../bloc/auth_state.dart';
 import '../../bloc/containers_bloc.dart';
+import '../../bloc/recipes_bloc.dart';
 import '../../container_widgets/container_chart.dart';
 import '../../container_widgets/container_list.dart';
 import '../../container_widgets/user_containers.dart';
@@ -29,6 +30,7 @@ import '../login/login.dart';
 import 'get_name.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../../bloc/containers_state.dart';
+import '../../bloc/recipes_state.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -37,8 +39,11 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final FirebaseService service = Provider.of<FirebaseService>(context);
     final stateBloc = BlocProvider.of<ContainersBloc>(context);
+    final recipeBloc = BlocProvider.of<RecipesBloc>(context);
     context.read<ContainersBloc>().add(LoadContainers());
+    context.read<RecipesBloc>().add(LoadRecipes());
     context.read<FoodItemsBloc>().add(LoadFoodItems());
+    //context.read<RecipesBloc>().add(LoadRecipes());
     final userBloc = BlocProvider.of<AuthBloc>(context);
     bool loadedContainerData = false;
     final GlobalKey<ScaffoldState> _key = GlobalKey();
@@ -58,6 +63,11 @@ class Home extends StatelessWidget {
                   String? fullname = state.firstname! + state.lastname!;
                   return Center(child: Text(fullname));
                 }),
+            // BlocBuilder<RecipesBloc, RecipesState>(
+            //     bloc: recipeBloc,
+            //     builder: (context, state) {
+            //       return null;
+            //     }),
             Padding(
               padding: const EdgeInsets.only(top: 30),
               child: TextButton(
@@ -176,7 +186,7 @@ class Home extends StatelessWidget {
           else if (selected == 1)
             {
               Navigator.of(context).pushNamed(
-                '/pantry',
+                '/pantry', 
               )
             }
           else if (selected == 2)

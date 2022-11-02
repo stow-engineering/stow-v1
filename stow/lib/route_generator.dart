@@ -9,6 +9,7 @@ import 'package:stow/container_widgets/edit_food_item.dart';
 import 'package:stow/models/add_container_argument.dart';
 import 'package:stow/models/container.dart' as customContainer;
 import 'package:stow/models/food_item.dart';
+import 'package:stow/models/recipe.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/pages/account/account.dart';
 import 'package:stow/pages/add_container/add_container.dart';
@@ -20,9 +21,11 @@ import 'package:stow/pages/login/reset_password.dart';
 import 'package:stow/pages/pantry/pantry.dart';
 import 'package:stow/pages/provision/provision.dart';
 import 'package:stow/pages/recipes/recipes.dart';
+import 'package:stow/pages/recipes/view_recipe.dart';
 import 'package:stow/pages/register/register.dart';
 import 'package:stow/bloc/containers_state.dart';
 import 'package:stow/pages/add_food_item/add_food_item.dart';
+import 'package:stow/pages/recipes/add_recipe.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -48,6 +51,15 @@ class RouteGenerator {
         }
       case '/barcode':
         return MaterialPageRoute(builder: (_) => BarcodeScanner());
+      case '/recipes':
+        return MaterialPageRoute(
+          builder: (_) => const RecipesPage(),
+        );
+      case '/view_recipe':
+        return MaterialPageRoute(
+          builder: (_) => ViewRecipePage(recipe: args as Recipe),
+        );
+      //return errorRoute();
       case '/pantry':
         return MaterialPageRoute(
           builder: (_) => const Pantry(),
@@ -83,6 +95,10 @@ class RouteGenerator {
       case '/add-food-item':
         return MaterialPageRoute(
           builder: (_) => AddFoodItemPage(),
+        );
+      case '/add_recipe':
+        return MaterialPageRoute(
+          builder: (_) => AddRecipePage(),
         );
       case '/edit-container':
         if (args is customContainer.Container) {
