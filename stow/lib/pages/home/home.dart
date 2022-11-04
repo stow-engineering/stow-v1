@@ -12,6 +12,8 @@ import 'package:stow/bloc/food_bloc.dart';
 import 'package:stow/bloc/food_events.dart';
 import 'package:stow/bloc/recipes_events.dart';
 import 'package:stow/bloc/containers_state.dart';
+import 'package:stow/container_widgets/food_item_list.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_events.dart';
@@ -31,6 +33,9 @@ import 'get_name.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../../bloc/containers_state.dart';
 import '../../bloc/recipes_state.dart';
+
+//final Uri _url = Uri.parse(
+//'https://www.instacart.com/store/partner_recipe?title=Stows+Grocery+List&ingredients%5B%5D=tilapia%20fillet&ingredients%5B%5D=light%20soy%20sauce&ingredients%5B%5D=Sugar&ingredients%5B%5D=Red%20onion&ingredients%5B%5D=Red%20onion&ingredients%5B%5D=scallion&ingredients%5B%5D=kimchi%20furikake%20rice%20seasoning&ingredients%5B%5D=Lime%20juice&ingredients%5B%5D=Ginger&ingredients%5B%5D=Sesame%20oil&ingredients%5B%5D=Red%20pepper&ingredients%5B%5D=jasmine%20rice&ingredients%5B%5D=Water&ingredients%5B%5D=Fine%20sea%20salt&ingredients%5B%5D=Haricot%20beans&ingredients%5B%5D=nutritional%20yeast&ingredients%5B%5D=oatmeal%20milk&ingredients%5B%5D=red%20salsa&ingredients%5B%5D=Jalapeno%20pepper&ingredients%5B%5D=pickle%20brine&ingredients%5B%5D=Onion%20powder&ingredients%5B%5D=Garlic%20powder&ingredients%5B%5D=Turmeric&ingredients%5B%5D=Cayenne%20pepper&ingredients%5B%5D=nacho%20chips&ingredients%5B%5D=warm%20black%20beans&ingredients%5B%5D=%20diced&ingredients%5B%5D=jalape%C3%B1os&ingredients%5B%5D=jalape%C3%B1o%20peppers&quantities%5B%5D=0.3%20lb&quantities%5B%5D=0.1%20cup&quantities%5B%5D=pinch&quantities%5B%5D=6%20&quantities%5B%5D=0.1%20cup&quantities%5B%5D=0.1%20cup&quantities%5B%5D=1/2%20Tbs&quantities%5B%5D=1/4%20Tbs&quantities%5B%5D=1/4%20Tbs&quantities%5B%5D=0.1%20tsp&quantities%5B%5D=pinch&quantities%5B%5D=1/4%20cup&quantities%5B%5D=0.4%20cup&quantities%5B%5D=1/4%20tsp&quantities%5B%5D=1%20cup&quantities%5B%5D=1/2%20cup&quantities%5B%5D=1/4%20cup&quantities%5B%5D=1/4%20cup&quantities%5B%5D=1%20&quantities%5B%5D=3%20Tbs&quantities%5B%5D=1%20tsp&quantities%5B%5D=1%20tsp&quantities%5B%5D=1%20tsp&quantities%5B%5D=1/4%20tsp&quantities%5B%5D=10.6%20oz&quantities%5B%5D=1%20cup&quantities%5B%5D=1%20tomato&quantities%5B%5D=1/4%20cup&quantities%5B%5D=2%20');
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -142,6 +147,28 @@ class Home extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
+                List<String> items = List<String>.empty(growable: true);
+                final foodItemBloc = BlocProvider.of<FoodItemsBloc>(context);
+                foodItemBloc.state.foodItems.forEach(
+                  (element) {
+                    items.add(element.name);
+                  },
+                );
+                _launchUrl(items);
+              },
+              child: Row(children: const [
+                Icon(Icons.delivery_dining_outlined, color: Colors.black),
+                Text(
+                  'Order from Instacart',
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300),
+                ),
+              ]),
+            ),
+            TextButton(
+              onPressed: () {
                 Navigator.of(context).pushNamed('/barcode');
               },
               child: Row(children: const [
@@ -186,7 +213,7 @@ class Home extends StatelessWidget {
           else if (selected == 1)
             {
               Navigator.of(context).pushNamed(
-                '/pantry', 
+                '/pantry',
               )
             }
           else if (selected == 2)
@@ -327,4 +354,17 @@ class RecipeArguments {
   List<customContainer.Container> containerData;
 
   RecipeArguments(this.user, this.containerData);
+}
+
+// launch url function
+Future<void> _launchUrl(List<String> items) async {
+  String site =
+      "https://www.instacart.com/store/partner_recipe?title=Stows+Grocery+List";
+  items.forEach((element) {
+    site = site + "&ingredients%5B%5D=" + element + "%20";
+  });
+  Uri url = Uri.parse(site);
+  if (!await launchUrl(url)) {
+    throw 'Could not launch $url';
+  }
 }
