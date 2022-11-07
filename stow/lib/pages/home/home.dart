@@ -12,6 +12,8 @@ import 'package:stow/bloc/food_bloc.dart';
 import 'package:stow/bloc/food_events.dart';
 import 'package:stow/bloc/recipes_events.dart';
 import 'package:stow/bloc/containers_state.dart';
+import 'package:stow/container_widgets/food_item_list.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_events.dart';
@@ -142,6 +144,28 @@ class Home extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
+                List<String> items = List<String>.empty(growable: true);
+                final foodItemBloc = BlocProvider.of<FoodItemsBloc>(context);
+                foodItemBloc.state.foodItems.forEach(
+                  (element) {
+                    items.add(element.name);
+                  },
+                );
+                _launchUrl(items);
+              },
+              child: Row(children: const [
+                Icon(Icons.delivery_dining_outlined, color: Colors.black),
+                Text(
+                  'Order from Instacart',
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300),
+                ),
+              ]),
+            ),
+            TextButton(
+              onPressed: () {
                 Navigator.of(context).pushNamed('/barcode');
               },
               child: Row(children: const [
@@ -186,7 +210,7 @@ class Home extends StatelessWidget {
           else if (selected == 1)
             {
               Navigator.of(context).pushNamed(
-                '/pantry', 
+                '/pantry',
               )
             }
           else if (selected == 2)
@@ -327,4 +351,17 @@ class RecipeArguments {
   List<customContainer.Container> containerData;
 
   RecipeArguments(this.user, this.containerData);
+}
+
+// launch url function
+Future<void> _launchUrl(List<String> items) async {
+  String site =
+      "https://www.instacart.com/store/partner_recipe?title=Stows+Grocery+List";
+  items.forEach((element) {
+    site = site + "&ingredients%5B%5D=" + element + "%20";
+  });
+  Uri url = Uri.parse(site);
+  if (!await launchUrl(url)) {
+    throw 'Could not launch $url';
+  }
 }

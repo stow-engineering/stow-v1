@@ -52,6 +52,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
   uuid: ^3.0.6
+  url_launcher: ^6.1.6
 
 dependency_overrides:
   intl: ^0.17.0-nullsafety.2
