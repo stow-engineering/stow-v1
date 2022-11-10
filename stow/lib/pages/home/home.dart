@@ -7,16 +7,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/containers_events.dart';
-import 'package:stow/bloc/food_bloc.dart';
-import 'package:stow/bloc/food_events.dart';
+import 'package:stow/bloc/containers/containers_events.dart';
+import 'package:stow/bloc/food/food_bloc.dart';
+import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/pages/recipes/recipes_overview.dart';
-import 'package:stow/bloc/containers_state.dart';
-
-import '../../bloc/auth_bloc.dart';
-import '../../bloc/auth_events.dart';
-import '../../bloc/auth_state.dart';
-import '../../bloc/containers_bloc.dart';
+import 'package:stow/bloc/containers/containers_state.dart';
+import '../../bloc/auth/auth_bloc.dart';
+import '../../bloc/auth/auth_events.dart';
+import '../../bloc/auth/auth_state.dart';
+import '../../bloc/containers/containers_bloc.dart';
 import '../../container_widgets/container_chart.dart';
 import '../../container_widgets/container_list.dart';
 import '../../container_widgets/user_containers.dart';
@@ -28,7 +27,7 @@ import '../../utils/firebase.dart';
 import '../login/login.dart';
 import 'get_name.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import '../../bloc/containers_state.dart';
+import '../../bloc/containers/containers_state.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -115,7 +114,7 @@ class Home extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  '/groceries',
+                  '/grocery-list-home',
                 );
               },
               child: Row(children: const [

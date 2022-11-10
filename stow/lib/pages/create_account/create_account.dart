@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import 'package:stow/bloc/auth_bloc.dart';
-import 'package:stow/bloc/auth_events.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/utils/bloc_provider.dart';
 
 import '../../utils/authentication.dart';

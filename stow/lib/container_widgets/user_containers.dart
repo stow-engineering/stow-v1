@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/container.dart' as customContainer;
 import '../models/user.dart';
-import '../bloc/containers_state.dart';
+import '../bloc/containers/containers_state.dart';
 import '../utils/firebase.dart';
 
 class NumberContainers extends StatefulWidget {

@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:stow/bloc/food_events.dart';
-import 'package:stow/bloc/food_state.dart';
+import 'package:stow/bloc/food/food_events.dart';
+import 'package:stow/bloc/food/food_state.dart';
 import 'package:stow/utils/firebase.dart';
-import '../models/food_item.dart';
+import '../../models/food_item.dart';
 
 class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
   FoodItemsBloc({
@@ -42,7 +42,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
       AddFoodItem event, Emitter<FoodItemsState> emit) async {
     emit(state.copyWith(status: FoodItemsStatus.loading));
     try {
-      List<FoodItem> newFoodItemsList = state.foodItems;
+      List<FoodItem> newFoodItemsList = state.foodItems as List<FoodItem>;
       DocumentReference food_uid = await service.updateFoodItemData(
           event.foodItem.name, event.foodItem.expDate);
       service.updateFoodItems(food_uid.id);
@@ -69,7 +69,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
       DeleteFoodItems event, Emitter<FoodItemsState> emit) async {
     emit(state.copyWith(status: FoodItemsStatus.loading));
     try {
-      List<FoodItem> newFoodItemsList = state.foodItems;
+      List<FoodItem> newFoodItemsList = state.foodItems as List<FoodItem>;
       newFoodItemsList.remove(event.foodItem);
       service.deleteFoodItems(event.foodItem.uid);
       emit(
@@ -88,7 +88,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
       UpdateFoodItems event, Emitter<FoodItemsState> emit) async {
     emit(state.copyWith(status: FoodItemsStatus.loading));
     try {
-      List<FoodItem> newFoodItemsList = state.foodItems;
+      List<FoodItem> newFoodItemsList = state.foodItems as List<FoodItem>;
       for (int i = 0; i < newFoodItemsList.length; i++) {
         if (newFoodItemsList[i].uid == event.foodItem.uid) {
           newFoodItemsList[i].name = event.foodItem.name;

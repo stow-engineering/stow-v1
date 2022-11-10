@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/models/food_item.dart';
+import 'package:stow/models/grocery_lists.dart';
 
 import '../models/container.dart' as customContainer;
 
@@ -166,8 +167,9 @@ class FirebaseService {
   //Watches for changes in the container collection
   Future<Stream<List<customContainer.Container>>> get containers async {
     final containerList = await getAddresses();
+
     return containerCollection
-        .where('mac', whereIn: containerList)
+        .where('mac', whereIn: containerList.isEmpty ? ['-1'] : containerList)
         .snapshots()
         .map(_containerListFromSnapshot);
   }
@@ -223,7 +225,7 @@ class FirebaseService {
     }).toList();
   }
 
-  //gets current list of containers
+  //gets current list of food items
   Future<List<FoodItem>?> getFoodItemList() async {
     final foodList = await getFoodAddresses();
     return foodItemCollection
@@ -300,16 +302,74 @@ class FirebaseService {
     return false;
   }
 
-  Future<List<List<FoodItem>>> getGroceryList(String uid) async {
-    DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await groceryListCollection.doc(uid).get()
-            as DocumentSnapshot<Map<String, dynamic>>;
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-    if (data.containsKey('GroceryLists')) {
-      final groceryLists = List<List<FoodItem>>.from(data['GroceryLists']);
-      return groceryLists;
-    } else {
-      return [];
+  //get grocery lists
+  Future<List<GroceryList>?> getGroceryLists() async {
+    return groceryListCollection
+        .where('uid', isEqualTo: uid)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        GroceryList groceryList = GroceryList();
+        DateTime date = (doc.data() as Map<String, dynamic>)['date'].toDate() ??
+            DateTime.now();
+        var foodList = (doc.data() as Map<String, dynamic>)['list'] ?? [];
+        var castedFoodList =
+            (foodList as List).map((item) => item as String).toList();
+        return groceryList.copyWith(
+            creationDate: date,
+            foodItems: castedFoodList,
+            name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
+            id: doc.id,
+            containerGroceryList:
+                (doc.data() as Map<String, dynamic>)['container'] ?? '');
+      }).toList();
+    });
+  }
+
+  //create grocery list
+  Future createGroceryList(GroceryList groceryList) async {
+    final groceryDatabaseEntry = {
+      'uid': uid,
+      'list': groceryList.foodItems,
+      'date': groceryList.creationDate,
+      'name': groceryList.name,
+      'container': groceryList.containerGroceryList
+    };
+    groceryListCollection.add(groceryDatabaseEntry);
+  }
+
+  //delete grocery lists
+  Future deleteGroceryList(String id) async {
+    await groceryListCollection.doc(id).delete();
+  }
+
+  //update grocery list
+  Future updateGroceryList(String id, GroceryList newGroceryList) async {
+    if (id == "") {
+      throw Exception("Grocery List ID not found!");
+    }
+    return await groceryListCollection.doc(id).update({
+      'list': newGroceryList.foodItems,
+      'date': newGroceryList.creationDate,
+      'name': newGroceryList.name,
+      'container': newGroceryList.containerGroceryList
+    });
+  }
+
+  //check if there exists a low container grocery list in the database
+  Future<bool> checkLowContainerGroceryList() async {
+    QuerySnapshot snapshot =
+        await groceryListCollection.where('uid', isEqualTo: uid).get();
+    try {
+      for (int i = 0; i < snapshot.size; i++) {
+        if (snapshot.docs.elementAt(i)['container']) {
+          return true;
+        }
+      }
+      return false;
+    } catch (error, stacktrace) {
+      print(stacktrace);
+      return true;
     }
   }
 }

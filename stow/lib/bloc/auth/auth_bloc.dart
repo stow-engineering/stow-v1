@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:stow/bloc/auth_events.dart';
-import 'package:stow/bloc/auth_state.dart';
-import 'package:stow/bloc/containers_events.dart';
-import 'package:stow/bloc/containers_state.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
+import 'package:stow/bloc/auth/auth_state.dart';
+import 'package:stow/bloc/containers/containers_events.dart';
+import 'package:stow/bloc/containers/containers_state.dart';
 import 'package:stow/utils/authentication.dart';
 import 'package:stow/utils/firebase.dart';
-import '../models/container.dart' as customContainer;
-import '../models/user.dart';
+import '../../models/container.dart' as customContainer;
+import '../../models/user.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
