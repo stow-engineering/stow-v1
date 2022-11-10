@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/food_bloc.dart';
-import 'package:stow/bloc/food_state.dart';
+import 'package:stow/bloc/food/food_bloc.dart';
+import 'package:stow/bloc/food/food_state.dart';
 import 'package:stow/models/food_item.dart';
 
-import '../bloc/containers_bloc.dart';
-import '../bloc/containers_state.dart';
+import '../bloc/containers/containers_bloc.dart';
+import '../bloc/containers/containers_state.dart';
 import '../utils/firebase_storage.dart';
 
 class FoodItemList extends StatefulWidget {

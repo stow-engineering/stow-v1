@@ -3,9 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/src/provider.dart';
-import 'package:stow/bloc/auth_bloc.dart';
-
-import '../../bloc/auth_events.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
 import '../../utils/authentication.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -13,10 +12,10 @@ class ResetPasswordPage extends StatelessWidget {
 
   final String title;
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
+
     final authBloc = BlocProvider.of<AuthBloc>(context);
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
@@ -81,16 +80,17 @@ class ResetPasswordPage extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           context.read<AuthBloc>().add(ResetPasswordEvent(
-                              email: emailController.text,
-                          ));
+                                email: emailController.text,
+                              ));
                           final snackBar = SnackBar(
-                              content: const Text('Reset Password Email Sent'),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              margin: EdgeInsets.only(
-                                bottom: MediaQuery.of(context).size.height - 150,
+                            content: const Text('Reset Password Email Sent'),
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            margin: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.height - 150,
                                 right: 20,
                                 left: 20),
                           );
@@ -107,7 +107,6 @@ class ResetPasswordPage extends StatelessWidget {
               ),
             ],
           ),
-          
         ));
   }
 }

@@ -41,7 +41,8 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
       AddContainer event, Emitter<ContainersState> emit) async {
     emit(state.copyWith(status: ContainersStatus.loading));
     try {
-      List<customContainer.Container> newContainerList = state.containers;
+      List<customContainer.Container> newContainerList =
+          state.containers as List<customContainer.Container>;
       newContainerList.add(event.container);
       service.updateContainerData(event.container.name, event.container.size,
           event.container.uid, null, null);
@@ -62,7 +63,8 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
       DeleteContainer event, Emitter<ContainersState> emit) async {
     emit(state.copyWith(status: ContainersStatus.loading));
     try {
-      List<customContainer.Container> newContainerList = state.containers;
+      List<customContainer.Container> newContainerList =
+          state.containers as List<customContainer.Container>;
       newContainerList.remove(event.container);
       service.deleteContainer(event.container.uid);
       emit(
@@ -81,7 +83,8 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
       UpdateContainer event, Emitter<ContainersState> emit) async {
     emit(state.copyWith(status: ContainersStatus.loading));
     try {
-      List<customContainer.Container> newContainerList = state.containers;
+      List<customContainer.Container> newContainerList =
+          state.containers as List<customContainer.Container>;
       for (int i = 0; i < newContainerList.length; i++) {
         if (newContainerList[i].uid == event.mac) {
           newContainerList[i].name = event.name;
