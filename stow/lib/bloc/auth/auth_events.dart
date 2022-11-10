@@ -7,7 +7,7 @@ import '../../models/container.dart' as customContainer;
 import '../../models/user.dart';
 
 /// Refactor Notes:
-/// 
+///
 /// - Include more detailed logs
 
 @immutable
@@ -37,15 +37,13 @@ class CreateAccountEvent extends AuthEvent {
 }
 
 class ResetPasswordEvent extends AuthEvent {
-  ResetPasswordEvent({
-    required this.email
-  });
+  ResetPasswordEvent({required this.email});
 
   String email;
 
   @override
   List<Object> get props => [email];
-  
+
   @override
   String toString() => 'Reset Password Event';
 }
