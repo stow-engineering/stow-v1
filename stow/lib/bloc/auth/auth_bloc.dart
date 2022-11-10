@@ -5,6 +5,12 @@ import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/bloc/auth/auth_state.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/utils/authentication.dart';
+import 'package:stow/bloc/containers/containers_events.dart';
+import 'package:stow/bloc/containers/containers_state.dart';
+import 'package:stow/utils/authentication.dart';
+import 'package:stow/utils/firebase.dart';
+import '../../models/container.dart' as customContainer;
+import '../../models/user.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({

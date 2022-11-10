@@ -113,7 +113,7 @@ class Home extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  '/groceries',
+                  '/grocery-list-home',
                 );
               },
               child: Row(children: const [

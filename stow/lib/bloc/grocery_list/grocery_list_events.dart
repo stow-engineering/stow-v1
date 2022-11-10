@@ -15,31 +15,46 @@ class LoadGroceryList extends GroceryListEvents {
   String toString() => 'LoadGroceryList';
 }
 
-class AddToGroceryList extends GroceryListEvents {
-  final List<FoodItem> foodItems;
+class AddNewGroceryList extends GroceryListEvents {
+  final List<String> foodItems;
+  final bool containerGroceryList;
+  final String name;
 
-  AddToGroceryList(this.foodItems) : super([foodItems]);
+  AddNewGroceryList(this.foodItems, this.containerGroceryList, this.name)
+      : super([foodItems, containerGroceryList, name]);
+
+  @override
+  String toString() =>
+      'AddToGroceryList { foodItem: $foodItems, containerGroceryList: $containerGroceryList, name: $name }';
+}
+
+class AddToGroceryList extends GroceryListEvents {
+  final List<String> foodItems;
+  final String id;
+
+  AddToGroceryList(this.foodItems, this.id) : super([foodItems, id]);
 
   @override
   String toString() => 'AddToGroceryList { foodItem: $foodItems }';
 }
 
-class UpdateGroceryList extends GroceryListEvents {
-  final FoodItem foodItem;
+class DeleteFoodItemGroceryList extends GroceryListEvents {
+  final String foodItem;
+  final String id;
 
-  UpdateGroceryList(this.foodItem) : super([foodItem]);
+  DeleteFoodItemGroceryList(this.foodItem, this.id) : super([foodItem, id]);
 
   @override
-  String toString() => 'UpdateGroceryList { foodItem: $foodItem }';
+  String toString() => 'DeleteFromGroceryList { foodItem: $foodItem, id: $id }';
 }
 
-class DeleteFromGroceryList extends GroceryListEvents {
-  final FoodItem foodItem;
+class DeleteGroceryList extends GroceryListEvents {
+  final String id;
 
-  DeleteFromGroceryList(this.foodItem) : super([foodItem]);
+  DeleteGroceryList(this.id) : super([id]);
 
   @override
-  String toString() => 'DeleteFromGroceryList { foodItem: $foodItem }';
+  String toString() => 'DeleteFromGroceryList { id: $id }';
 }
 
 class AddLowContainers extends GroceryListEvents {
