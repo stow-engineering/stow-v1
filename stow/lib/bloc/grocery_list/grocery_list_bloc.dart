@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/bloc/food/food_state.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:stow/bloc/grocery_list/grocery_list_events.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_state.dart';
 import 'package:stow/models/grocery_lists.dart';
@@ -86,42 +87,68 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
     } catch (error, stacktrace) {
       print(stacktrace);
 =======
+=======
+import 'package:stow/bloc/grocery_list/grocery_list_events.dart';
+import 'package:stow/bloc/grocery_list/grocery_list_state.dart';
+>>>>>>> 8ea48e2 (grocery list refactor)
 import 'package:stow/utils/firebase.dart';
 import '../../models/food_item.dart';
 
-class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
-  FoodItemsBloc({
+class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
+  GroceryListBloc({
     required this.service,
-    this.newFoodItem,
-  }) : super(const FoodItemsState()) {
-    on<LoadFoodItems>(_mapLoadEventToState);
-    on<AddFoodItem>(_mapAddEventToState);
-    on<DeleteFoodItems>(_mapDeleteEventToState);
-    on<UpdateFoodItems>(_mapUpdateEventToState);
+  }) : super(const GroceryListState()) {
+    on<LoadGroceryList>(_mapLoadEventToState);
+    on<AddToGroceryList>(_mapAddEventToState);
   }
   final FirebaseService service;
-  final FoodItem? newFoodItem;
 
   void _mapLoadEventToState(
-      LoadFoodItems event, Emitter<FoodItemsState> emit) async {
-    emit(state.copyWith(status: FoodItemsStatus.loading));
+      LoadGroceryList event, Emitter<GroceryListState> emit) async {
+    emit(state.copyWith(status: GroceryListStatus.loading));
     try {
-      final foodItems = await service.getFoodItemList();
-      emit(
-        state.copyWith(
-          status: FoodItemsStatus.success,
-          foodItems: foodItems,
-          numItems: foodItems!.length,
-        ),
-      );
+      //get low containers
+      var lowContainers = [];
+      final containers = await service.getContainerList();
+      if (containers != null) {
+        for (int i = 0; i < containers.length; i++) {
+          var percentFull;
+          if (containers[i].size == "Small") {
+            percentFull = 1 - ((165 - containers[i].value) / 165);
+            if (percentFull < 0.25) {
+              lowContainers.add(FoodItem(name: containers[i].name));
+            }
+          } else {
+            percentFull = 1 - ((273 - containers[i].value) / 273);
+            if (percentFull < 0.25) {
+              lowContainers.add(FoodItem(name: containers[i].name));
+            }
+          }
+        }
+      }
+
+      //get grocery list
+
+      // emit(
+      //   state.copyWith(
+      //     status: GroceryListStatus.success,
+      //     foodItems: foodItems,
+      //     numItems: foodItems!.length,
+      //   ),
+      // );
     } catch (error, stacktrace) {
       print(stacktrace);
+<<<<<<< HEAD
       emit(state.copyWith(status: FoodItemsStatus.error));
 >>>>>>> 958c757 (backend grocery list updates)
+=======
+      emit(state.copyWith(status: GroceryListStatus.error));
+>>>>>>> 8ea48e2 (grocery list refactor)
     }
   }
 
   void _mapAddEventToState(
+<<<<<<< HEAD
 <<<<<<< HEAD
       AddToGroceryList event, Emitter<GroceryListState> emit) async {
     emit(state.copyWith(status: GroceryListStatus.loading));
@@ -235,25 +262,56 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
 =======
       DeleteFoodItems event, Emitter<FoodItemsState> emit) async {
     emit(state.copyWith(status: FoodItemsStatus.loading));
+=======
+      AddToGroceryList event, Emitter<GroceryListState> emit) async {
+    // emit(state.copyWith(status: GroceryListStatus.loading));
+    // try {
+    //   List<FoodItem> newFoodItemsList = state.foodItems;
+    //   DocumentReference food_uid = await service.updateFoodItemData(
+    //       event.foodItem.name, event.foodItem.expDate);
+    //   service.updateFoodItems(food_uid.id);
+    //   FoodItem newFoodItem = FoodItem(
+    //       uid: food_uid.id,
+    //       barcode: event.foodItem.barcode,
+    //       name: event.foodItem.name,
+    //       value: event.foodItem.value,
+    //       expDate: event.foodItem.expDate);
+    //   newFoodItemsList.add(newFoodItem);
+    //   emit(
+    //     state.copyWith(
+    //         status: GroceryListStatus.success,
+    //         foodItems: newFoodItemsList,
+    //         numItems: newFoodItemsList.length),
+    //   );
+    // } catch (error, stacktrace) {
+    //   print(stacktrace);
+    //   emit(state.copyWith(status: GroceryListStatus.error));
+    // }
+  }
+
+  void _mapDeleteEventToState(
+      DeleteFoodItems event, Emitter<GroceryListState> emit) async {
+    emit(state.copyWith(status: GroceryListStatus.loading));
+>>>>>>> 8ea48e2 (grocery list refactor)
     try {
       List<FoodItem> newFoodItemsList = state.foodItems;
       newFoodItemsList.remove(event.foodItem);
       service.deleteFoodItems(event.foodItem.uid);
       emit(
         state.copyWith(
-            status: FoodItemsStatus.success,
+            status: GroceryListStatus.success,
             foodItems: newFoodItemsList,
             numItems: newFoodItemsList.length),
       );
     } catch (error, stacktrace) {
       print(stacktrace);
-      emit(state.copyWith(status: FoodItemsStatus.error));
+      emit(state.copyWith(status: GroceryListStatus.error));
     }
   }
 
   void _mapUpdateEventToState(
-      UpdateFoodItems event, Emitter<FoodItemsState> emit) async {
-    emit(state.copyWith(status: FoodItemsStatus.loading));
+      UpdateFoodItems event, Emitter<GroceryListState> emit) async {
+    emit(state.copyWith(status: GroceryListStatus.loading));
     try {
       List<FoodItem> newFoodItemsList = state.foodItems;
       for (int i = 0; i < newFoodItemsList.length; i++) {
@@ -266,14 +324,18 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
       service.updateFoodItems(food_id.toString());
       emit(
         state.copyWith(
-            status: FoodItemsStatus.success,
+            status: GroceryListStatus.success,
             foodItems: newFoodItemsList,
             numItems: newFoodItemsList.length),
       );
     } catch (error, stacktrace) {
       print(stacktrace);
+<<<<<<< HEAD
       emit(state.copyWith(status: FoodItemsStatus.error));
 >>>>>>> 958c757 (backend grocery list updates)
+=======
+      emit(state.copyWith(status: GroceryListStatus.error));
+>>>>>>> 8ea48e2 (grocery list refactor)
     }
   }
 }
