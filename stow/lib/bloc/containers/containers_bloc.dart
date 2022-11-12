@@ -1,10 +1,17 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:stow/bloc/containers/containers_events.dart';
 import 'package:stow/bloc/containers/containers_state.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/models/container.dart' as customContainer;
+=======
+import 'package:stow/utils/firebase.dart';
+import 'package:stow/models/container.dart' as customContainer;
+import 'containers_events.dart';
+import 'containers_state.dart';
+>>>>>>> 0fda54a (grocery list refactor)
 
 class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
   ContainersBloc({
