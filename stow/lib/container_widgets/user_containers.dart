@@ -3,6 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../models/container.dart' as customContainer;
 import '../models/user.dart';
+<<<<<<< HEAD
+=======
+import '../bloc/containers/containers_state.dart';
+>>>>>>> d89f78a (grocery lists feature completed)
 import '../utils/firebase.dart';
 
 class NumberContainers extends StatefulWidget {

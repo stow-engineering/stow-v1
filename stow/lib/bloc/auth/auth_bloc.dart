@@ -3,8 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/bloc/auth/auth_state.dart';
+<<<<<<< HEAD
 import 'package:stow/models/user.dart';
 import 'package:stow/utils/authentication.dart';
+=======
+>>>>>>> d89f78a (grocery lists feature completed)
 import 'package:stow/bloc/containers/containers_events.dart';
 import 'package:stow/bloc/containers/containers_state.dart';
 import 'package:stow/utils/authentication.dart';

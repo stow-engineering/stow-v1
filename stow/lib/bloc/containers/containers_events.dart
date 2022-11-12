@@ -1,7 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/models/container.dart' as customContainer;
+=======
+import 'package:stow/bloc/containers/containers_state.dart';
+import 'package:stow/utils/firebase.dart';
+import '../../models/container.dart' as customContainer;
+import '../../models/user.dart';
+>>>>>>> d89f78a (grocery lists feature completed)
 
 @immutable
 abstract class ContainersEvent {

@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 import 'package:stow/models/food_item.dart';
+=======
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:stow/utils/firebase.dart';
+import '../../models/food_item.dart';
+import '../../models/user.dart';
+>>>>>>> d89f78a (grocery lists feature completed)
 import 'package:equatable/equatable.dart';
 
 enum FoodItemsStatus { initial, success, error, loading }

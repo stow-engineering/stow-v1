@@ -1,19 +1,27 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:stow/models/user.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/bloc/containers/containers_state.dart';
 import 'package:stow/utils/firebase.dart';
+=======
+import 'package:stow/bloc/containers/containers_state.dart';
+import 'package:stow/utils/firebase.dart';
+>>>>>>> d89f78a (grocery lists feature completed)
 import '../../models/container.dart' as customContainer;
 import '../../models/user.dart';
 import 'package:equatable/equatable.dart';
 
+<<<<<<< HEAD
 /// Refactor Notes:
 ///
 /// -> Rename to extension method
 /// -> Incorporate additional logging
 
+=======
+>>>>>>> d89f78a (grocery lists feature completed)
 enum AuthStatus { initial, success, error, loading }
 
 extension AuthStatusX on AuthStatus {

@@ -5,7 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:stow/bloc/food/food_bloc.dart';
 import 'package:stow/bloc/food/food_state.dart';
 import 'package:stow/models/food_item.dart';
+<<<<<<< HEAD
 import 'package:stow/utils/firebase_storage.dart';
+=======
+
+import '../bloc/containers/containers_bloc.dart';
+import '../bloc/containers/containers_state.dart';
+import '../utils/firebase_storage.dart';
+>>>>>>> d89f78a (grocery lists feature completed)
 
 class FoodItemList extends StatefulWidget {
   const FoodItemList({Key? key}) : super(key: key);
