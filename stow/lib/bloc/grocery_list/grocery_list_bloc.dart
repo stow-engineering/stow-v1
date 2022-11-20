@@ -32,12 +32,12 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
           for (int i = 0; i < containers.length; i++) {
             var percentFull;
             if (containers[i].size == "Small") {
-              percentFull = 1 - ((165 - containers[i].value) / 165);
+              percentFull = ((165 - containers[i].value) / 165);
               if (percentFull < 0.25) {
                 lowContainers.add(containers[i].name);
               }
             } else {
-              percentFull = 1 - ((273 - containers[i].value) / 273);
+              percentFull = ((273 - containers[i].value) / 273);
               if (percentFull < 0.25) {
                 lowContainers.add(containers[i].name);
               }
@@ -59,6 +59,16 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
           List<GroceryList>? userGroceryLists =
               await service.getGroceryLists() as List<GroceryList>?;
 
+          //update container grocery list
+          for (int i = 0; i < userGroceryLists!.length; i++) {
+            if (userGroceryLists[i].containerGroceryList ?? false) {
+              userGroceryLists[i].foodItems = lowContainers;
+              GroceryList newContainerGroceryList =
+                  userGroceryLists[i].copyWith(foodItems: lowContainers);
+              service.updateGroceryList(
+                  userGroceryLists[i].id ?? "", newContainerGroceryList);
+            }
+          }
           emit(state.copyWith(groceryLists: userGroceryLists));
         }
       }
