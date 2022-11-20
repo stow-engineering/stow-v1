@@ -1,12 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:stow/utils/firebase.dart';
-<<<<<<< HEAD
 import 'package:stow/models/container.dart' as customContainer;
-=======
-import '../../models/container.dart' as customContainer;
-import '../../models/user.dart';
->>>>>>> d89f78a (grocery lists feature completed)
 import 'package:equatable/equatable.dart';
 
 enum ContainersStatus { initial, success, error, loading }

@@ -7,19 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/auth/auth_events.dart';
-<<<<<<< HEAD
 import 'package:stow/models/user.dart';
 import 'package:stow/pages/home/get_name.dart';
 import 'package:stow/utils/firebase.dart';
-=======
-import '../../container_widgets/container_chart.dart';
-import '../../container_widgets/container_list.dart';
-import '../../models/user.dart';
-import '../../utils/authentication.dart';
-import '../../utils/firebase.dart';
-import '../login/login.dart';
-import '../home/get_name.dart';
->>>>>>> 18e84ab (resolve conflicts grocery lists)
 
 class AccountPage extends StatefulWidget {
   final StowUser user;

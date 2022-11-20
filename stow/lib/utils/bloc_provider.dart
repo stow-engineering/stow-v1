@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/containers/containers_bloc.dart';
 import 'package:stow/bloc/food/food_bloc.dart';
+import 'package:stow/bloc/grocery_list/grocery_list_bloc.dart';
 import 'package:stow/bloc/recipes_bloc.dart';
 import 'package:stow/pages/home/home.dart';
 import 'package:stow/route_generator.dart';
@@ -22,6 +23,9 @@ class BlocProv extends StatelessWidget {
         BlocProvider<FoodItemsBloc>(
             create: (_) => FoodItemsBloc(service: service)),
         BlocProvider<RecipesBloc>(create: (_) => RecipesBloc(service: service)),
+        BlocProvider<GroceryListBloc>(
+          create: (_) => GroceryListBloc(service: service),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

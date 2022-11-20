@@ -1,18 +1,11 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:stow/utils/firebase.dart';
 
 /// Refactor Notes:
 ///
 /// - Include more detailed logs
-=======
-import 'package:stow/bloc/containers/containers_state.dart';
-import 'package:stow/utils/firebase.dart';
-import '../../models/container.dart' as customContainer;
-import '../../models/user.dart';
->>>>>>> d89f78a (grocery lists feature completed)
 
 @immutable
 abstract class AuthEvent {

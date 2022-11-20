@@ -4,13 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/bloc/food/food_state.dart';
-<<<<<<< HEAD
 import 'package:stow/models/food_item.dart';
 import 'package:stow/utils/firebase.dart';
-=======
-import 'package:stow/utils/firebase.dart';
-import '../../models/food_item.dart';
->>>>>>> d89f78a (grocery lists feature completed)
 
 class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
   FoodItemsBloc({
