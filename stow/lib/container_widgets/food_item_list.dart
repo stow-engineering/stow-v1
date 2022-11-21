@@ -86,10 +86,103 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
     }
   }
 
+  Image getFoodImage(String name) {
+    try {
+      List<String> jpgs = [
+        'almonds',
+        'apple',
+        'avocado',
+        'bacon',
+        'baking powder',
+        'baking soda',
+        'beans',
+        'bell peppers',
+        'blackberries',
+        'blueberries',
+        'bread',
+        'broccoli',
+        'brownies',
+        'brussel sprouts',
+        'butter',
+        'cabbage',
+        'candy',
+        'carrot',
+        'celery',
+        'cereal',
+        'cheese',
+        'chicken',
+        'chips',
+        'cilantro',
+        'coffee',
+        'cookies',
+        'corn',
+        'crab',
+        'croissant',
+        'eggplant',
+        'eggs',
+        'fish',
+        'flour',
+        'garlic',
+        'grape',
+        'grapefruit',
+        'green bean',
+        'ground beef',
+        'hotdog',
+        'lettuce',
+        'marshmello',
+        'milk',
+        'mushroom',
+        'nuts',
+        'oats',
+        'onion',
+        'orange',
+        'oreos',
+        'pasta',
+        'peaches',
+        'peanuts',
+        'pear',
+        'pears',
+        'pecans',
+        'peppers',
+        'pickles',
+        'popcorn',
+        'pork',
+        'potatoes',
+        'rice',
+        'salmon',
+        'sausage',
+        'shrimp',
+        'snacks',
+        'steak',
+        'strawberries',
+        'sugar',
+        'tomato',
+        'tortilla',
+        'watermelon',
+        'zuccini'
+      ];
+      List<String> jpegs = ['cornstarch', 'cream cheese', 'sour cream'];
+      if (jpgs.contains(name)) {
+        return Image(
+            image: AssetImage('assets/' + name + '.jpg'), fit: BoxFit.contain);
+      }
+      if (jpegs.contains(name)) {
+        return Image(
+            image: AssetImage('assets/' + name + '.jpeg'), fit: BoxFit.contain);
+      } else {
+        return const Image(
+            image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
+      }
+    } catch (e) {
+      return const Image(
+          image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final storage = Provider.of<Storage>(context);
-    var image = storage.getFoodItemImage(foodItem.name);
+    //final storage = Provider.of<Storage>(context);
+    //var image = storage.getFoodItemImage(foodItem.name);
     String daysLeftString;
     int daysLeft = 0;
     if (foodItem.expDate == null) {
@@ -129,37 +222,42 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
             child: Column(
               //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                FutureBuilder<String>(
-                  future: image,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data != null) {
-                        if (snapshot.data == "HTTP_ERROR") {
-                          return const SizedBox(
-                            height: 175,
-                            child: CircularProgressIndicator.adaptive(),
-                          );
-                        }
-                        return Container(
-                          width: 250,
-                          height: 175,
-                          child: Image.network(snapshot.data as String,
-                              fit: BoxFit.contain),
-                        );
-                      } else {
-                        return const SizedBox(
-                          height: 175,
-                          child: CircularProgressIndicator.adaptive(),
-                        );
-                      }
-                    } else {
-                      return const SizedBox(
-                        height: 175,
-                        child: CircularProgressIndicator.adaptive(),
-                      );
-                    }
-                  },
+                // FutureBuilder<String>(
+                //   future: image,
+                //   builder:
+                //       (BuildContext context, AsyncSnapshot<String> snapshot) {
+                //     if (snapshot.hasData) {
+                //       if (snapshot.data != null) {
+                //         if (snapshot.data == "HTTP_ERROR") {
+                //           return const SizedBox(
+                //             height: 175,
+                //             child: CircularProgressIndicator.adaptive(),
+                //           );
+                //         }
+                //         return Container(
+                //           width: 250,
+                //           height: 175,
+                //           child: Image.network(snapshot.data as String,
+                //               fit: BoxFit.contain),
+                //         );
+                //       } else {
+                //         return const SizedBox(
+                //           height: 175,
+                //           child: CircularProgressIndicator.adaptive(),
+                //         );
+                //       }
+                //     } else {
+                //       return const SizedBox(
+                //         height: 175,
+                //         child: CircularProgressIndicator.adaptive(),
+                //       );
+                //     }
+                //   },
+                // ),
+                Container(
+                  width: 250,
+                  height: 175,
+                  child: getFoodImage(foodItem.name),
                 ),
                 Container(
                   width: 250,
