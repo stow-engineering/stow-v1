@@ -169,7 +169,7 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
 
   final String foodItem;
 
-  Image getFoodImage(String name) {
+  static Image getFoodImage(String name) {
     try {
       List<String> jpgs = [
         'almonds',
@@ -245,6 +245,7 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
         'zuccini'
       ];
       List<String> jpegs = ['cornstarch', 'cream cheese', 'sour cream'];
+      name = name.toLowerCase();
       if (jpgs.contains(name)) {
         return Image(
             image: AssetImage('assets/' + name + '.jpg'), fit: BoxFit.contain);
@@ -264,8 +265,8 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final storage = Provider.of<Storage>(context);
-    var image = storage.getFoodItemImage(this.foodItem);
+    // final storage = Provider.of<Storage>(context);
+    // var image = storage.getFoodItemImage(this.foodItem);
     return Padding(
         padding: EdgeInsets.only(right: 8.0),
         child: Card(
