@@ -1,24 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/auth_bloc.dart';
-import 'package:stow/bloc/food_bloc.dart';
+import 'package:stow/bloc/food/food_bloc.dart';
+import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/fooditem_widgets/horizontal_fooditem_list.dart';
 import 'package:stow/models/food_item.dart';
-import 'package:stow/bloc/food_events.dart';
-import '../../container_widgets/container_chart.dart';
-import '../../container_widgets/container_list.dart';
-import '../../container_widgets/user_containers.dart';
-import '../../models/add_container_argument.dart';
-import '../../models/container_series.dart';
-import '../../models/container.dart' as customContainer;
-import '../../pages/login/login.dart';
-import '../../utils/firebase.dart';
 
 class AddFoodItemPage extends StatefulWidget {
   const AddFoodItemPage({Key? key}) : super(key: key);

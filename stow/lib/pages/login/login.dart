@@ -1,12 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/src/provider.dart';
-import 'package:stow/bloc/auth_bloc.dart';
-
-import '../../bloc/auth_events.dart';
-import '../../utils/authentication.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
@@ -22,7 +17,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //final authService = Provider.of<AuthenticationService>(context);
     final authBloc = BlocProvider.of<AuthBloc>(context);
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
@@ -123,7 +117,6 @@ class _LoginPageState extends State<LoginPage> {
                               email: emailController.text,
                               password: passwordController.text,
                               context: context));
-
                         },
                         child: const Text(
                           'Sign In',
@@ -133,9 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
-                              '/reset-password'
-                            );
+                        Navigator.of(context).pushNamed('/reset-password');
                       },
                       child: const Text(
                         'Forgot Password',
