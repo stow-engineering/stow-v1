@@ -7,6 +7,7 @@ import 'package:stow/bloc/auth/auth_state.dart';
 import 'package:stow/utils/bloc_provider.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/utils/firebase_storage.dart';
+import 'package:stow/utils/stow_colors.dart';
 import 'models/user.dart';
 import 'pages/login/login.dart';
 import 'utils/authentication.dart';
@@ -50,7 +51,9 @@ class AuthenticationWrapper extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 title: 'Stow',
                 theme: ThemeData(
-                  primarySwatch: Colors.green,
+                  primaryColor: const Color.fromARGB(255, 6, 70, 53),
+                  primarySwatch:
+                      createMaterialColor(const Color.fromRGBO(6, 70, 53, 1)),
                 ),
                 initialRoute: '/',
                 onGenerateRoute: RouteGenerator.generateRoute,

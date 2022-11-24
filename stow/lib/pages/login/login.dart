@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      child: Image.asset('assets/stow_text_logo.png'),
+                      child: Image.asset('assets/text-logo-transparent.png'),
                     ),
                     Form(
                       key: _formKey,
@@ -46,6 +46,8 @@ class _LoginPageState extends State<LoginPage> {
                             child: TextFormField(
                               controller: emailController,
                               decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context).primaryColor),
                                   labelText: 'Email',
                                   hintText: 'han@solo.rebellion',
                                   enabledBorder: OutlineInputBorder(
@@ -56,9 +58,9 @@ class _LoginPageState extends State<LoginPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                         width: 1,
-                                        color: Color.fromARGB(255, 0, 176, 80)),
+                                        color: Theme.of(context).primaryColor),
                                     borderRadius: BorderRadius.circular(15),
                                   )),
                               validator: (String? value) {
@@ -79,6 +81,8 @@ class _LoginPageState extends State<LoginPage> {
                               controller: passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context).primaryColor),
                                   labelText: 'Password',
                                   hintText: 'whoshotfirst',
                                   enabledBorder: OutlineInputBorder(
@@ -89,9 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                         width: 1,
-                                        color: Color.fromARGB(255, 0, 176, 80)),
+                                        color: Theme.of(context).primaryColor),
                                     borderRadius: BorderRadius.circular(15),
                                   )),
                               validator: (String? value) {
@@ -109,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 40,
                       width: 372,
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                         onPressed: () {
