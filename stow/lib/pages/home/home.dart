@@ -269,9 +269,9 @@ class Home extends StatelessWidget {
                       BlocBuilder<AuthBloc, AuthState>(
                           bloc: userBloc,
                           builder: (context, state) {
-                            String? fullname = state.firstname!;
+                            String? fullname = state.firstname ?? "Stow User";
                             return Text(fullname,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 35,
                                     fontWeight: FontWeight.bold));
@@ -284,12 +284,14 @@ class Home extends StatelessWidget {
           ),
           const NavigationButton(route: '/pantry', text: "Your Pantry"),
           Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 15),
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 15),
             child: Card(
               elevation: 0.0,
-              color: Color.fromARGB(255, 237, 248, 255),
+              color: const Color.fromARGB(255, 237, 248, 255),
               child: Padding(
-                padding: EdgeInsets.only(left: 20, right: 5, top: 0, bottom: 5),
+                padding: const EdgeInsets.only(
+                    left: 20, right: 5, top: 0, bottom: 5),
                 child: Row(
                   children: <Widget>[
                     Column(
@@ -299,7 +301,7 @@ class Home extends StatelessWidget {
                             builder: (context, state) {
                               return Text(
                                 state.numContainers.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 45,
                                     fontWeight: FontWeight.bold),
@@ -314,7 +316,7 @@ class Home extends StatelessWidget {
                     Expanded(
                       child: Container(
                         height: 175,
-                        padding: EdgeInsets.all(25),
+                        padding: const EdgeInsets.all(25),
                         //child: ContainerChart(data: data),
                         child: BlocBuilder<ContainersBloc, ContainersState>(
                             bloc: stateBloc,
