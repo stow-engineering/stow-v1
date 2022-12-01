@@ -53,6 +53,7 @@ class _AddContainerState extends State<AddContainer> {
                     padding: const EdgeInsets.only(
                         left: 30.0, right: 30.0, top: 25.0, bottom: 0),
                     child: TextFormField(
+                      key: const Key('NameFormField'),
                       controller: nameController,
                       decoration: const InputDecoration(
                         hintText: 'Container Name',
@@ -69,6 +70,7 @@ class _AddContainerState extends State<AddContainer> {
                     padding: const EdgeInsets.only(
                         left: 30.0, right: 30.0, top: 25.0, bottom: 25.0),
                     child: DropdownButtonFormField(
+                      key: const Key("DropdownButtonForm"),
                       value: selectedValue,
                       items: const <DropdownMenuItem>[
                         DropdownMenuItem(
