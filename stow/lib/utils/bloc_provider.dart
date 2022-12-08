@@ -9,6 +9,7 @@ import 'package:stow/pages/home/home.dart';
 import 'package:stow/route_generator.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stow/utils/stow_colors.dart';
 
 class BlocProv extends StatelessWidget {
   const BlocProv({Key? key}) : super(key: key);
@@ -31,7 +32,9 @@ class BlocProv extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Stow',
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          primaryColor: const Color.fromARGB(255, 6, 70, 53),
+          primarySwatch:
+              createMaterialColor(const Color.fromRGBO(6, 70, 53, 1)),
         ),
         home: Home(key: key),
         initialRoute: '/',

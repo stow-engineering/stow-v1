@@ -100,7 +100,7 @@ class _AccountPageState extends State<AccountPage> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  '/groceries',
+                  '/grocery-list-home',
                   arguments: widget.user,
                 );
               },

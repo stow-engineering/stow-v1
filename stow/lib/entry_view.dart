@@ -16,7 +16,7 @@ class EntryPage extends StatelessWidget {
             Container(
               width: 200,
               height: 150,
-              child: Image.asset('assets/stow-text.png'),
+              child: Image.asset('assets/text-logo-transparent.png'),
             ),
             const SizedBox(
               height: 300,

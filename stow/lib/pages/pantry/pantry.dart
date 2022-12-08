@@ -94,7 +94,9 @@ class _PantryState extends State<Pantry> {
                 icon: const Icon(Icons.breakfast_dining_outlined),
               ),
             ]),
-            appBar: AppBar(),
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
             body: ListView(
               children: <Widget>[
                 Padding(

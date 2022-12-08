@@ -36,7 +36,7 @@ class InitialLoginPage extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 15.0, bottom: 70),
                         child: Container(
                           width: 150,
-                          child: Image.asset('assets/hat.png'),
+                          child: Image.asset('assets/small-logo-v2.png'),
                         )),
                     Container(
                       height: 40,

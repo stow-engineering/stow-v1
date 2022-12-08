@@ -45,5 +45,9 @@
 	<true/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Use Bluetooth to find nearby Stow Containers</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Stow needs Camera access to scan barcodes</string>
 </dict>
 </plist>
