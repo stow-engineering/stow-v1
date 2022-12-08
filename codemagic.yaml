@@ -23,7 +23,7 @@ workflows:
           include: true
     scripts:
       - flutter emulators --launch apple_ios_simulator
-      - |
+#      - |
 #        # set up debug keystore
 #        rm -f ~/.android/debug.keystore
 #        keytool -genkeypair \
