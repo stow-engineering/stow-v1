@@ -4,6 +4,7 @@
 workflows:
   default-workflow:
     name: Default Workflow
+    working-directory: stow
     max_build_duration: 60
     environment:
       flutter: default
