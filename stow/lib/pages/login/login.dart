@@ -1,12 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/src/provider.dart';
-import 'package:stow/bloc/auth_bloc.dart';
-
-import '../../bloc/auth_events.dart';
-import '../../utils/authentication.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
@@ -22,7 +17,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //final authService = Provider.of<AuthenticationService>(context);
     final authBloc = BlocProvider.of<AuthBloc>(context);
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
@@ -37,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      child: Image.asset('assets/stow_text_logo.png'),
+                      child: Image.asset('assets/text-logo-transparent.png'),
                     ),
                     Form(
                       key: _formKey,
@@ -52,6 +46,8 @@ class _LoginPageState extends State<LoginPage> {
                             child: TextFormField(
                               controller: emailController,
                               decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context).primaryColor),
                                   labelText: 'Email',
                                   hintText: 'han@solo.rebellion',
                                   enabledBorder: OutlineInputBorder(
@@ -62,9 +58,9 @@ class _LoginPageState extends State<LoginPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                         width: 1,
-                                        color: Color.fromARGB(255, 0, 176, 80)),
+                                        color: Theme.of(context).primaryColor),
                                     borderRadius: BorderRadius.circular(15),
                                   )),
                               validator: (String? value) {
@@ -85,6 +81,8 @@ class _LoginPageState extends State<LoginPage> {
                               controller: passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context).primaryColor),
                                   labelText: 'Password',
                                   hintText: 'whoshotfirst',
                                   enabledBorder: OutlineInputBorder(
@@ -95,9 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                         width: 1,
-                                        color: Color.fromARGB(255, 0, 176, 80)),
+                                        color: Theme.of(context).primaryColor),
                                     borderRadius: BorderRadius.circular(15),
                                   )),
                               validator: (String? value) {
@@ -115,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 40,
                       width: 372,
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                         onPressed: () {
@@ -123,7 +121,6 @@ class _LoginPageState extends State<LoginPage> {
                               email: emailController.text,
                               password: passwordController.text,
                               context: context));
-
                         },
                         child: const Text(
                           'Sign In',
@@ -133,9 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
-                              '/reset-password'
-                            );
+                        Navigator.of(context).pushNamed('/reset-password');
                       },
                       child: const Text(
                         'Forgot Password',

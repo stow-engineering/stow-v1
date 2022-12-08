@@ -1,15 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/models/food_item.dart';
+import 'package:stow/bloc/containers/containers_bloc.dart';
+import 'package:stow/bloc/containers/containers_state.dart';
 import 'package:stow/utils/firebase_storage.dart';
-
-import '../bloc/containers_bloc.dart';
 import '../models/container.dart' as customContainer;
-import '../bloc/containers_state.dart';
+import 'package:stow/fooditem_widgets/horizontal_fooditem_list.dart';
 
 class ContainerList extends StatefulWidget {
   const ContainerList({Key? key}) : super(key: key);
@@ -55,8 +51,8 @@ class HorizontalContainerDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final storage = Provider.of<Storage>(context);
-    var image = storage.getFoodItemImage(container.name);
+    // final storage = Provider.of<Storage>(context);
+    // var image = storage.getFoodItemImage(container.name);
     return Padding(
         padding: EdgeInsets.only(right: 8.0),
         child: Card(
@@ -65,37 +61,11 @@ class HorizontalContainerDisplay extends StatelessWidget {
             child: Column(
               //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                FutureBuilder<String>(
-                  future: image,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data != null) {
-                        if (snapshot.data == "HTTP_ERROR") {
-                          return const SizedBox(
-                            height: 175,
-                            child: CircularProgressIndicator.adaptive(),
-                          );
-                        }
-                        return Container(
-                          width: 250,
-                          height: 175,
-                          child: Image.network(snapshot.data as String,
-                              fit: BoxFit.contain),
-                        );
-                      } else {
-                        return const SizedBox(
-                          height: 175,
-                          child: CircularProgressIndicator.adaptive(),
-                        );
-                      }
-                    } else {
-                      return const SizedBox(
-                        height: 175,
-                        child: CircularProgressIndicator.adaptive(),
-                      );
-                    }
-                  },
+                Container(
+                  width: 250,
+                  height: 175,
+                  child: HorizontalMiniFoodItemDisplay.getFoodImage(
+                      container.name),
                 ),
                 Container(
                   width: 250,

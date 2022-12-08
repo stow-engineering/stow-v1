@@ -822,7 +822,11 @@ PODS:
   - path_provider_ios (0.0.1):
     - Flutter
   - PromisesObjC (2.1.1)
+<<<<<<< HEAD
   - Protobuf (3.21.5)
+=======
+  - Protobuf (3.21.9)
+>>>>>>> e12b796cbea6474847137ecf58b1925203725b29
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -927,6 +931,6 @@ SPEC CHECKSUMS:
   Protobuf: 7504b04fffcf6662ad629694db8231f5e744327f
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
-PODFILE CHECKSUM: 081fd32f9d6cc54ac733436f71da30d048e68af2
+PODFILE CHECKSUM: 298c2678f0be33f3040d46da286e5e3344a7e7ee
 
 COCOAPODS: 1.11.3

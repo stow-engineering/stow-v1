@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import '../models/container.dart' as customContainer;
 import '../models/user.dart';
-import '../bloc/containers_state.dart';
 import '../utils/firebase.dart';
 
 class NumberContainers extends StatefulWidget {

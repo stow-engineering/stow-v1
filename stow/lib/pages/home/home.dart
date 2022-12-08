@@ -1,38 +1,27 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/cupertino.dart';
 import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/diagnostics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:stow/bloc/containers_events.dart';
-import 'package:stow/bloc/food_bloc.dart';
-import 'package:stow/bloc/food_events.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
+import 'package:stow/bloc/auth/auth_state.dart';
+import 'package:stow/bloc/containers/containers_bloc.dart';
+import 'package:stow/bloc/containers/containers_events.dart';
+import 'package:stow/bloc/containers/containers_state.dart';
+import 'package:stow/bloc/food/food_bloc.dart';
+import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/bloc/recipes_events.dart';
-import 'package:stow/bloc/containers_state.dart';
-import 'package:stow/container_widgets/food_item_list.dart';
+import 'package:stow/pages/home/navigation_buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../bloc/auth_bloc.dart';
-import '../../bloc/auth_events.dart';
-import '../../bloc/auth_state.dart';
-import '../../bloc/containers_bloc.dart';
 import '../../bloc/recipes_bloc.dart';
 import '../../container_widgets/container_chart.dart';
-import '../../container_widgets/container_list.dart';
-import '../../container_widgets/user_containers.dart';
 import '../../models/container.dart' as customContainer;
-import '../../models/container_series.dart';
 import '../../models/user.dart';
-import '../../utils/authentication.dart';
 import '../../utils/firebase.dart';
-import '../login/login.dart';
-import 'get_name.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import '../../bloc/containers_state.dart';
-import '../../bloc/recipes_state.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -65,11 +54,6 @@ class Home extends StatelessWidget {
                   String? fullname = state.firstname! + state.lastname!;
                   return Center(child: Text(fullname));
                 }),
-            // BlocBuilder<RecipesBloc, RecipesState>(
-            //     bloc: recipeBloc,
-            //     builder: (context, state) {
-            //       return null;
-            //     }),
             Padding(
               padding: const EdgeInsets.only(top: 30),
               child: TextButton(
@@ -128,7 +112,7 @@ class Home extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  '/groceries',
+                  '/grocery-list-home',
                 );
               },
               child: Row(children: const [
@@ -199,7 +183,7 @@ class Home extends StatelessWidget {
       //     onPressed: () {},
       //     backgroundColor: Colors.green,
       //     child: const Icon(Icons.add)),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: CurvedNavigationBar(
         onTap: (int selected) => {
           if (selected == 0)
             {
@@ -210,90 +194,95 @@ class Home extends StatelessWidget {
           else if (selected == 1)
             {
               Navigator.of(context).pushNamed(
-                '/pantry',
+                '/grocery-list-home',
               )
             }
           else if (selected == 2)
             {
               Navigator.of(context).pushNamed(
-                '/recipes',
+                '/pantry',
               )
             }
           else if (selected == 3)
             {
               Navigator.of(context).pushNamed(
-                '/groceries',
+                '/recipes',
               )
             }
         },
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          // BottomNavigationBarItem(
-          //     icon: Icon(Icons.local_grocery_store), label: 'Groceries'),
-          BottomNavigationBarItem(icon: Icon(Icons.kitchen), label: 'Pantry'),
-          BottomNavigationBarItem(icon: Icon(Icons.blender), label: 'Recipes'),
+        items: const <Widget>[
+          Icon(CupertinoIcons.home, size: 30, color: Colors.white),
+          Icon(Icons.local_grocery_store, size: 30, color: Colors.white),
+          Icon(Icons.kitchen, size: 30, color: Colors.white),
+          Icon(Icons.blender, size: 30, color: Colors.white),
         ],
+        color: Theme.of(context).primaryColor,
+        buttonBackgroundColor: Colors.green,
+        backgroundColor: Colors.white,
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
+        // shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.all(Radius.circular(25))),
         leading: IconButton(
           icon: Icon(Icons.menu),
           color: Color.fromARGB(255, 211, 220, 230),
           onPressed: () => {_key.currentState!.openDrawer()},
           iconSize: 45,
         ),
-        backgroundColor: Colors.white,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Container(
+              width: 30,
+              height: 30,
+              child: Image.asset('assets/small-logo-v2.png'),
+            ),
+          ),
+        ],
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
       ),
       body: ListView(
         children: <Widget>[
-          Container(
-            width: 300,
-            height: 250,
-            child: Image.asset('assets/hat.png'),
-          ),
           Padding(
             padding:
-                const EdgeInsets.only(left: 0, right: 0, top: 30, bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  "Hi there, ",
-                  style: TextStyle(color: Colors.black, fontSize: 35),
+                const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 15),
+            child: SizedBox(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30))),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "Hi there, ",
+                        style: TextStyle(
+                            color: Colors.greenAccent,
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      BlocBuilder<AuthBloc, AuthState>(
+                          bloc: userBloc,
+                          builder: (context, state) {
+                            String? fullname = state.firstname!;
+                            return Text(fullname,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.bold));
+                          }),
+                    ],
+                  ),
                 ),
-                BlocBuilder<AuthBloc, AuthState>(
-                    bloc: userBloc,
-                    builder: (context, state) {
-                      String? fullname = state.firstname!;
-                      return Text(fullname,
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold));
-                    }),
-              ],
-            ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 0, right: 220, top: 30, bottom: 0),
-            child: TextButton.icon(
-              onPressed: () => {
-                Navigator.of(context).pushNamed(
-                  '/pantry',
-                )
-                // .then((_) => setState(() {}))
-              },
-              icon: const Icon(Icons.arrow_forward_ios,
-                  size: 15, color: Colors.grey),
-              label: const Text(
-                "Your Pantry",
-                style: TextStyle(color: Colors.grey, fontSize: 15),
               ),
             ),
           ),
+          const NavigationButton(route: '/pantry', text: "Your Pantry"),
           Padding(
             padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 15),
             child: Card(

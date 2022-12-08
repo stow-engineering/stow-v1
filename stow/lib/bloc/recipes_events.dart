@@ -1,10 +1,5 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:stow/bloc/containers_state.dart';
-import 'package:stow/utils/firebase.dart';
-import '../models/container.dart' as customContainer;
 import '../models/recipe.dart';
-import '../models/user.dart';
 
 @immutable
 abstract class RecipesEvent {
@@ -34,9 +29,17 @@ class UpdateRecipe extends RecipesEvent {
   final int cookTimeMin;
   final int prepTimeMin;
 
-  UpdateRecipe(this.recipeId, this.name, this.instructions, this.userId, this.ingredients, 
-    this.cookTimeMin, this.prepTimeMin)
-      : super([recipeId, name, instructions, userId, ingredients, cookTimeMin, prepTimeMin]);
+  UpdateRecipe(this.recipeId, this.name, this.instructions, this.userId,
+      this.ingredients, this.cookTimeMin, this.prepTimeMin)
+      : super([
+          recipeId,
+          name,
+          instructions,
+          userId,
+          ingredients,
+          cookTimeMin,
+          prepTimeMin
+        ]);
 
   @override
   String toString() =>
