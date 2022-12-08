@@ -40,7 +40,7 @@ workflows:
 #        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
       - flutter packages pub get
       - flutter analyze --no-fatal-infos --no-fatal-warnings
-      - flutter test integration_test
+#      - flutter test integration_test
       - flutter test
       - flutter build appbundle --release
       - find . -name "Podfile" -execdir pod install \;
