@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/containers/containers_bloc.dart';
@@ -146,7 +147,7 @@ class _EditContainerState extends State<EditContainer> {
                               decoration: InputDecoration(
                                   hintText: 'New Container Name'));
                         }
-                        return const CircularProgressIndicator();
+                        return Lottie.asset('assets/loading-utensils-2.json');
                       },
                     ),
                   ),
