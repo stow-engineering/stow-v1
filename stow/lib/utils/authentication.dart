@@ -10,10 +10,11 @@ class AuthenticationService {
     if (user == null) {
       return null;
     }
+
     return StowUser(user.uid, user.email);
   }
 
-  Stream<StowUser?>? get user {
+  Stream<StowUser?> get user {
     return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 
@@ -46,7 +47,7 @@ class AuthenticationService {
     return null;
   }
 
-  Future resetPassword (String email) async {
+  Future resetPassword(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
