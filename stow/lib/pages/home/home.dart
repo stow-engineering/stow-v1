@@ -190,9 +190,9 @@ class Home extends StatelessWidget {
         onTap: (int selected) => {
           if (selected == 0)
             {
-              Navigator.of(context).pushNamed(
-                '/home',
-              )
+              // Navigator.of(context).pushNamed(
+              //   '/home',
+              // )
             }
           else if (selected == 1)
             {
@@ -220,7 +220,7 @@ class Home extends StatelessWidget {
           Icon(Icons.blender, size: 30, color: Colors.white),
         ],
         color: Theme.of(context).primaryColor,
-        buttonBackgroundColor: Colors.green,
+        buttonBackgroundColor: Theme.of(context).primaryColor,
         backgroundColor: Colors.white,
       ),
       appBar: AppBar(

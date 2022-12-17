@@ -74,7 +74,7 @@ class _PantryState extends State<Pantry> {
                 initialOpen: false,
                 distance: 80.0,
                 children: [
-                  ActionButton(
+                  CustomTextButton(
                     onPressed: () => {
                       Navigator.of(context)
                           .pushNamed(
@@ -83,9 +83,11 @@ class _PantryState extends State<Pantry> {
                           )
                           .then((_) => setState(() {}))
                     },
-                    icon: const Icon(Icons.delete_outlined),
+                    text: const Text('Add Stow Container',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
-                  ActionButton(
+                  CustomTextButton(
                     onPressed: () => {
                       Navigator.of(context)
                           .pushNamed(
@@ -93,7 +95,9 @@ class _PantryState extends State<Pantry> {
                           )
                           .then((_) => setState(() {}))
                     },
-                    icon: const Icon(Icons.breakfast_dining_outlined),
+                    text: const Text('Add Food Item',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                 ],
                 key: const Key("ExpandableFab")),

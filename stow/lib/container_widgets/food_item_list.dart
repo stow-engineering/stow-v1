@@ -216,85 +216,93 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
     }
     return Padding(
         padding: EdgeInsets.only(right: 8.0),
-        child: Card(
-            clipBehavior: Clip.antiAlias,
-            margin: EdgeInsets.fromLTRB(10, 6, 10, 0),
-            child: Column(
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // FutureBuilder<String>(
-                //   future: image,
-                //   builder:
-                //       (BuildContext context, AsyncSnapshot<String> snapshot) {
-                //     if (snapshot.hasData) {
-                //       if (snapshot.data != null) {
-                //         if (snapshot.data == "HTTP_ERROR") {
-                //           return const SizedBox(
-                //             height: 175,
-                //             child: CircularProgressIndicator.adaptive(),
-                //           );
-                //         }
-                //         return Container(
-                //           width: 250,
-                //           height: 175,
-                //           child: Image.network(snapshot.data as String,
-                //               fit: BoxFit.contain),
-                //         );
-                //       } else {
-                //         return const SizedBox(
-                //           height: 175,
-                //           child: CircularProgressIndicator.adaptive(),
-                //         );
-                //       }
-                //     } else {
-                //       return const SizedBox(
-                //         height: 175,
-                //         child: CircularProgressIndicator.adaptive(),
-                //       );
-                //     }
-                //   },
-                // ),
-                Container(
-                  width: 250,
-                  height: 175,
-                  child: getFoodImage(foodItem.name),
-                ),
-                Container(
-                  width: 250,
-                  height: 50,
-                  child: ListTile(
-                      trailing: IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(
-                            '/edit-food-item',
-                            arguments: foodItem,
-                          );
-                        },
-                      ),
-                      title: Text(foodItem.name.toString(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight
-                                  .bold)), //Text(foodItem.value.toString())),
-                      subtitle: daysLeftString == ""
-                          ? const Text("EXPIRED",
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold))
-                          : Row(
-                              children: <Widget>[
-                                Text(daysLeftString,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: getDaysLeftColor(daysLeft))),
-                                const Text(" days until expired",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    )),
-                              ],
-                            )),
-                )
-              ],
-            )));
+        child: GestureDetector(
+          onTap: () => {
+            Navigator.of(context).pushNamed(
+              '/edit-food-item',
+              arguments: foodItem,
+            )
+          },
+          child: Card(
+              clipBehavior: Clip.antiAlias,
+              margin: EdgeInsets.fromLTRB(10, 6, 10, 0),
+              child: Column(
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // FutureBuilder<String>(
+                  //   future: image,
+                  //   builder:
+                  //       (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  //     if (snapshot.hasData) {
+                  //       if (snapshot.data != null) {
+                  //         if (snapshot.data == "HTTP_ERROR") {
+                  //           return const SizedBox(
+                  //             height: 175,
+                  //             child: CircularProgressIndicator.adaptive(),
+                  //           );
+                  //         }
+                  //         return Container(
+                  //           width: 250,
+                  //           height: 175,
+                  //           child: Image.network(snapshot.data as String,
+                  //               fit: BoxFit.contain),
+                  //         );
+                  //       } else {
+                  //         return const SizedBox(
+                  //           height: 175,
+                  //           child: CircularProgressIndicator.adaptive(),
+                  //         );
+                  //       }
+                  //     } else {
+                  //       return const SizedBox(
+                  //         height: 175,
+                  //         child: CircularProgressIndicator.adaptive(),
+                  //       );
+                  //     }
+                  //   },
+                  // ),
+                  Container(
+                    width: 250,
+                    height: 175,
+                    child: getFoodImage(foodItem.name),
+                  ),
+                  Container(
+                    width: 250,
+                    height: 50,
+                    child: ListTile(
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                              '/edit-food-item',
+                              arguments: foodItem,
+                            );
+                          },
+                        ),
+                        title: Text(foodItem.name.toString(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight
+                                    .bold)), //Text(foodItem.value.toString())),
+                        subtitle: daysLeftString == ""
+                            ? const Text("EXPIRED",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold))
+                            : Row(
+                                children: <Widget>[
+                                  Text(daysLeftString,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: getDaysLeftColor(daysLeft))),
+                                  const Text(" days until expired",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      )),
+                                ],
+                              )),
+                  )
+                ],
+              )),
+        ));
   }
 }

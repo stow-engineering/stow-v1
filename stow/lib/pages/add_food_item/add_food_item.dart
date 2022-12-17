@@ -113,36 +113,42 @@ class _AddFoodItemState extends State<AddFoodItemPage> {
                       ),
                     ),
                     const SizedBox(height: 25),
-                    Container(
-                      height: 40,
-                      width: 372,
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextButton(
-                        onPressed: () {
-                          final name = nameController.text;
-                          DateTime today = DateTime.now();
-                          showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: today,
-                                  lastDate: DateTime(
-                                      today.year + 2, today.month, today.day))
-                              .then((date) => {
-                                    context.read<FoodItemsBloc>().add(
-                                        AddFoodItem(FoodItem(
-                                            name: name,
-                                            value: 0,
-                                            barcode: "",
-                                            expDate: date)))
-                                  });
-                          // var food_uid = service.updateFoodItemData(name);
-                          // service.updateContainers(food_uid.toString());
-                        },
-                        child: const Text(
-                          'Create Custom Food Item!',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 75),
+                      child: Container(
+                        height: 40,
+                        width: 372,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: TextButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Theme.of(context).primaryColor)),
+                          onPressed: () {
+                            final name = nameController.text;
+                            DateTime today = DateTime.now();
+                            showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: today,
+                                    lastDate: DateTime(
+                                        today.year + 2, today.month, today.day))
+                                .then((date) => {
+                                      context.read<FoodItemsBloc>().add(
+                                          AddFoodItem(FoodItem(
+                                              name: name,
+                                              value: 0,
+                                              barcode: "",
+                                              expDate: date)))
+                                    });
+                            // var food_uid = service.updateFoodItemData(name);
+                            // service.updateContainers(food_uid.toString());
+                          },
+                          child: const Text(
+                            'Create Custom Food Item!',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
                         ),
                       ),
                     ),
