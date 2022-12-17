@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/bloc/auth/auth_state.dart';
@@ -20,6 +21,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginEvent>(_mapLoginEventToState);
     on<LogoutEvent>(_mapLogoutEventToState);
     on<ResetPasswordEvent>(_mapResetPasswordEventToState);
+    on<AlreadyLoggedInEvent>(_mapAlreadyLoggedInEventToState);
+    on<GetNameEvent>(_mapGetNameEventToState);
   }
   final AuthenticationService authService;
 
@@ -121,6 +124,54 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
       await authService.resetPassword(event.props[0] as String);
+      emit(state.copyWith(
+          status: AuthStatus.success,
+          user: null,
+          firstname: null,
+          lastname: null));
+    } catch (error, stacktrace) {
+      print(stacktrace);
+      emit(state.copyWith(status: AuthStatus.error));
+    }
+  }
+
+  void _mapAlreadyLoggedInEventToState(
+      AlreadyLoggedInEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      emit(state.copyWith(
+          status: AuthStatus.success,
+          user: event.stowUser,
+          firstname: null,
+          lastname: null));
+    } catch (error, stacktrace) {
+      print(stacktrace);
+      emit(state.copyWith(status: AuthStatus.error));
+    }
+  }
+
+  void _mapGetNameEventToState(
+      GetNameEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      final CollectionReference userCollection =
+          FirebaseFirestore.instance.collection('User');
+      DocumentSnapshot snapshot =
+          await userCollection.doc(state.user!.uid).get();
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      String firstname = "";
+      String lastname = "";
+      if (data.containsKey('first_name')) {
+        firstname = "${data['first_name']}";
+      }
+      if (data.containsKey('last_name')) {
+        lastname = "${data['last_name']}";
+      }
+      emit(state.copyWith(
+          status: AuthStatus.success,
+          user: state.user,
+          firstname: firstname,
+          lastname: lastname));
     } catch (error, stacktrace) {
       print(stacktrace);
       emit(state.copyWith(status: AuthStatus.error));
