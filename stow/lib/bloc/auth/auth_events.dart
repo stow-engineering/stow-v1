@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:stow/models/user.dart';
 import 'package:stow/utils/firebase.dart';
 
 /// Refactor Notes:
@@ -66,4 +67,24 @@ class LogoutEvent extends AuthEvent {
 
   @override
   String toString() => 'Logout Event';
+}
+
+class AlreadyLoggedInEvent extends AuthEvent {
+  AlreadyLoggedInEvent({required this.stowUser});
+
+  StowUser stowUser;
+
+  @override
+  List<Object> get props => [stowUser];
+
+  @override
+  String toString() => 'Already Logged In Event';
+}
+
+class GetNameEvent extends AuthEvent {
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'Get Name Event';
 }

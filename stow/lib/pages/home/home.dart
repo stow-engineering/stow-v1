@@ -36,6 +36,9 @@ class Home extends StatelessWidget {
     context.read<FoodItemsBloc>().add(LoadFoodItems());
     //context.read<RecipesBloc>().add(LoadRecipes());
     final userBloc = BlocProvider.of<AuthBloc>(context);
+    if (userBloc.state.firstname == null || userBloc.state.lastname == null) {
+      userBloc.add(GetNameEvent());
+    }
     bool loadedContainerData = false;
     final GlobalKey<ScaffoldState> _key = GlobalKey();
     List<customContainer.Container> containerData =
@@ -269,7 +272,7 @@ class Home extends StatelessWidget {
                       BlocBuilder<AuthBloc, AuthState>(
                           bloc: userBloc,
                           builder: (context, state) {
-                            String? fullname = state.firstname ?? "Stow User";
+                            String fullname = state.firstname ?? 'Stow User';
                             return Text(fullname,
                                 style: const TextStyle(
                                     color: Colors.white,

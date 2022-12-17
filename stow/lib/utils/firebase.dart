@@ -42,6 +42,25 @@ class FirebaseService {
         .set({'email': email, 'first_name': firstName, 'last_name': lastName});
   }
 
+  // get first and last names
+  Future<List<String>> getFirstAndLastName() async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
+        .doc(uid)
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    if (data.containsKey('first_name') && data.containsKey('last_name')) {
+      final String firstName = data['first_name'] as String;
+      final String lastName = data['last_name'] as String;
+      List<String> myList = [];
+      myList.add(firstName);
+      myList.add(lastName);
+      return myList;
+    } else {
+      List<String> empty = [];
+      return empty;
+    }
+  }
+
   Future updateContainers(String mac) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)

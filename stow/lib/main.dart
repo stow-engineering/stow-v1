@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/bloc/auth/auth_state.dart';
 import 'package:stow/utils/bloc_provider.dart';
 import 'package:stow/utils/firebase.dart';
@@ -45,6 +46,11 @@ class AuthenticationWrapper extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       bloc: stateBloc,
       builder: (context, state) {
+        stateBloc.authService.user.listen((StowUser? streamStowUser) {
+          if (streamStowUser != null && state.user == null) {
+            stateBloc.add(AlreadyLoggedInEvent(stowUser: streamStowUser));
+          }
+        });
         final StowUser? user = state.user;
         return user == null
             ? MaterialApp(
