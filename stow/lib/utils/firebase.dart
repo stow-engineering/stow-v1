@@ -266,25 +266,37 @@ class FirebaseService {
 
   //gets current list of containers
   Future<List<customContainer.Container>?> getContainerList() async {
-    final containerList = await getAddresses();
-    return containerCollection
-        .where('mac',
-            whereIn:
-                containerList.isEmpty ? ['Invalid Container'] : containerList)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      return querySnapshot.docs.map((doc) {
-        customContainer.Container container;
-        container = customContainer.Container();
-        return container.copyWith(
-            name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
-            size: (doc.data() as Map<String, dynamic>)['size'] ?? 'Small',
-            value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
-            uid: doc.id,
-            barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '',
-            full: (doc.data() as Map<String, dynamic>)['full'] ?? true);
-      }).toList();
-    });
+    var containerList = await getAddresses();
+    List<customContainer.Container> combinedList = [];
+    for (int i = 0; i < containerList.length / 10; i++) {
+      List<String> addressBatch;
+      var lowerBound = i * 10;
+      if (lowerBound + 10 > containerList.length) {
+        addressBatch = containerList.sublist(lowerBound);
+      } else {
+        addressBatch = containerList.sublist(lowerBound, lowerBound + 10);
+      }
+      List<customContainer.Container> subsetList = await containerCollection
+          .where('mac',
+              whereIn:
+                  addressBatch.isEmpty ? ['Invalid Container'] : addressBatch)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          customContainer.Container container;
+          container = customContainer.Container();
+          return container.copyWith(
+              name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
+              size: (doc.data() as Map<String, dynamic>)['size'] ?? 'Small',
+              value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
+              uid: doc.id,
+              barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '',
+              full: (doc.data() as Map<String, dynamic>)['full'] ?? true);
+        }).toList();
+      });
+      combinedList.addAll(subsetList);
+    }
+    return combinedList;
   }
 
   //gets current list of recpies
@@ -384,25 +396,38 @@ class FirebaseService {
 
   //gets current list of food items
   Future<List<FoodItem>?> getFoodItemList() async {
-    final foodList = await getFoodAddresses();
-    return foodItemCollection
-        .where('uid',
-            whereIn: foodList.isEmpty ? ['Invalid Food Item'] : foodList)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      return querySnapshot.docs.map((doc) {
-        FoodItem foodItem = FoodItem();
-        Timestamp time =
-            (doc.data() as Map<String, dynamic>)['expDate'] as Timestamp;
-        DateTime date = time.toDate();
-        return foodItem.copyWith(
-            name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
-            value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
-            uid: doc.id,
-            expDate: date,
-            barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '');
-      }).toList();
-    });
+    var foodList = await getFoodAddresses();
+    List<FoodItem> combinedList = [];
+    for (int i = 0; i < foodList.length / 10; i++) {
+      List<String> addressBatch;
+      var lowerBound = i * 10;
+      if (lowerBound + 10 > foodList.length) {
+        addressBatch = foodList.sublist(lowerBound);
+      } else {
+        addressBatch = foodList.sublist(lowerBound, lowerBound + 10);
+      }
+      List<FoodItem> subsetList = await foodItemCollection
+          .where('uid',
+              whereIn:
+                  addressBatch.isEmpty ? ['Invalid Food Item'] : addressBatch)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          FoodItem foodItem = FoodItem();
+          Timestamp time =
+              (doc.data() as Map<String, dynamic>)['expDate'] as Timestamp;
+          DateTime date = time.toDate();
+          return foodItem.copyWith(
+              name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
+              value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
+              uid: doc.id,
+              expDate: date,
+              barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '');
+        }).toList();
+      });
+      combinedList.addAll(subsetList);
+    }
+    return combinedList;
   }
 
   Future updateFoodItemData(String name, DateTime? expDate) async {

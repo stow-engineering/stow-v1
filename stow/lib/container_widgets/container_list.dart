@@ -55,51 +55,59 @@ class HorizontalContainerDisplay extends StatelessWidget {
     // var image = storage.getFoodItemImage(container.name);
     return Padding(
         padding: EdgeInsets.only(right: 8.0),
-        child: Card(
-            clipBehavior: Clip.antiAlias,
-            margin: EdgeInsets.fromLTRB(10, 6, 10, 0),
-            child: Column(
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  width: 250,
-                  height: 175,
-                  child: HorizontalMiniFoodItemDisplay.getFoodImage(
-                      container.name),
-                ),
-                Container(
-                  width: 250,
-                  height: 50,
-                  child: ListTile(
-                    trailing: IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          '/edit-container',
-                          arguments: container,
-                        );
-                      },
-                    ),
-                    leading: CircularProgressIndicator(
-                      value: container.size == 'Small'
-                          ? ((165 - container.value) / 165)
-                          : ((273 - container.value) / 273),
-                      color: getColor(container.size == 'Small'
-                          ? 1 - ((165 - container.value) / 165)
-                          : 1 - ((273 - container.value) / 273)),
-                      backgroundColor: Colors.grey[350],
-                      strokeWidth: 8.0,
-                    ),
-                    title: Text(container.name.toString(),
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: container.size == 'Small'
-                        ? Text(calculateVolume(true, container))
-                        : Text(calculateVolume(false,
-                            container)), //Text(container.value.toString())),
+        child: GestureDetector(
+          onTap: () => {
+            Navigator.of(context).pushNamed(
+              '/edit-container',
+              arguments: container,
+            )
+          },
+          child: Card(
+              clipBehavior: Clip.antiAlias,
+              margin: EdgeInsets.fromLTRB(10, 6, 10, 0),
+              child: Column(
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    width: 250,
+                    height: 175,
+                    child: HorizontalMiniFoodItemDisplay.getFoodImage(
+                        container.name),
                   ),
-                )
-              ],
-            )));
+                  Container(
+                    width: 250,
+                    height: 50,
+                    child: ListTile(
+                      trailing: IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            '/edit-container',
+                            arguments: container,
+                          );
+                        },
+                      ),
+                      leading: CircularProgressIndicator(
+                        value: container.size == 'Small'
+                            ? ((165 - container.value) / 165)
+                            : ((273 - container.value) / 273),
+                        color: getColor(container.size == 'Small'
+                            ? 1 - ((165 - container.value) / 165)
+                            : 1 - ((273 - container.value) / 273)),
+                        backgroundColor: Colors.grey[350],
+                        strokeWidth: 8.0,
+                      ),
+                      title: Text(container.name.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: container.size == 'Small'
+                          ? Text(calculateVolume(true, container))
+                          : Text(calculateVolume(false,
+                              container)), //Text(container.value.toString())),
+                    ),
+                  )
+                ],
+              )),
+        ));
   }
 
   MaterialColor getColor(double value) {

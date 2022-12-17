@@ -47,7 +47,7 @@ class NumFull {
     }
     return [
       ContainerSeries(
-          barColor: charts.ColorUtil.fromDartColor(Colors.green),
+          barColor: charts.ColorUtil.fromDartColor(Colors.greenAccent),
           almostEmpty: "Full",
           number: numFull),
       ContainerSeries(
@@ -79,7 +79,7 @@ class NumFull {
     }
     return [
       ContainerSeries(
-          barColor: charts.ColorUtil.fromDartColor(Colors.green),
+          barColor: charts.ColorUtil.fromDartColor(Colors.greenAccent),
           almostEmpty: "Full",
           number: numFull),
       ContainerSeries(
@@ -108,7 +108,7 @@ class NumFull {
     }
     return [
       ContainerSeries(
-          barColor: charts.ColorUtil.fromDartColor(Colors.green),
+          barColor: charts.ColorUtil.fromDartColor(Colors.greenAccent),
           almostEmpty: "Full",
           number: numFull),
       ContainerSeries(
