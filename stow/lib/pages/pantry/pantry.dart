@@ -70,30 +70,33 @@ class _PantryState extends State<Pantry> {
         bloc: stateBloc,
         builder: (context, state) {
           return Scaffold(
-            floatingActionButton:
-                ExpandableFab(initialOpen: false, distance: 80.0, children: [
-              ActionButton(
-                onPressed: () => {
-                  Navigator.of(context)
-                      .pushNamed(
-                        '/provision',
-                        arguments: authBloc.state.user,
-                      )
-                      .then((_) => setState(() {}))
-                },
-                icon: const Icon(Icons.delete_outlined),
-              ),
-              ActionButton(
-                onPressed: () => {
-                  Navigator.of(context)
-                      .pushNamed(
-                        '/add-food-item',
-                      )
-                      .then((_) => setState(() {}))
-                },
-                icon: const Icon(Icons.breakfast_dining_outlined),
-              ),
-            ]),
+            floatingActionButton: ExpandableFab(
+                initialOpen: false,
+                distance: 80.0,
+                children: [
+                  ActionButton(
+                    onPressed: () => {
+                      Navigator.of(context)
+                          .pushNamed(
+                            '/provision',
+                            arguments: authBloc.state.user,
+                          )
+                          .then((_) => setState(() {}))
+                    },
+                    icon: const Icon(Icons.delete_outlined),
+                  ),
+                  ActionButton(
+                    onPressed: () => {
+                      Navigator.of(context)
+                          .pushNamed(
+                            '/add-food-item',
+                          )
+                          .then((_) => setState(() {}))
+                    },
+                    icon: const Icon(Icons.breakfast_dining_outlined),
+                  ),
+                ],
+                key: const Key("ExpandableFab")),
             appBar: AppBar(
               backgroundColor: Theme.of(context).primaryColor,
             ),
@@ -130,6 +133,7 @@ class _PantryState extends State<Pantry> {
                           ),
                           Expanded(
                             child: Container(
+                              key: const Key("ContainerChart"),
                               height: 175,
                               padding: const EdgeInsets.all(25),
                               child: ContainerChart(
@@ -155,6 +159,7 @@ class _PantryState extends State<Pantry> {
       return Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
+          key: const Key("ContainerListWrapper"),
           initiallyExpanded: true,
           title: const Text(
             "Containers",
@@ -182,6 +187,7 @@ class _PantryState extends State<Pantry> {
               data:
                   Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
+                key: const Key("FoodItemListWrapper"),
                 initiallyExpanded: true,
                 title: const Text(
                   "Food Items",

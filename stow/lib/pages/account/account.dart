@@ -49,16 +49,21 @@ class _AccountPageState extends State<AccountPage> {
                     arguments: widget.user,
                   );
                 },
-                child: Row(children: const [
-                  Icon(Icons.settings, color: Colors.black),
-                  Text(
-                    'Profile & Settings',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w300),
-                  ),
-                ]),
+                child: Container(
+                  height: 25,
+                  child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: const <Widget>[
+                        Icon(Icons.settings, color: Colors.black),
+                        Text(
+                          'Profile & Settings',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ]),
+                ),
               ),
             ),
             TextButton(
@@ -68,16 +73,21 @@ class _AccountPageState extends State<AccountPage> {
                   arguments: widget.user,
                 );
               },
-              child: Row(children: const [
-                Icon(Icons.kitchen, color: Colors.black),
-                Text(
-                  'Check your pantry',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300),
-                ),
-              ]),
+              child: Container(
+                height: 25,
+                child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: const <Widget>[
+                      Icon(Icons.kitchen, color: Colors.black),
+                      Text(
+                        'Check your pantry',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300),
+                      ),
+                    ]),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -86,16 +96,21 @@ class _AccountPageState extends State<AccountPage> {
                   arguments: widget.user,
                 );
               },
-              child: Row(children: const [
-                Icon(Icons.blender, color: Colors.black),
-                Text(
-                  'Browse recipes',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300),
-                ),
-              ]),
+              child: Container(
+                height: 25,
+                child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: const <Widget>[
+                      Icon(Icons.blender, color: Colors.black),
+                      Text(
+                        'Browse recipes',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300),
+                      ),
+                    ]),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -104,32 +119,42 @@ class _AccountPageState extends State<AccountPage> {
                   arguments: widget.user,
                 );
               },
-              child: Row(children: const [
-                Icon(Icons.settings, color: Colors.black),
-                Text(
-                  'Update grocery lists',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300),
-                ),
-              ]),
+              child: Container(
+                height: 25,
+                child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: const <Widget>[
+                      Icon(Icons.settings, color: Colors.black),
+                      Text(
+                        'Update grocery lists',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300),
+                      ),
+                    ]),
+              ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context)
                     .pushNamed('/barcode', arguments: widget.user);
               },
-              child: Row(children: const [
-                Icon(Icons.scanner, color: Colors.black),
-                Text(
-                  'Scan barcode',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300),
-                ),
-              ]),
+              child: Container(
+                height: 25,
+                child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: const <Widget>[
+                      Icon(Icons.scanner, color: Colors.black),
+                      Text(
+                        'Scan barcode',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300),
+                      ),
+                    ]),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(top: 50),
@@ -193,6 +218,7 @@ class _AccountPageState extends State<AccountPage> {
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
         leading: IconButton(
+          key: const Key("AppBarMenu"),
           icon: Icon(Icons.menu),
           color: Color.fromARGB(255, 211, 220, 230),
           onPressed: () => {_key.currentState!.openDrawer()},
