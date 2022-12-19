@@ -65,7 +65,10 @@ class RouteGenerator {
       case '/home':
         //if (args is StowUser) {
         return MaterialPageRoute(
-          builder: (_) => const Home(
+          // builder: (_) => const Home(
+          //     //user: args,
+          //     ),
+          builder: (_) => const Pantry(
               //user: args,
               ),
         );

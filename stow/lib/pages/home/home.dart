@@ -29,9 +29,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseService service = Provider.of<FirebaseService>(context);
     final stateBloc = BlocProvider.of<ContainersBloc>(context);
-    final recipeBloc = BlocProvider.of<RecipesBloc>(context);
     context.read<ContainersBloc>().add(LoadContainers());
     context.read<RecipesBloc>().add(LoadRecipes());
     context.read<FoodItemsBloc>().add(LoadFoodItems());
@@ -40,10 +38,7 @@ class Home extends StatelessWidget {
     if (userBloc.state.firstname == null || userBloc.state.lastname == null) {
       userBloc.add(GetNameEvent());
     }
-    bool loadedContainerData = false;
     final GlobalKey<ScaffoldState> _key = GlobalKey();
-    List<customContainer.Container> containerData =
-        <customContainer.Container>[];
 
     return BlocBuilder<AuthBloc, AuthState>(
       bloc: userBloc,
@@ -280,8 +275,7 @@ class Home extends StatelessWidget {
                           BlocBuilder<AuthBloc, AuthState>(
                               bloc: userBloc,
                               builder: (context, state) {
-                                String fullname =
-                                    state.firstname ?? 'Stow User';
+                                String fullname = state.firstname ?? '';
                                 return Text(fullname,
                                     style: const TextStyle(
                                         color: Colors.white,
