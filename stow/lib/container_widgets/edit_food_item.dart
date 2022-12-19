@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/food/food_bloc.dart';
@@ -130,7 +131,7 @@ class _EditFoodItemState extends State<EditFoodItem> {
                               decoration: InputDecoration(
                                   hintText: 'New FoodItem Name'));
                         }
-                        return const CircularProgressIndicator();
+                        return Lottie.asset('assets/loading-utensils-2.json');
                       },
                     ),
                   ),
