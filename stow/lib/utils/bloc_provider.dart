@@ -6,6 +6,7 @@ import 'package:stow/bloc/food/food_bloc.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_bloc.dart';
 import 'package:stow/bloc/recipes_bloc.dart';
 import 'package:stow/pages/home/home.dart';
+import 'package:stow/pages/pantry/pantry.dart';
 import 'package:stow/route_generator.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,8 @@ class BlocProv extends StatelessWidget {
           primarySwatch:
               createMaterialColor(const Color.fromRGBO(6, 70, 53, 1)),
         ),
-        home: Home(key: key),
+        //home: Home(key: key),
+        home: Pantry(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
