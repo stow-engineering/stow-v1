@@ -127,7 +127,6 @@ class _EditContainerState extends State<EditContainer> {
                               decoration: InputDecoration(
                                   hintText: 'New Container Name'));
                         }
-                        //return Lottie.asset('assets/loading-utensils-2.json');
                         return TextFormField(
                           controller: nameController,
                           decoration: InputDecoration(
@@ -182,12 +181,21 @@ class _EditContainerState extends State<EditContainer> {
                         size ??= widget.container.size;
                         // service.updateContainerData(
                         //     name, size, stateBloc.state.user!.uid);
-                        context.read<ContainersBloc>().add(UpdateContainer(
-                            this.widget.container.uid,
-                            name,
-                            size,
-                            this.widget.container.value,
-                            this.widget.container.full));
+                        if (name != "") {
+                          context.read<ContainersBloc>().add(UpdateContainer(
+                              this.widget.container.uid,
+                              name,
+                              size,
+                              this.widget.container.value,
+                              this.widget.container.full));
+                        } else {
+                          context.read<ContainersBloc>().add(UpdateContainer(
+                              this.widget.container.uid,
+                              this.widget.container.name,
+                              size,
+                              this.widget.container.value,
+                              this.widget.container.full));
+                        }
                         Navigator.of(context).pop();
                       },
                       child: const Text(

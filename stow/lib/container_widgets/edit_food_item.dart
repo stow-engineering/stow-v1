@@ -167,9 +167,11 @@ class _EditFoodItemState extends State<EditFoodItem> {
                             uid: widget.foodItem.uid,
                             barcode: widget.foodItem.barcode,
                             expDate: widget.foodItem.expDate);
-                        context
-                            .read<FoodItemsBloc>()
-                            .add(UpdateFoodItems(newFoodItem));
+                        if (name != "") {
+                          context
+                              .read<FoodItemsBloc>()
+                              .add(UpdateFoodItems(newFoodItem));
+                        }
                         Navigator.of(context).pop();
                       },
                       child: const Text(
