@@ -53,7 +53,7 @@ class EditFoodItem extends StatefulWidget {
 class _EditFoodItemState extends State<EditFoodItem> {
   String scanResult = '';
   String scannedName = '';
-  late Future<Barcode> futureBarcode;
+  late Future<Barcode>? futureBarcode;
   final nameController = TextEditingController();
 
   String? selectedValue;
@@ -62,7 +62,8 @@ class _EditFoodItemState extends State<EditFoodItem> {
   @override
   void initState() {
     super.initState();
-    futureBarcode = fetchBarcode('070847037989', nameController);
+    //futureBarcode = fetchBarcode('070847037989', nameController);
+    futureBarcode = null;
   }
 
   @override
@@ -120,18 +121,33 @@ class _EditFoodItemState extends State<EditFoodItem> {
                                       color: Color.fromARGB(255, 0, 176, 80)),
                                   borderRadius: BorderRadius.circular(15),
                                 )),
-                            // decoration: InputDecoration(
-                            //   hintText: widget.foodItem.name == null
-                            //       ? 'New FoodItem Name'
-                            //       : widget.foodItem.name,
-                            // )
                           );
                         } else if (snapshot.hasError) {
                           return TextFormField(
                               decoration: InputDecoration(
                                   hintText: 'New FoodItem Name'));
                         }
-                        return Lottie.asset('assets/loading-utensils-2.json');
+                        //return Lottie.asset('assets/loading-utensils-2.json');
+                        return TextFormField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                              labelText: 'Name',
+                              hintText: widget.foodItem.name == null
+                                  ? 'New FoodItem Name'
+                                  : widget.foodItem.name,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Color.fromARGB(255, 211, 220, 230)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Color.fromARGB(255, 0, 176, 80)),
+                                borderRadius: BorderRadius.circular(15),
+                              )),
+                        );
                       },
                     ),
                   ),

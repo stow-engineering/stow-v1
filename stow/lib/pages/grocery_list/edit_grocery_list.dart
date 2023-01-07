@@ -47,6 +47,7 @@ class EditGroceryList extends StatelessWidget {
                     .length)
           },
           icon: const Icon(Icons.add),
+          text: const Text("Edit"),
         ),
         body: SafeArea(
           child: SizedBox(

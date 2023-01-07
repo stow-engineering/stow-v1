@@ -6,23 +6,26 @@ class ActionButton extends StatelessWidget {
     super.key,
     this.onPressed,
     required this.icon,
+    required this.text,
   });
 
   final VoidCallback? onPressed;
   final Widget icon;
+  final Text text;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      shape: const CircleBorder(),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30))),
       clipBehavior: Clip.antiAlias,
       color: theme.colorScheme.secondary,
       elevation: 4.0,
-      child: IconButton(
+      child: ElevatedButton.icon(
         onPressed: onPressed,
         icon: icon,
-        color: theme.colorScheme.onSecondary,
+        label: text,
       ),
     );
   }
