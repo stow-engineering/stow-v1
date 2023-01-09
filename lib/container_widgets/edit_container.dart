@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
@@ -139,6 +138,7 @@ class _EditContainerState extends State<EditContainer> {
                           controller: nameController,
                           decoration: InputDecoration(
                               labelText: 'Name',
+                              // ignore: prefer_if_null_operators, unnecessary_null_comparison
                               hintText: widget.container.name == null
                                   ? 'New Container Name'
                                   : widget.container.name,
@@ -189,31 +189,22 @@ class _EditContainerState extends State<EditContainer> {
                         size ??= widget.container.size;
                         // service.updateContainerData(
                         //     name, size, stateBloc.state.user!.uid);
-<<<<<<< HEAD
                         if (name != "") {
                           context.read<ContainersBloc>().add(UpdateContainer(
-                              this.widget.container.uid,
+                              widget.container.uid,
                               name,
                               size,
-                              this.widget.container.value,
-                              this.widget.container.full));
+                              widget.container.value,
+                              widget.container.full));
                         } else {
                           context.read<ContainersBloc>().add(UpdateContainer(
-                              this.widget.container.uid,
-                              this.widget.container.name,
+                              widget.container.uid,
+                              widget.container.name,
                               size,
-                              this.widget.container.value,
-                              this.widget.container.full));
+                              widget.container.value,
+                              widget.container.full));
                         }
                         Navigator.of(context).pop();
-=======
-                        context.read<ContainersBloc>().add(UpdateContainer(
-                            widget.container.uid,
-                            name,
-                            size,
-                            widget.container.value,
-                            widget.container.full));
->>>>>>> 3e9c145 (Resolve flutter analyze warnings)
                       },
                       child: const Text(
                         'Update',

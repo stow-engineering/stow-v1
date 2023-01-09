@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
@@ -140,6 +139,7 @@ class _EditFoodItemState extends State<EditFoodItem> {
                           controller: nameController,
                           decoration: InputDecoration(
                               labelText: 'Name',
+                              // ignore: unnecessary_null_comparison, prefer_if_null_operators
                               hintText: widget.foodItem.name == null
                                   ? 'New FoodItem Name'
                                   : widget.foodItem.name,

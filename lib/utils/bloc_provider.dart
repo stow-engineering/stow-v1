@@ -42,7 +42,7 @@ class BlocProv extends StatelessWidget {
         ),
         //home: Home(key: key),
         //home: Pantry(),
-        home: NavBarWrapper(),
+        home: const NavBarWrapper(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
