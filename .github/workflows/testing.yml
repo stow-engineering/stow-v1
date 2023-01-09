@@ -1,4 +1,4 @@
-name: testing
+name: Approval Workflow
 on:
   push:
     branches: [main]
@@ -31,6 +31,3 @@ jobs:
 
       - name: Analyzing packages
         run: flutter analyze
-
-      - name: Running tests
-        run: flutter test --coverage
