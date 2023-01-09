@@ -240,7 +240,7 @@ class _PantryState extends State<Pantry> {
                   //     onPressed: () {},
                   //     backgroundColor: Colors.green,
                   //     child: const Icon(Icons.add)),
-                  bottomNavigationBar: CustomNavBar(),
+                  //bottomNavigationBar: CustomNavBar(),
                   appBar: AppBar(
                     // shape: RoundedRectangleBorder(
                     //     borderRadius: BorderRadius.all(Radius.circular(25))),
@@ -263,39 +263,6 @@ class _PantryState extends State<Pantry> {
                     backgroundColor: Colors.white,
                     elevation: 0,
                   ),
-                  floatingActionButton: ExpandableFab(
-                      initialOpen: false,
-                      distance: 80.0,
-                      children: [
-                        CustomTextButton(
-                          onPressed: () => {
-                            Navigator.of(context)
-                                .pushNamed(
-                                  '/provision',
-                                  arguments: authBloc.state.user,
-                                )
-                                .then((_) => setState(() {}))
-                          },
-                          text: const Text('Add Stow Container',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        CustomTextButton(
-                          onPressed: () => {
-                            Navigator.of(context)
-                                .pushNamed(
-                                  '/add-food-item',
-                                )
-                                .then((_) => setState(() {}))
-                          },
-                          text: const Text('Add Food Item',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ],
-                      key: const Key("ExpandableFab")),
                   body: ListView(
                     children: <Widget>[
                       GreetingWidget(),

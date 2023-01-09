@@ -7,6 +7,7 @@ import 'package:stow/models/recipe.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stow/expandable_fab/action_button.dart';
+import 'package:stow/widgets/custom_navbar.dart';
 import '../../bloc/recipes_state.dart';
 import '../../bloc/recipes_bloc.dart';
 import '../../utils/firebase.dart';
@@ -49,6 +50,7 @@ class _RecipesPageState extends State<RecipesPage> {
                     .then((_) => setState(() {}))
               },
               icon: const Icon(Icons.add_rounded),
+              text: const Text("Recipe"),
             ),
             //]),
             appBar: AppBar(

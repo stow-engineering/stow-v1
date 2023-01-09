@@ -11,6 +11,7 @@ import 'package:stow/route_generator.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stow/utils/stow_colors.dart';
+import 'package:stow/widgets/navbar_wrapper.dart';
 
 class BlocProv extends StatelessWidget {
   const BlocProv({Key? key}) : super(key: key);
@@ -38,7 +39,8 @@ class BlocProv extends StatelessWidget {
               createMaterialColor(const Color.fromRGBO(6, 70, 53, 1)),
         ),
         //home: Home(key: key),
-        home: Pantry(),
+        //home: Pantry(),
+        home: NavBarWrapper(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),

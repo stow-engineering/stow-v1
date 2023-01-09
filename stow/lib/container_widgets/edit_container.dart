@@ -53,7 +53,7 @@ class EditContainer extends StatefulWidget {
 class _EditContainerState extends State<EditContainer> {
   String scanResult = '';
   String scannedName = '';
-  late Future<Barcode> futureBarcode;
+  late Future<Barcode>? futureBarcode;
   final nameController = TextEditingController();
 
   String? selectedValue;
@@ -62,7 +62,8 @@ class _EditContainerState extends State<EditContainer> {
   @override
   void initState() {
     super.initState();
-    futureBarcode = fetchBarcode('070847037989', nameController);
+    //futureBarcode = fetchBarcode('070847037989', nameController);
+    futureBarcode = null;
   }
 
   @override
@@ -93,22 +94,6 @@ class _EditContainerState extends State<EditContainer> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
-                  // Padding(
-                  //   padding: const EdgeInsets.only(
-                  //       left: 30.0, right: 30.0, top: 25.0, bottom: 0),
-                  //   child: TextFormField(
-                  //     controller: nameController,
-                  //     decoration: const InputDecoration(
-                  //       hintText: 'New Container Name',
-                  //     ),
-                  //     validator: (String? value) {
-                  //       if (value == null || value.isEmpty) {
-                  //         return widget.arg.container.name;
-                  //       }
-                  //       return null;
-                  //     },
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 30.0, right: 30.0, top: 25.0, bottom: 0),
@@ -136,18 +121,32 @@ class _EditContainerState extends State<EditContainer> {
                                       color: Color.fromARGB(255, 0, 176, 80)),
                                   borderRadius: BorderRadius.circular(15),
                                 )),
-
-                            //   hintText: widget.container.name == null
-                            //       ? 'New Container Name'
-                            //       : widget.container.name,
-                            // )
                           );
                         } else if (snapshot.hasError) {
                           return TextFormField(
                               decoration: InputDecoration(
                                   hintText: 'New Container Name'));
                         }
-                        return Lottie.asset('assets/loading-utensils-2.json');
+                        return TextFormField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                              labelText: 'Name',
+                              hintText: widget.container.name == null
+                                  ? 'New Container Name'
+                                  : widget.container.name,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Color.fromARGB(255, 211, 220, 230)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Color.fromARGB(255, 0, 176, 80)),
+                                borderRadius: BorderRadius.circular(15),
+                              )),
+                        );
                       },
                     ),
                   ),
@@ -182,12 +181,22 @@ class _EditContainerState extends State<EditContainer> {
                         size ??= widget.container.size;
                         // service.updateContainerData(
                         //     name, size, stateBloc.state.user!.uid);
-                        context.read<ContainersBloc>().add(UpdateContainer(
-                            this.widget.container.uid,
-                            name,
-                            size,
-                            this.widget.container.value,
-                            this.widget.container.full));
+                        if (name != "") {
+                          context.read<ContainersBloc>().add(UpdateContainer(
+                              this.widget.container.uid,
+                              name,
+                              size,
+                              this.widget.container.value,
+                              this.widget.container.full));
+                        } else {
+                          context.read<ContainersBloc>().add(UpdateContainer(
+                              this.widget.container.uid,
+                              this.widget.container.name,
+                              size,
+                              this.widget.container.value,
+                              this.widget.container.full));
+                        }
+                        Navigator.of(context).pop();
                       },
                       child: const Text(
                         'Update',
