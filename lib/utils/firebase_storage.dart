@@ -1,15 +1,14 @@
 // Dart imports:
+import 'dart:developer';
 import 'dart:io';
-
-// Flutter imports:
-import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+// Flutter imports:
+
 // Project imports:
-import 'package:stow/models/food_item.dart';
 
 class Storage {
   final firebase_storage.FirebaseStorage storage =
@@ -24,7 +23,7 @@ class Storage {
     try {
       await storage.ref('$folder/$fileName').putFile(file);
     } on firebase_core.FirebaseException catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 
@@ -41,7 +40,7 @@ class Storage {
         }
       }
       firebase_storage.Reference stockImage =
-          await storage.ref().child('FoodItemImages/stock_food.png');
+          storage.ref().child('FoodItemImages/stock_food.png');
       return stockImage.getDownloadURL();
     } catch (e) {
       return "HTTP_ERROR";

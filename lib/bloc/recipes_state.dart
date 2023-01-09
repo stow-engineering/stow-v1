@@ -17,9 +17,8 @@ class RecipesState extends Equatable {
   const RecipesState(
       {this.status = RecipesStatus.initial,
       List<Recipe>? recipes,
-      int numRecipes = 0})
-      : recipes = recipes ?? const [],
-        numRecipes = numRecipes;
+      this.numRecipes = 0})
+      : recipes = recipes ?? const [];
 
   final List<Recipe> recipes;
   final int numRecipes;

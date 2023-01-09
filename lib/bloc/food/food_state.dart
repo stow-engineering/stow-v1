@@ -17,9 +17,8 @@ class FoodItemsState extends Equatable {
   const FoodItemsState(
       {this.status = FoodItemsStatus.initial,
       List<FoodItem>? foodItems,
-      int numItems = 0})
-      : foodItems = foodItems ?? const [],
-        numItems = numItems;
+      this.numItems = 0})
+      : foodItems = foodItems ?? const [];
 
   final List<FoodItem> foodItems;
   final int numItems;

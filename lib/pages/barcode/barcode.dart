@@ -7,25 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 // Project imports:
-import '../../container_widgets/container_chart.dart';
-import '../../container_widgets/container_list.dart';
-import '../../container_widgets/user_containers.dart';
-import '../../models/container.dart' as customContainer;
-import '../../models/container_series.dart';
 import '../../models/user.dart';
 import '../../utils/authentication.dart';
-import '../../utils/firebase.dart';
 import '../home/get_name.dart';
-import '../login/login.dart';
 
 Future<Barcode> fetchBarcode(String barcode) async {
   final response = await http.get(Uri.parse(
@@ -39,17 +28,17 @@ Future<Barcode> fetchBarcode(String barcode) async {
 
 class Barcode {
   final String code;
-  final String status_verbose;
+  final String statusVerbose;
 
   const Barcode({
     required this.code,
-    required this.status_verbose,
+    required this.statusVerbose,
   });
 
   factory Barcode.fromJson(Map<String, dynamic> json) {
     return Barcode(
         code: json['product']['product_name_en'],
-        status_verbose: json['status_verbose']);
+        statusVerbose: json['status_verbose']);
   }
 }
 
@@ -73,8 +62,8 @@ class _BarcodePageState extends State<BarcodePage> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    final FirebaseService service = FirebaseService(widget.user.uid);
+    // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    // final FirebaseService service = FirebaseService(widget.user.uid);
     final GetName fullName = GetName(widget.user.uid, true);
     final authService = Provider.of<AuthenticationService>(context);
     final GlobalKey<ScaffoldState> _key = GlobalKey();
@@ -178,7 +167,7 @@ class _BarcodePageState extends State<BarcodePage> {
                 ]),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 50),
                 child: OutlinedButton(
                     onPressed: () {
                       authService.signOut();
@@ -241,8 +230,8 @@ class _BarcodePageState extends State<BarcodePage> {
         // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.menu),
-            color: Color.fromARGB(255, 211, 220, 230),
+            icon: const Icon(Icons.menu),
+            color: const Color.fromARGB(255, 211, 220, 230),
             onPressed: () => {_key.currentState!.openDrawer()},
             iconSize: 45,
           ),
@@ -258,24 +247,24 @@ class _BarcodePageState extends State<BarcodePage> {
                 height: 40,
                 width: 200,
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 0, 176, 80),
+                    color: const Color.fromARGB(255, 0, 176, 80),
                     borderRadius: BorderRadius.circular(10)),
                 child: TextButton(
                   onPressed: scanBarcode,
-                  child: Text(
+                  child: const Text(
                     'Scan Barcode',
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               FutureBuilder<Barcode>(
                 future: futureBarcode,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Text(snapshot.data!.code);
                   } else if (snapshot.hasError) {
-                    return Text('Error');
+                    return const Text('Error');
                   }
                   return const CircularProgressIndicator();
                 },

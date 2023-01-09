@@ -1,12 +1,10 @@
 // Dart imports:
-import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:stow/models/food_item.dart';
-import 'package:stow/utils/firebase.dart';
 
 @immutable
 abstract class FoodItemsEvents {

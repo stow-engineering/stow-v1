@@ -1,20 +1,12 @@
 // Dart imports:
-import 'dart:async';
 
 // Flutter imports:
-import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 // Project imports:
-import 'package:stow/bloc/containers/containers_state.dart';
 import 'package:stow/models/user.dart';
-import 'package:stow/utils/firebase.dart';
-import 'package:stow/utils/firebase.dart';
-import '../../models/container.dart' as customContainer;
-import '../../models/user.dart';
 
 /// Refactor Notes:
 ///
@@ -33,12 +25,9 @@ extension AuthStatusX on AuthStatus {
 class AuthState extends Equatable {
   const AuthState(
       {this.status = AuthStatus.initial,
-      StowUser? user,
-      String? firstname,
-      String? lastname})
-      : user = user,
-        firstname = firstname,
-        lastname = lastname;
+      this.user,
+      this.firstname,
+      this.lastname});
 
   final StowUser? user;
   final String? firstname;

@@ -9,13 +9,13 @@ import 'package:lottie/lottie.dart';
 import 'package:stow/pages/pantry/pantry.dart';
 
 class StowSplashScreen extends StatelessWidget {
-  StowSplashScreen({Key? key}) : super(key: key);
+  const StowSplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
         splash: Lottie.asset('assets/loading-utensils-2.json'),
         duration: 10000,
-        nextScreen: Pantry());
+        nextScreen: const Pantry());
   }
 }

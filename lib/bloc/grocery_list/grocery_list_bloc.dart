@@ -1,15 +1,14 @@
+// Dart imports:
+import 'dart:developer';
+
 // Package imports:
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Project imports:
-import 'package:stow/bloc/food/food_events.dart';
-import 'package:stow/bloc/food/food_state.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_events.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_state.dart';
 import 'package:stow/models/grocery_lists.dart';
 import 'package:stow/utils/firebase.dart';
-import '../../models/food_item.dart';
 
 class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
   GroceryListBloc({
@@ -31,9 +30,9 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
       List<String> lowContainers = [];
       final containers = await service.getContainerList();
       if (containers != null) {
-        if (containers.length > 0) {
+        if (containers.isNotEmpty) {
           for (int i = 0; i < containers.length; i++) {
-            var percentFull;
+            double percentFull;
             if (containers[i].size == "Small") {
               percentFull = ((165 - containers[i].value) / 165);
               if (percentFull < 0.25) {
@@ -59,8 +58,7 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
           }
 
           //get existing grocery lists from database
-          List<GroceryList>? userGroceryLists =
-              await service.getGroceryLists() as List<GroceryList>?;
+          List<GroceryList>? userGroceryLists = await service.getGroceryLists();
 
           //update container grocery list
           for (int i = 0; i < userGroceryLists!.length; i++) {
@@ -76,7 +74,7 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
         }
       }
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: GroceryListStatus.error));
     }
   }
@@ -91,12 +89,11 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
           foodItems: event.foodItems,
           name: event.name);
       await service.createGroceryList(newGroceryList);
-      List<GroceryList>? userGroceryLists =
-          await service.getGroceryLists() as List<GroceryList>?;
+      List<GroceryList>? userGroceryLists = await service.getGroceryLists();
       emit(state.copyWith(
           status: GroceryListStatus.success, groceryLists: userGroceryLists));
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
     }
   }
 
@@ -125,7 +122,7 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
       emit(state.copyWith(
           status: GroceryListStatus.success, groceryLists: newGroceryLists));
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
     }
   }
 
@@ -160,7 +157,7 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
       emit(state.copyWith(
           status: GroceryListStatus.success, groceryLists: newGroceryLists));
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: GroceryListStatus.error));
     }
   }
@@ -182,7 +179,7 @@ class GroceryListBloc extends Bloc<GroceryListEvents, GroceryListState> {
       emit(state.copyWith(
           status: GroceryListStatus.success, groceryLists: newGroceryLists));
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: GroceryListStatus.error));
     }
   }

@@ -1,16 +1,16 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+
+// Dart imports:
+import 'dart:developer';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 // Project imports:
-import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/models/food_item.dart';
 import 'package:stow/models/grocery_lists.dart';
 import 'package:stow/models/recipe.dart';
-import '../models/container.dart' as customContainer;
+import '../models/container.dart' as custom_container;
 
 class FirebaseService {
   final String uid;
@@ -278,7 +278,7 @@ class FirebaseService {
   }
 
   //Watches for changes in the container collection
-  Future<Stream<List<customContainer.Container>>> get containers async {
+  Future<Stream<List<custom_container.Container>>> get containers async {
     final containerList = await getAddresses();
 
     return containerCollection
@@ -288,9 +288,9 @@ class FirebaseService {
   }
 
   //gets current list of containers
-  Future<List<customContainer.Container>?> getContainerList() async {
+  Future<List<custom_container.Container>?> getContainerList() async {
     var containerList = await getAddresses();
-    List<customContainer.Container> combinedList = [];
+    List<custom_container.Container> combinedList = [];
     for (int i = 0; i < containerList.length / 10; i++) {
       List<String> addressBatch;
       var lowerBound = i * 10;
@@ -299,15 +299,15 @@ class FirebaseService {
       } else {
         addressBatch = containerList.sublist(lowerBound, lowerBound + 10);
       }
-      List<customContainer.Container> subsetList = await containerCollection
+      List<custom_container.Container> subsetList = await containerCollection
           .where('mac',
               whereIn:
                   addressBatch.isEmpty ? ['Invalid Container'] : addressBatch)
           .get()
           .then((QuerySnapshot querySnapshot) {
         return querySnapshot.docs.map((doc) {
-          customContainer.Container container;
-          container = customContainer.Container();
+          custom_container.Container container;
+          container = custom_container.Container();
           return container.copyWith(
               name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
               size: (doc.data() as Map<String, dynamic>)['size'] ?? 'Small',
@@ -388,25 +388,11 @@ class FirebaseService {
   }
 
   //Container list from snapshot
-  List<customContainer.Container> _containerListFromSnapshot(
+  List<custom_container.Container> _containerListFromSnapshot(
       QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      customContainer.Container container;
-      container = customContainer.Container();
-      return container.copyWith(
-          name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
-          size: (doc.data() as Map<String, dynamic>)['size'] ?? 'Small',
-          value: (doc.data() as Map<String, dynamic>)['value'] ?? 0,
-          uid: doc.id,
-          barcode: (doc.data() as Map<String, dynamic>)['barcode'] ?? '',
-          full: (doc.data() as Map<String, dynamic>)['full'] ?? true);
-    }).toList();
-  }
-
-  List<customContainer.Container> _mapContainers(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      customContainer.Container container;
-      container = customContainer.Container();
+      custom_container.Container container;
+      container = custom_container.Container();
       return container.copyWith(
           name: (doc.data() as Map<String, dynamic>)['name'] ?? '',
           size: (doc.data() as Map<String, dynamic>)['size'] ?? 'Small',
@@ -574,7 +560,7 @@ class FirebaseService {
       }
       return false;
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       return true;
     }
   }

@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // Project imports:
 import 'package:stow/bloc/containers/containers_bloc.dart';
 import 'package:stow/bloc/containers/containers_state.dart';
 import 'package:stow/fooditem_widgets/horizontal_fooditem_list.dart';
-import 'package:stow/utils/firebase_storage.dart';
-import '../models/container.dart' as customContainer;
+import '../models/container.dart' as custom_container;
 
 class ContainerList extends StatefulWidget {
   const ContainerList({Key? key}) : super(key: key);
@@ -26,40 +24,38 @@ class _ContainerListState extends State<ContainerList> {
     return BlocBuilder<ContainersBloc, ContainersState>(
         bloc: stateBloc,
         builder: (context, state) {
-          return state.containers == null
-              ? Container()
-              : Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: SizedBox(
-                    height: 275,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      //shrinkWrap: true,
-                      //physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.containers.length,
-                      itemBuilder: (context, index) {
-                        return HorizontalContainerDisplay(
-                            container: state.containers[index]);
-                      },
-                    ),
-                  ),
-                );
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: SizedBox(
+              height: 275,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                //shrinkWrap: true,
+                //physics: const NeverScrollableScrollPhysics(),
+                itemCount: state.containers.length,
+                itemBuilder: (context, index) {
+                  return HorizontalContainerDisplay(
+                      container: state.containers[index]);
+                },
+              ),
+            ),
+          );
         });
   }
 }
 
 class HorizontalContainerDisplay extends StatelessWidget {
-  HorizontalContainerDisplay({Key? key, required this.container})
+  const HorizontalContainerDisplay({Key? key, required this.container})
       : super(key: key);
 
-  final customContainer.Container container;
+  final custom_container.Container container;
 
   @override
   Widget build(BuildContext context) {
     // final storage = Provider.of<Storage>(context);
     // var image = storage.getFoodItemImage(container.name);
     return Padding(
-        padding: EdgeInsets.only(right: 8.0),
+        padding: const EdgeInsets.only(right: 8.0),
         child: GestureDetector(
           onTap: () => {
             Navigator.of(context).pushNamed(
@@ -69,22 +65,24 @@ class HorizontalContainerDisplay extends StatelessWidget {
           },
           child: Card(
               clipBehavior: Clip.antiAlias,
-              margin: EdgeInsets.fromLTRB(10, 6, 10, 0),
+              margin: const EdgeInsets.fromLTRB(10, 6, 10, 0),
               child: Column(
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // ignore: sized_box_for_whitespace
                   Container(
                     width: 250,
                     height: 175,
                     child: HorizontalMiniFoodItemDisplay.getFoodImage(
                         container.name),
                   ),
+                  // ignore: sized_box_for_whitespace
                   Container(
                     width: 250,
                     height: 50,
                     child: ListTile(
                       trailing: IconButton(
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                         onPressed: () {
                           Navigator.of(context).pushNamed(
                             '/edit-container',
@@ -125,7 +123,7 @@ class HorizontalContainerDisplay extends StatelessWidget {
     }
   }
 
-  String calculateVolume(bool small, customContainer.Container container) {
+  String calculateVolume(bool small, custom_container.Container container) {
     if (small) {
       double valueFull = ((165 - container.value) / 165) * 100;
       int value = valueFull.round();
@@ -151,19 +149,19 @@ class HorizontalContainerDisplay extends StatelessWidget {
 }
 
 class ContainerDisplay extends StatelessWidget {
-  final customContainer.Container container;
+  final custom_container.Container container;
 
-  ContainerDisplay(this.container);
+  const ContainerDisplay(this.container, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 8.0),
+        padding: const EdgeInsets.only(top: 8.0),
         child: Card(
-            margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
+            margin: const EdgeInsets.fromLTRB(20, 6, 20, 0),
             child: ListTile(
               trailing: IconButton(
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                     '/edit-container',
@@ -188,7 +186,7 @@ class ContainerDisplay extends StatelessWidget {
             )));
   }
 
-  String calculateVolume(bool small, customContainer.Container container) {
+  String calculateVolume(bool small, custom_container.Container container) {
     if (small) {
       double valueFull = ((165 - container.value) / 165) * 100;
       int value = valueFull.round();

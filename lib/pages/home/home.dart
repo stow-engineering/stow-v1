@@ -1,16 +1,16 @@
 // Dart imports:
+// ignore_for_file: sized_box_for_whitespace
+
+// Dart imports:
 import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/diagnostics.dart';
 
 // Package imports:
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
@@ -27,9 +27,8 @@ import 'package:stow/pages/home/navigation_buttons.dart';
 import 'package:stow/widgets/splash_screen.dart';
 import '../../bloc/recipes_bloc.dart';
 import '../../container_widgets/container_chart.dart';
-import '../../models/container.dart' as customContainer;
+import '../../models/container.dart' as custom_container;
 import '../../models/user.dart';
-import '../../utils/firebase.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -51,7 +50,7 @@ class Home extends StatelessWidget {
       bloc: userBloc,
       builder: (context, state) {
         if (state.firstname == null || state.lastname == null) {
-          return StowSplashScreen();
+          return const StowSplashScreen();
         }
         return Scaffold(
           key: _key,
@@ -143,11 +142,9 @@ class Home extends StatelessWidget {
                     List<String> items = List<String>.empty(growable: true);
                     final foodItemBloc =
                         BlocProvider.of<FoodItemsBloc>(context);
-                    foodItemBloc.state.foodItems.forEach(
-                      (element) {
-                        items.add(element.name);
-                      },
-                    );
+                    for (var element in foodItemBloc.state.foodItems) {
+                      items.add(element.name);
+                    }
                     _launchUrl(items);
                   },
                   child: Row(children: const [
@@ -177,7 +174,7 @@ class Home extends StatelessWidget {
                   ]),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 50),
+                  padding: const EdgeInsets.only(top: 50),
                   child: OutlinedButton(
                       onPressed: () {
                         context.read<AuthBloc>().add(LogoutEvent());
@@ -237,8 +234,8 @@ class Home extends StatelessWidget {
             // shape: RoundedRectangleBorder(
             //     borderRadius: BorderRadius.all(Radius.circular(25))),
             leading: IconButton(
-              icon: Icon(Icons.menu),
-              color: Color.fromARGB(255, 211, 220, 230),
+              icon: const Icon(Icons.menu),
+              color: const Color.fromARGB(255, 211, 220, 230),
               onPressed: () => {_key.currentState!.openDrawer()},
               iconSize: 45,
             ),
@@ -356,7 +353,7 @@ class Home extends StatelessWidget {
 
 class RecipeArguments {
   StowUser user;
-  List<customContainer.Container> containerData;
+  List<custom_container.Container> containerData;
 
   RecipeArguments(this.user, this.containerData);
 }
@@ -365,9 +362,9 @@ class RecipeArguments {
 Future<void> _launchUrl(List<String> items) async {
   String site =
       "https://www.instacart.com/store/partner_recipe?title=Stows+Grocery+List";
-  items.forEach((element) {
+  for (var element in items) {
     site = site + "&ingredients%5B%5D=" + element + "%20";
-  });
+  }
   Uri url = Uri.parse(site);
   if (!await launchUrl(url)) {
     throw 'Could not launch $url';

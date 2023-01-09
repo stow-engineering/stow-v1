@@ -1,17 +1,12 @@
 // Dart imports:
-import 'dart:async';
 
 // Flutter imports:
-import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:stow/models/grocery_lists.dart';
-import 'package:stow/utils/firebase.dart';
-import '../../models/food_item.dart';
-import '../../models/user.dart';
 
 enum GroceryListStatus { initial, success, error, loading }
 

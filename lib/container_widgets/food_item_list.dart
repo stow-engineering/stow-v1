@@ -1,16 +1,13 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // Project imports:
 import 'package:stow/bloc/food/food_bloc.dart';
 import 'package:stow/bloc/food/food_state.dart';
 import 'package:stow/models/food_item.dart';
-import 'package:stow/utils/firebase_storage.dart';
 
 class FoodItemList extends StatefulWidget {
   const FoodItemList({Key? key}) : super(key: key);
@@ -26,22 +23,20 @@ class _FoodItemListState extends State<FoodItemList> {
     return BlocBuilder<FoodItemsBloc, FoodItemsState>(
         bloc: stateBloc,
         builder: (context, state) {
-          return state.foodItems == null
-              ? Container()
-              : Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: SizedBox(
-                    height: 245,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.foodItems.length,
-                      itemBuilder: (context, index) {
-                        return HorizontalFoodItemDisplay(
-                            foodItem: state.foodItems[index]);
-                      },
-                    ),
-                  ),
-                );
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: SizedBox(
+              height: 245,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: state.foodItems.length,
+                itemBuilder: (context, index) {
+                  return HorizontalFoodItemDisplay(
+                      foodItem: state.foodItems[index]);
+                },
+              ),
+            ),
+          );
         });
   }
 }
@@ -49,17 +44,17 @@ class _FoodItemListState extends State<FoodItemList> {
 class FoodItemDisplay extends StatelessWidget {
   final FoodItem foodItem;
 
-  FoodItemDisplay(this.foodItem);
+  const FoodItemDisplay(this.foodItem, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 8.0),
+        padding: const EdgeInsets.only(top: 8.0),
         child: Card(
-            margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
+            margin: const EdgeInsets.fromLTRB(20, 6, 20, 0),
             child: ListTile(
               trailing: IconButton(
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                     '/edit-food-item',
@@ -76,7 +71,7 @@ class FoodItemDisplay extends StatelessWidget {
 }
 
 class HorizontalFoodItemDisplay extends StatelessWidget {
-  HorizontalFoodItemDisplay({Key? key, required this.foodItem})
+  const HorizontalFoodItemDisplay({Key? key, required this.foodItem})
       : super(key: key);
 
   final FoodItem foodItem;
@@ -193,20 +188,20 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
     if (foodItem.expDate == null) {
       daysLeftString = "";
     } else {
-      final months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ];
+      // final months = [
+      //   'January',
+      //   'February',
+      //   'March',
+      //   'April',
+      //   'May',
+      //   'June',
+      //   'July',
+      //   'August',
+      //   'September',
+      //   'October',
+      //   'November',
+      //   'December'
+      // ];
       // var year = foodItem.expDate?.year.toString();
       // var month = months[foodItem.expDate!.month];
       // var day = foodItem.expDate?.month.toString();
@@ -220,7 +215,7 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
       }
     }
     return Padding(
-        padding: EdgeInsets.only(right: 8.0),
+        padding: const EdgeInsets.only(right: 8.0),
         child: GestureDetector(
           onTap: () => {
             Navigator.of(context).pushNamed(
@@ -230,53 +225,22 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
           },
           child: Card(
               clipBehavior: Clip.antiAlias,
-              margin: EdgeInsets.fromLTRB(10, 6, 10, 0),
+              margin: const EdgeInsets.fromLTRB(10, 6, 10, 0),
               child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // FutureBuilder<String>(
-                  //   future: image,
-                  //   builder:
-                  //       (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  //     if (snapshot.hasData) {
-                  //       if (snapshot.data != null) {
-                  //         if (snapshot.data == "HTTP_ERROR") {
-                  //           return const SizedBox(
-                  //             height: 175,
-                  //             child: CircularProgressIndicator.adaptive(),
-                  //           );
-                  //         }
-                  //         return Container(
-                  //           width: 250,
-                  //           height: 175,
-                  //           child: Image.network(snapshot.data as String,
-                  //               fit: BoxFit.contain),
-                  //         );
-                  //       } else {
-                  //         return const SizedBox(
-                  //           height: 175,
-                  //           child: CircularProgressIndicator.adaptive(),
-                  //         );
-                  //       }
-                  //     } else {
-                  //       return const SizedBox(
-                  //         height: 175,
-                  //         child: CircularProgressIndicator.adaptive(),
-                  //       );
-                  //     }
-                  //   },
-                  // ),
+                  // ignore: sized_box_for_whitespace
                   Container(
                     width: 250,
                     height: 175,
                     child: getFoodImage(foodItem.name),
                   ),
+                  // ignore: sized_box_for_whitespace
                   Container(
                     width: 250,
                     height: 50,
                     child: ListTile(
                         trailing: IconButton(
-                          icon: Icon(Icons.edit),
+                          icon: const Icon(Icons.edit),
                           onPressed: () {
                             Navigator.of(context).pushNamed(
                               '/edit-food-item',

@@ -1,4 +1,7 @@
 // Flutter imports:
+// ignore_for_file: avoid_unnecessary_containers
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -22,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     return Scaffold(

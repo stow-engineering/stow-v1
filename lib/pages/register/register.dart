@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Project imports:
-import '../../models/container.dart' as customContainer;
 import '../../utils/firebase.dart';
 
 class Register extends StatefulWidget {
@@ -20,7 +19,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _nameController = TextEditingController();
   String _name = '';
-  String _user = '';
   FirebaseService service = FirebaseService("");
 
   @override
@@ -43,8 +41,8 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Register Device"),
-        actions: [],
+        title: const Text("Register Device"),
+        actions: const [],
       ),
       body: Container(
         padding: const EdgeInsets.all(16),
@@ -78,11 +76,11 @@ class _RegisterState extends State<Register> {
           // 5
           controller: _nameController,
           // 7
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             // 8
             hintText: 'E.g. Apples, Banana, 1 Bag of salt',
             // 9
-            enabledBorder: const UnderlineInputBorder(
+            enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
             ),
           ),

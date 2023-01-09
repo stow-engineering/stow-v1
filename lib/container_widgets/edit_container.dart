@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/containers/containers_bloc.dart';
 import 'package:stow/bloc/containers/containers_events.dart';
-import 'package:stow/models/container.dart' as customContainer;
+import 'package:stow/models/container.dart' as custom_container;
 import 'package:stow/models/user.dart';
 import '../../utils/firebase.dart';
 
@@ -35,22 +35,22 @@ Future<Barcode> fetchBarcode(
 
 class Barcode {
   final String code;
-  final String status_verbose;
+  final String statusVerbose;
 
   const Barcode({
     required this.code,
-    required this.status_verbose,
+    required this.statusVerbose,
   });
 
   factory Barcode.fromJson(Map<String, dynamic> json) {
     return Barcode(
         code: json['product']['product_name_en'],
-        status_verbose: json['status_verbose']);
+        statusVerbose: json['status_verbose']);
   }
 }
 
 class EditContainer extends StatefulWidget {
-  final customContainer.Container container;
+  final custom_container.Container container;
   const EditContainer({Key? key, required this.container}) : super(key: key);
 
   @override
@@ -82,6 +82,7 @@ class _EditContainerState extends State<EditContainer> {
         appBar: AppBar(),
         body: ListView(
           children: <Widget>[
+            // ignore: sized_box_for_whitespace
             Container(
               width: 300,
               height: 250,
@@ -112,7 +113,7 @@ class _EditContainerState extends State<EditContainer> {
                             controller: nameController,
                             decoration: InputDecoration(
                                 labelText: 'Name',
-                                hintText: widget.container.name == null
+                                hintText: widget.container.name == ''
                                     ? 'New Container Name'
                                     : widget.container.name,
                                 enabledBorder: OutlineInputBorder(
@@ -131,7 +132,7 @@ class _EditContainerState extends State<EditContainer> {
                           );
                         } else if (snapshot.hasError) {
                           return TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   hintText: 'New Container Name'));
                         }
                         return TextFormField(
@@ -188,6 +189,7 @@ class _EditContainerState extends State<EditContainer> {
                         size ??= widget.container.size;
                         // service.updateContainerData(
                         //     name, size, stateBloc.state.user!.uid);
+<<<<<<< HEAD
                         if (name != "") {
                           context.read<ContainersBloc>().add(UpdateContainer(
                               this.widget.container.uid,
@@ -204,6 +206,14 @@ class _EditContainerState extends State<EditContainer> {
                               this.widget.container.full));
                         }
                         Navigator.of(context).pop();
+=======
+                        context.read<ContainersBloc>().add(UpdateContainer(
+                            widget.container.uid,
+                            name,
+                            size,
+                            widget.container.value,
+                            widget.container.full));
+>>>>>>> 3e9c145 (Resolve flutter analyze warnings)
                       },
                       child: const Text(
                         'Update',
@@ -263,7 +273,7 @@ class _EditContainerState extends State<EditContainer> {
                                 fetchBarcode(scanResult, nameController);
                             setState(() => this.futureBarcode = futureBarcode);
                           },
-                          child: Text(
+                          child: const Text(
                             'Scan Barcode',
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),

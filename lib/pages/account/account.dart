@@ -1,13 +1,11 @@
 // Flutter imports:
+// ignore_for_file: sized_box_for_whitespace
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // Project imports:
 import 'package:stow/bloc/auth/auth_bloc.dart';
@@ -162,7 +160,7 @@ class _AccountPageState extends State<AccountPage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.only(top: 50),
               child: OutlinedButton(
                   onPressed: () {
                     authService.add(LogoutEvent());
@@ -224,8 +222,8 @@ class _AccountPageState extends State<AccountPage> {
       appBar: AppBar(
         leading: IconButton(
           key: const Key("AppBarMenu"),
-          icon: Icon(Icons.menu),
-          color: Color.fromARGB(255, 211, 220, 230),
+          icon: const Icon(Icons.menu),
+          color: const Color.fromARGB(255, 211, 220, 230),
           onPressed: () => {_key.currentState!.openDrawer()},
           iconSize: 45,
         ),

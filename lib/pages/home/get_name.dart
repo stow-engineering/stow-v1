@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 // Project imports:
-import '../../models/container.dart' as customContainer;
 
 class GetName extends StatelessWidget {
   final String uid;
   final bool fullName;
-  GetName(this.uid, this.fullName);
+  GetName(this.uid, this.fullName, {super.key});
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('User');
 
@@ -22,11 +20,11 @@ class GetName extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text("Something went wrong");
+          return const Text("Something went wrong");
         }
 
         if (snapshot.hasData && !snapshot.data!.exists) {
-          return Text("Document does not exist");
+          return const Text("Document does not exist");
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -45,7 +43,7 @@ class GetName extends StatelessWidget {
           }
         }
 
-        return CircularProgressIndicator();
+        return const CircularProgressIndicator();
       },
     );
   }

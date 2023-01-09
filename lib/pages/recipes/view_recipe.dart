@@ -28,7 +28,7 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
         ),
         body: Card(
           child: Column(children: [
-            ListTile(
+            const ListTile(
               title: Text(
                 "Ingredients List:", //widget.recipe.name,
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 24.0),
@@ -47,7 +47,7 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
             ),
             Divider(
                 thickness: 2, color: Theme.of(context).colorScheme.secondary),
-            ListTile(
+            const ListTile(
               title: Text(
                 "Recipe Instructions:", //widget.recipe.name,
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 24.0),
@@ -55,7 +55,7 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
             ),
             ListView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 itemCount: widget.recipe.instructions.length,
                 itemBuilder: (BuildContext context, index) {
                   return

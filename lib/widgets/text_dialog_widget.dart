@@ -20,6 +20,7 @@ Future<T?> showTextDialog<T>(BuildContext context,
           title: title, value: value, foodItem: foodItem, id: id),
     );
 
+// ignore: must_be_immutable
 class TextDialogWidget extends StatefulWidget {
   final String title;
   final String value;
@@ -59,7 +60,7 @@ class _TextDialogWidgetState extends State<TextDialogWidget> {
       title: Text(widget.title),
       content: TextField(
         controller: controller,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: OutlineInputBorder(),
         ),
       ),
@@ -68,7 +69,7 @@ class _TextDialogWidgetState extends State<TextDialogWidget> {
           ElevatedButton(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
-            child: Text('Delete'),
+            child: const Text('Delete'),
             onPressed: () => {
               groceryListBloc.add(DeleteFoodItemGroceryList(
                   widget.foodItem ?? "", widget.id ?? "")),
@@ -78,14 +79,14 @@ class _TextDialogWidgetState extends State<TextDialogWidget> {
         ElevatedButton(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(Colors.yellow)),
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
           onPressed: () => Navigator.of(context).pop(),
         ),
         ElevatedButton(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
                   Theme.of(context).primaryColor)),
-          child: Text('Done'),
+          child: const Text('Done'),
           onPressed: () => Navigator.of(context).pop(controller.text),
         )
       ],

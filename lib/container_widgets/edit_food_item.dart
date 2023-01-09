@@ -35,17 +35,17 @@ Future<Barcode> fetchBarcode(
 
 class Barcode {
   final String code;
-  final String status_verbose;
+  final String statusVerbose;
 
   const Barcode({
     required this.code,
-    required this.status_verbose,
+    required this.statusVerbose,
   });
 
   factory Barcode.fromJson(Map<String, dynamic> json) {
     return Barcode(
         code: json['product']['product_name_en'],
-        status_verbose: json['status_verbose']);
+        statusVerbose: json['status_verbose']);
   }
 }
 
@@ -82,6 +82,7 @@ class _EditFoodItemState extends State<EditFoodItem> {
         appBar: AppBar(),
         body: ListView(
           children: <Widget>[
+            // ignore: sized_box_for_whitespace
             Container(
               width: 300,
               height: 250,
@@ -112,7 +113,7 @@ class _EditFoodItemState extends State<EditFoodItem> {
                             controller: nameController,
                             decoration: InputDecoration(
                                 labelText: 'Name',
-                                hintText: widget.foodItem.name == null
+                                hintText: widget.foodItem.name == ''
                                     ? 'New FoodItem Name'
                                     : widget.foodItem.name,
                                 enabledBorder: OutlineInputBorder(
@@ -131,7 +132,7 @@ class _EditFoodItemState extends State<EditFoodItem> {
                           );
                         } else if (snapshot.hasError) {
                           return TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   hintText: 'New FoodItem Name'));
                         }
                         //return Lottie.asset('assets/loading-utensils-2.json');
@@ -241,7 +242,7 @@ class _EditFoodItemState extends State<EditFoodItem> {
                                 fetchBarcode(scanResult, nameController);
                             setState(() => this.futureBarcode = futureBarcode);
                           },
-                          child: Text(
+                          child: const Text(
                             'Scan Barcode',
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
