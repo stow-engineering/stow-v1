@@ -1,17 +1,10 @@
 // Dart imports:
 
-// Flutter imports:
-
 // Package imports:
 import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:stow/models/user.dart';
-
-/// Refactor Notes:
-///
-/// -> Rename to extension method
-/// -> Incorporate additional logging
 
 enum AuthStatus { initial, success, error, loading }
 
