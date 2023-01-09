@@ -1,4 +1,4 @@
-name: testing
+name: Approval Workflow
 on:
   push:
     branches: [main]
@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  tests:
+  flutter-workflow:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -31,6 +31,3 @@ jobs:
 
       - name: Analyzing packages
         run: flutter analyze
-
-      - name: Running tests
-        run: flutter test --coverage

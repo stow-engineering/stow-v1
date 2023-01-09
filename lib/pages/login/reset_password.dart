@@ -17,9 +17,7 @@ class ResetPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-    final authBloc = BlocProvider.of<AuthBloc>(context);
     final emailController = TextEditingController();
-    final passwordController = TextEditingController();
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
@@ -30,6 +28,7 @@ class ResetPasswordPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    // ignore: avoid_unnecessary_containers
                     Container(
                       child: Image.asset('assets/stow_text_logo.png'),
                     ),

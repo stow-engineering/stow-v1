@@ -17,7 +17,6 @@ import 'package:stow/bloc/grocery_list/grocery_list_bloc.dart';
 import 'package:stow/bloc/recipes_bloc.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/pages/account/account.dart';
-import 'package:stow/pages/pantry/pantry.dart';
 import 'package:stow/route_generator.dart';
 import 'package:stow/utils/authentication.dart';
 import 'package:stow/utils/firebase.dart';

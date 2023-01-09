@@ -1,6 +1,3 @@
-// Flutter imports:
-import 'package:flutter/services.dart';
-
 class InstructionsResponse {
   List<Instructions> results = <Instructions>[];
 

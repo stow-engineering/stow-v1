@@ -12,7 +12,6 @@ import 'package:stow/bloc/grocery_list/grocery_list_state.dart';
 import 'package:stow/expandable_fab/action_button.dart';
 import 'package:stow/models/grocery_lists.dart';
 import 'package:stow/pages/grocery_list/edit_grocery_list.dart';
-import 'package:stow/widgets/custom_navbar.dart';
 
 class GroceryListHome extends StatelessWidget {
   const GroceryListHome({Key? key}) : super(key: key);
@@ -64,7 +63,8 @@ class GroceryListHome extends StatelessWidget {
 }
 
 class GroceryListCard extends StatelessWidget {
-  GroceryListCard({Key? key, required this.groceryList, required this.index})
+  const GroceryListCard(
+      {Key? key, required this.groceryList, required this.index})
       : super(key: key);
 
   final GroceryList groceryList;
@@ -74,7 +74,7 @@ class GroceryListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String name = groceryList.name ?? "Grocery List: " + index.toString();
     return Padding(
-      padding: EdgeInsets.only(left: 15, right: 15, top: 2, bottom: 2),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 2, bottom: 2),
       child: GestureDetector(
         onTap: () => {
           Navigator.push(context, MaterialPageRoute(builder: (context) {

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import '../../models/food_item.dart';
 
 @immutable
 abstract class GroceryListEvents {

@@ -9,14 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/containers/containers_bloc.dart';
 import 'package:stow/bloc/containers/containers_events.dart';
-import 'package:stow/models/container.dart' as customContainer;
+import 'package:stow/models/container.dart' as custom_container;
 import 'package:stow/models/user.dart';
 import '../../utils/firebase.dart';
 
@@ -35,22 +34,22 @@ Future<Barcode> fetchBarcode(
 
 class Barcode {
   final String code;
-  final String status_verbose;
+  final String statusVerbose;
 
   const Barcode({
     required this.code,
-    required this.status_verbose,
+    required this.statusVerbose,
   });
 
   factory Barcode.fromJson(Map<String, dynamic> json) {
     return Barcode(
         code: json['product']['product_name_en'],
-        status_verbose: json['status_verbose']);
+        statusVerbose: json['status_verbose']);
   }
 }
 
 class EditContainer extends StatefulWidget {
-  final customContainer.Container container;
+  final custom_container.Container container;
   const EditContainer({Key? key, required this.container}) : super(key: key);
 
   @override
@@ -82,6 +81,7 @@ class _EditContainerState extends State<EditContainer> {
         appBar: AppBar(),
         body: ListView(
           children: <Widget>[
+            // ignore: sized_box_for_whitespace
             Container(
               width: 300,
               height: 250,
@@ -112,7 +112,7 @@ class _EditContainerState extends State<EditContainer> {
                             controller: nameController,
                             decoration: InputDecoration(
                                 labelText: 'Name',
-                                hintText: widget.container.name == null
+                                hintText: widget.container.name == ''
                                     ? 'New Container Name'
                                     : widget.container.name,
                                 enabledBorder: OutlineInputBorder(
@@ -131,13 +131,14 @@ class _EditContainerState extends State<EditContainer> {
                           );
                         } else if (snapshot.hasError) {
                           return TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   hintText: 'New Container Name'));
                         }
                         return TextFormField(
                           controller: nameController,
                           decoration: InputDecoration(
                               labelText: 'Name',
+                              // ignore: prefer_if_null_operators, unnecessary_null_comparison
                               hintText: widget.container.name == null
                                   ? 'New Container Name'
                                   : widget.container.name,
@@ -190,18 +191,18 @@ class _EditContainerState extends State<EditContainer> {
                         //     name, size, stateBloc.state.user!.uid);
                         if (name != "") {
                           context.read<ContainersBloc>().add(UpdateContainer(
-                              this.widget.container.uid,
+                              widget.container.uid,
                               name,
                               size,
-                              this.widget.container.value,
-                              this.widget.container.full));
+                              widget.container.value,
+                              widget.container.full));
                         } else {
                           context.read<ContainersBloc>().add(UpdateContainer(
-                              this.widget.container.uid,
-                              this.widget.container.name,
+                              widget.container.uid,
+                              widget.container.name,
                               size,
-                              this.widget.container.value,
-                              this.widget.container.full));
+                              widget.container.value,
+                              widget.container.full));
                         }
                         Navigator.of(context).pop();
                       },
@@ -263,7 +264,7 @@ class _EditContainerState extends State<EditContainer> {
                                 fetchBarcode(scanResult, nameController);
                             setState(() => this.futureBarcode = futureBarcode);
                           },
-                          child: Text(
+                          child: const Text(
                             'Scan Barcode',
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),

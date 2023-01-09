@@ -1,4 +1,7 @@
 // Flutter imports:
+// ignore_for_file: constant_identifier_names, sized_box_for_whitespace
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:stow/bloc/food/food_bloc.dart';
 import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/models/food_item.dart';
-import 'package:stow/utils/firebase_storage.dart';
 
 enum FoodItemCategory {
   FruitsAndVegtables,
@@ -104,63 +106,63 @@ class HorizontalFoodItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var food_list = [];
+    var foodList = [];
     switch (category) {
       case FoodItemCategory.FruitsAndVegtables:
         {
-          food_list = fruitsAndVegtables;
+          foodList = fruitsAndVegtables;
         }
         break;
       case FoodItemCategory.BakedGoods:
         {
-          food_list = bakedGoods;
+          foodList = bakedGoods;
         }
         break;
       case FoodItemCategory.Baking:
         {
-          food_list = baking;
+          foodList = baking;
         }
         break;
       case FoodItemCategory.Dairy:
         {
-          food_list = dairy;
+          foodList = dairy;
         }
         break;
       case FoodItemCategory.DryGoods:
         {
-          food_list = dryGoods;
+          foodList = dryGoods;
         }
         break;
       case FoodItemCategory.MeatAndSeafood:
         {
-          food_list = meatAndSeafood;
+          foodList = meatAndSeafood;
         }
         break;
       case FoodItemCategory.PastaAndSauces:
         {
-          food_list = pastaAndSauces;
+          foodList = pastaAndSauces;
         }
         break;
       case FoodItemCategory.Snacks:
         {
-          food_list = snacks;
+          foodList = snacks;
         }
         break;
       case FoodItemCategory.SpicesAndCondiments:
         {
-          food_list = spicesAndCondiments;
+          foodList = spicesAndCondiments;
         }
         break;
     }
     return Padding(
-      padding: EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 20),
       child: SizedBox(
         height: 245,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: food_list.length,
+          itemCount: foodList.length,
           itemBuilder: (context, index) {
-            return HorizontalMiniFoodItemDisplay(foodItem: food_list[index]);
+            return HorizontalMiniFoodItemDisplay(foodItem: foodList[index]);
           },
         ),
       ),
@@ -169,7 +171,7 @@ class HorizontalFoodItemList extends StatelessWidget {
 }
 
 class HorizontalMiniFoodItemDisplay extends StatelessWidget {
-  HorizontalMiniFoodItemDisplay({Key? key, required this.foodItem})
+  const HorizontalMiniFoodItemDisplay({Key? key, required this.foodItem})
       : super(key: key);
 
   final String foodItem;
@@ -273,10 +275,10 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
     // final storage = Provider.of<Storage>(context);
     // var image = storage.getFoodItemImage(this.foodItem);
     return Padding(
-        padding: EdgeInsets.only(right: 8.0),
+        padding: const EdgeInsets.only(right: 8.0),
         child: Card(
             clipBehavior: Clip.antiAlias,
-            margin: EdgeInsets.fromLTRB(10, 6, 10, 0),
+            margin: const EdgeInsets.fromLTRB(10, 6, 10, 0),
             child: Column(
               //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -290,9 +292,8 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
                   height: 50,
                   child: ListTile(
                     trailing: IconButton(
-                      icon: Icon(Icons.add),
+                      icon: const Icon(Icons.add),
                       onPressed: () {
-                        final name = foodItem;
                         DateTime today = DateTime.now();
                         showDatePicker(
                                 context: context,

@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,8 +10,6 @@ import 'package:stow/bloc/containers/containers_bloc.dart';
 import 'package:stow/bloc/food/food_bloc.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_bloc.dart';
 import 'package:stow/bloc/recipes_bloc.dart';
-import 'package:stow/pages/home/home.dart';
-import 'package:stow/pages/pantry/pantry.dart';
 import 'package:stow/route_generator.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/utils/stow_colors.dart';
@@ -45,7 +42,7 @@ class BlocProv extends StatelessWidget {
         ),
         //home: Home(key: key),
         //home: Pantry(),
-        home: NavBarWrapper(),
+        home: const NavBarWrapper(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),

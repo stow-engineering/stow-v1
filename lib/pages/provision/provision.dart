@@ -1,8 +1,9 @@
 // Dart imports:
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
+// Dart imports:
 import 'dart:async';
-import 'dart:collection';
 import 'dart:io';
-import 'dart:math';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 // Project imports:
 import '../../models/add_container_argument.dart';
 import '../../models/user.dart';
-import '../../utils/widgets.dart';
 
 //Place UUID varibales here, not sure if this creates problems
 //Guid stowServiceUUID = Guid("2d8bdb4c-8be8-4980-a066-4f531f08c626");
@@ -62,7 +62,9 @@ class _PairScreenState extends State<PairScreen> {
   List<bool> isSuccess = [];
   List<bool> isNotified = [];
   List<bool> isRegisterReady = [];
-  List<Guid> service = [Guid("a1593384-978b-4c21-9cc8-b89370582763")];
+  List<Guid> service = [
+    Guid("a1593384-978b-4c21-9cc8-b89370582763")
+  ]; // need to create as environment variable
 
   @override
   Widget build(BuildContext context) {
@@ -301,12 +303,12 @@ class _ConnectScreenState extends State<ConnectScreen> {
                                           BluetoothService serv =
                                               services.firstWhere((s) =>
                                                   s.uuid.toString() ==
-                                                  "2d8bdb4c-8be8-4980-a066-4f531f08c626");
+                                                  "2d8bdb4c-8be8-4980-a066-4f531f08c626"); // need to generate environment variable
                                           BluetoothCharacteristic char = serv
                                               .characteristics
                                               .firstWhere((c) =>
                                                   c.uuid.toString() ==
-                                                  "a0edbb2a-405d-4331-8540-7afaf0e934b9");
+                                                  "a0edbb2a-405d-4331-8540-7afaf0e934b9"); // need to generate environment variable
                                           await char.write(
                                               "processing".codeUnits,
                                               withoutResponse: true);

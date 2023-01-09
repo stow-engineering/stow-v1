@@ -6,13 +6,13 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 // Project imports:
 import '../../utils/firebase.dart';
-import '../models/container.dart' as customContainer;
+import '../models/container.dart' as custom_container;
 import '../models/container_series.dart';
 
 class ContainerChart extends StatelessWidget {
   final List<ContainerSeries>? data;
 
-  ContainerChart({required this.data});
+  const ContainerChart({super.key, required this.data});
   @override
   Widget build(BuildContext context) {
     List<charts.Series<ContainerSeries, String>> series = [
@@ -35,7 +35,6 @@ class NumFull {
     int numEmpty = 0;
     int percent = 0;
     for (int i = 0; i < addresses.length; i++) {
-      bool full = await service.getFull(addresses[i]);
       int val = await service.getVal(addresses[i]);
       String size = await service.getSize(addresses[i]);
       if (size == 'Small') {
@@ -62,12 +61,11 @@ class NumFull {
   }
 
   static List<ContainerSeries> getSeries(
-      List<customContainer.Container> containers) {
+      List<custom_container.Container> containers) {
     int numFull = 0;
     int numEmpty = 0;
     int percent = 0;
     for (int i = 0; i < containers.length; i++) {
-      bool full = containers[i].full;
       int val = containers[i].value;
       String size = containers[i].size;
       if (size == 'Small') {
@@ -94,7 +92,7 @@ class NumFull {
   }
 
   static List<ContainerSeries> createContainerSeries(
-      List<customContainer.Container> containers) {
+      List<custom_container.Container> containers) {
     int numFull = 0;
     int numEmpty = 0;
     int percent = 0;

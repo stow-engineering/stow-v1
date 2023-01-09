@@ -35,7 +35,7 @@ void main() {
 
   testWidgets('Pantry page test', (tester) async {
     final AuthenticationService authService = AuthenticationService();
-    final widget = Pantry();
+    const widget = Pantry();
     final user = MockStowUser();
     when((user.uid)).thenReturn('2KWUlFYV6QSN4KyRZqaHNihsc3W2');
     final firebaseService = FirebaseService(user.uid);

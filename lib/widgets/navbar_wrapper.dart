@@ -1,6 +1,11 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/pages/grocery_list/grocery_home.dart';
 import 'package:stow/pages/pantry/pantry.dart';
@@ -8,15 +13,17 @@ import 'package:stow/pages/recipes/recipes.dart';
 import 'package:stow/widgets/modal_sheet_button.dart';
 
 class NavBarWrapper extends StatefulWidget {
+  const NavBarWrapper({super.key});
+
   @override
   _NavBarWrapperState createState() => _NavBarWrapperState();
 }
 
 class _NavBarWrapperState extends State<NavBarWrapper> {
-  List<dynamic> _page = [
-    Pantry(),
-    GroceryListHome(),
-    RecipesPage(),
+  final List<dynamic> _page = [
+    const Pantry(),
+    const GroceryListHome(),
+    const RecipesPage(),
   ];
   int _activePage = 0;
 
@@ -26,7 +33,7 @@ class _NavBarWrapperState extends State<NavBarWrapper> {
         bottomNavigationBar: CurvedNavigationBar(
           index: _activePage,
           height: 60.0,
-          items: <Widget>[
+          items: const <Widget>[
             Icon(
               Icons.home,
               size: 30,
@@ -52,7 +59,7 @@ class _NavBarWrapperState extends State<NavBarWrapper> {
           buttonBackgroundColor: Theme.of(context).primaryColor,
           backgroundColor: Colors.white,
           animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 600),
+          animationDuration: const Duration(milliseconds: 600),
           onTap: (index) {
             if (index < 3) {
               setState(() {

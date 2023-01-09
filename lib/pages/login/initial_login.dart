@@ -1,14 +1,8 @@
 // Flutter imports:
+// ignore_for_file: sized_box_for_whitespace
+
+// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/src/provider.dart';
-
-// Project imports:
-import '../../utils/authentication.dart';
-import 'login.dart';
 
 class InitialLoginPage extends StatelessWidget {
   const InitialLoginPage({Key? key, required this.title}) : super(key: key);
@@ -27,6 +21,7 @@ class InitialLoginPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    // ignore: avoid_unnecessary_containers
                     Container(
                       child: Image.asset('assets/stow_text_logo.png'),
                     ),
@@ -46,7 +41,7 @@ class InitialLoginPage extends StatelessWidget {
                       height: 40,
                       width: 372,
                       decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 0, 176, 80),
+                          color: const Color.fromARGB(255, 0, 176, 80),
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                         onPressed: () {
@@ -64,7 +59,7 @@ class InitialLoginPage extends StatelessWidget {
                     Container(
                       height: 40,
                       width: 372,
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: OutlinedButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(
@@ -83,7 +78,7 @@ class InitialLoginPage extends StatelessWidget {
                     Container(
                       height: 40,
                       width: 372,
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: OutlinedButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(

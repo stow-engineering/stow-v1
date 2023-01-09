@@ -1,14 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 // Project imports:
-import '../models/container.dart' as customContainer;
 import '../models/user.dart';
 import '../utils/firebase.dart';
+
+// Package imports:
 
 class NumberContainers extends StatefulWidget {
   final StowUser user;

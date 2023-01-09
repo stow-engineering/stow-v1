@@ -1,22 +1,18 @@
+// Dart imports:
+import 'dart:developer';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 // Project imports:
 import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/bloc/auth/auth_state.dart';
-import 'package:stow/bloc/containers/containers_events.dart';
-import 'package:stow/bloc/containers/containers_state.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/utils/authentication.dart';
-import 'package:stow/utils/authentication.dart';
-import 'package:stow/utils/firebase.dart';
-import '../../models/container.dart' as customContainer;
-import '../../models/user.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
@@ -35,16 +31,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       CreateAccountEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
-      final newUser = await authService.createUserWithEmailPassword(
-          event.props[0] as String,
-          event.props[1] as String,
-          event.props[2] as String,
-          event.props[3] as String);
+      // final newUser = await authService.createUserWithEmailPassword(
+      //     event.props[0] as String,
+      //     event.props[1] as String,
+      //     event.props[2] as String,
+      //     event.props[3] as String);
       emit(
         state.copyWith(status: AuthStatus.success),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
     }
   }
@@ -74,7 +70,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (error, stacktrace) {
       _showMyDialog(
           event.context, "You entered either an invalid username or password");
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
     }
   }
@@ -85,14 +81,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       await authService.signOut();
       emit(
-        AuthState(
+        const AuthState(
             status: AuthStatus.success,
             user: null,
             firstname: null,
             lastname: null),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
     }
   }
@@ -135,7 +131,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           firstname: null,
           lastname: null));
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
     }
   }
@@ -150,7 +146,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           firstname: null,
           lastname: null));
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
     }
   }
@@ -178,7 +174,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           firstname: firstname,
           lastname: lastname));
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
     }
   }

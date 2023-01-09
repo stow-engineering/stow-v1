@@ -1,4 +1,7 @@
 // Flutter imports:
+// ignore_for_file: must_be_immutable
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,7 +13,6 @@ import 'package:stow/bloc/grocery_list/grocery_list_bloc.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_events.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_state.dart';
 import 'package:stow/expandable_fab/action_button.dart';
-import 'package:stow/models/grocery_lists.dart';
 import 'package:stow/widgets/scrollable_widget.dart';
 import 'package:stow/widgets/text_dialog_widget.dart';
 
@@ -122,6 +124,7 @@ class EditGroceryList extends StatelessWidget {
         foodItem: itemName,
         id: id);
 
+    // ignore: unused_local_variable
     List<String> newFoodItems = [newItemName];
     groceryListBloc.add(LoadGroceryList(authBloc.state.user!.uid));
   }

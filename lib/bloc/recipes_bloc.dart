@@ -1,8 +1,9 @@
 // Dart imports:
-import 'dart:async';
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+
+// Dart imports:
+import 'dart:developer';
 
 // Package imports:
 import 'package:bloc/bloc.dart';
@@ -11,9 +12,7 @@ import 'package:bloc/bloc.dart';
 import 'package:stow/bloc/recipes_events.dart';
 import 'package:stow/bloc/recipes_state.dart';
 import 'package:stow/utils/firebase.dart';
-import '../models/container.dart' as customContainer;
 import '../models/recipe.dart';
-import '../models/user.dart';
 
 class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
   RecipesBloc({
@@ -41,7 +40,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
         ),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: RecipesStatus.error));
     }
   }
@@ -71,7 +70,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
             numRecipes: newRecipeList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: RecipesStatus.error));
     }
   }
@@ -90,7 +89,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
             numRecipes: newRecipeList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: RecipesStatus.error));
     }
   }
@@ -122,7 +121,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
             numRecipes: newRecipeList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: RecipesStatus.error));
     }
   }

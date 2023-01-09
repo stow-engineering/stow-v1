@@ -1,5 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ModalSheetButton extends StatelessWidget {
   ModalSheetButton(
       {Key? key, required this.text, required this.route, this.args})
@@ -11,6 +13,7 @@ class ModalSheetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: sized_box_for_whitespace
     return Container(
       height: 70,
       width: MediaQuery.of(context).size.width,

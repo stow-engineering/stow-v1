@@ -8,9 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_bloc.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_events.dart';
-import 'package:stow/bloc/grocery_list/grocery_list_state.dart';
-import 'package:stow/expandable_fab/action_button.dart';
-import 'package:stow/models/grocery_lists.dart';
 
 class AddGroceryList extends StatelessWidget {
   const AddGroceryList({Key? key}) : super(key: key);
@@ -72,8 +69,8 @@ class AddGroceryList extends StatelessWidget {
                   color: Colors.green, borderRadius: BorderRadius.circular(10)),
               child: TextButton(
                 onPressed: () {
-                  groceryListBloc
-                      .add(AddNewGroceryList([], false, nameController.text));
+                  groceryListBloc.add(
+                      AddNewGroceryList(const [], false, nameController.text));
                   groceryListBloc
                       .add(LoadGroceryList(authBloc.state.user!.uid));
                   Navigator.of(context).pop();

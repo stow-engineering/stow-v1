@@ -6,14 +6,12 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // Project imports:
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/recipes_events.dart';
 import 'package:stow/expandable_fab/action_button.dart';
 import 'package:stow/models/recipe.dart';
-import 'package:stow/utils/firebase.dart';
 import '../../bloc/recipes_bloc.dart';
 import '../../bloc/recipes_state.dart';
 
@@ -38,6 +36,7 @@ class _RecipesPageState extends State<RecipesPage> {
   Widget build(BuildContext context) {
     final recipeBloc = BlocProvider.of<RecipesBloc>(context);
     final authBloc = BlocProvider.of<AuthBloc>(context);
+    // FirebaseService service = Provider.of<FirebaseService>(context);
     return BlocBuilder<RecipesBloc, RecipesState>(
         bloc: recipeBloc,
         builder: (context, state) {
@@ -144,7 +143,7 @@ class _BuildRecipeCardState extends State<BuildRecipeCard> {
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(179, 109, 122, 133)),
               ),
-              contentPadding: EdgeInsets.fromLTRB(170, 0, 0, 0),
+              contentPadding: const EdgeInsets.fromLTRB(170, 0, 0, 0),
               hoverColor: const Color.fromARGB(255, 201, 138, 22),
               onTap: () => {
                 Navigator.of(context)
@@ -155,47 +154,6 @@ class _BuildRecipeCardState extends State<BuildRecipeCard> {
                     .then((_) => setState(() {}))
               },
             ),
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(300, 0, 0, 0),
-            //   child: ActionButton(
-            //       onPressed: () {
-            //         //recipeBloc.add(recipe);
-            //         //context.read<RecipesBloc>().add(DeleteRecipe(recipe));
-            //         _showMyDialog(
-            //           context,
-            //           'Are you sure you want to delete this recipe?',
-            //           recipe);
-            //       },
-            //       icon: const Icon(Icons.delete_outlined),
-            //     ),
-            // ),
-            //const Divider(),
-            //   Container(
-            //     height: 200,
-            //     width: double.infinity,
-            //     decoration: BoxDecoration(
-            //       image: DecorationImage(
-            //         image: Image(),
-            //         //image: NetworkImage(recipe.imageUrl),
-            //         fit: BoxFit.fitWidth,
-            //         alignment: Alignment.topCenter,
-            //     ),
-            //   ),
-            // ),
-            // ListTile(
-            //   title: const Text(
-            //     "Instructions",
-            //     style: TextStyle(fontWeight: FontWeight.w500),
-            //   ),
-            //   subtitle: Text(recipe.instructions),
-            // ),
-            // ListTile(
-            //   title: const Text(
-            //     "Cook Time",
-            //     style: TextStyle(fontWeight: FontWeight.w500),
-            //   ),
-            //   subtitle: Text(recipe.instructions),
-            // ),
           ],
         ),
       ),

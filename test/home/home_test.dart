@@ -19,7 +19,6 @@ import 'package:stow/models/user.dart';
 import 'package:stow/pages/home/home.dart';
 import 'package:stow/route_generator.dart';
 import 'package:stow/utils/authentication.dart';
-import 'package:stow/utils/bloc_provider.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/utils/firebase_storage.dart';
 import 'package:stow/utils/stow_colors.dart';
@@ -36,7 +35,7 @@ void main() {
 
   testWidgets('Home page test', (tester) async {
     final AuthenticationService authService = AuthenticationService();
-    final widget = Home();
+    const widget = Home();
     final user = MockStowUser();
     when((user.uid)).thenReturn('2KWUlFYV6QSN4KyRZqaHNihsc3W2');
     final firebaseService = FirebaseService(user.uid);

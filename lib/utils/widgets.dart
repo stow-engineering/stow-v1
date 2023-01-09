@@ -93,8 +93,8 @@ class ScanResultTile extends StatelessWidget {
       trailing: ElevatedButton(
         child: const Text('CONNECT'),
         style: ElevatedButton.styleFrom(
-          primary: Colors.black,
-          onPrimary: Colors.white,
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.black,
         ),
         onPressed: (result.advertisementData.connectable) ? onTap : null,
       ),
