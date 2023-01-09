@@ -204,6 +204,7 @@ class CreateAccount extends StatelessWidget {
                               password: passwordController.text,
                               firstname: firstController.text,
                               lastname: lastController.text));
+                          Navigator.pop(context);
                         } else {
                           String errorMessage = "";
                           if (!requiredLength) {
