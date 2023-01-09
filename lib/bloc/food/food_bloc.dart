@@ -1,8 +1,5 @@
 // Dart imports:
-import 'dart:async';
-
-// Flutter imports:
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
 // Package imports:
 import 'package:bloc/bloc.dart';
@@ -13,6 +10,8 @@ import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/bloc/food/food_state.dart';
 import 'package:stow/models/food_item.dart';
 import 'package:stow/utils/firebase.dart';
+
+// Flutter imports:
 
 class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
   FoodItemsBloc({
@@ -40,7 +39,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
         ),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: FoodItemsStatus.error));
     }
   }
@@ -49,12 +48,12 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
       AddFoodItem event, Emitter<FoodItemsState> emit) async {
     emit(state.copyWith(status: FoodItemsStatus.loading));
     try {
-      List<FoodItem> newFoodItemsList = state.foodItems as List<FoodItem>;
-      DocumentReference food_uid = await service.updateFoodItemData(
+      List<FoodItem> newFoodItemsList = state.foodItems;
+      DocumentReference foodUid = await service.updateFoodItemData(
           event.foodItem.name, event.foodItem.expDate);
-      service.updateFoodItems(food_uid.id);
+      service.updateFoodItems(foodUid.id);
       FoodItem newFoodItem = FoodItem(
-          uid: food_uid.id,
+          uid: foodUid.id,
           barcode: event.foodItem.barcode,
           name: event.foodItem.name,
           value: event.foodItem.value,
@@ -67,7 +66,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
             numItems: newFoodItemsList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: FoodItemsStatus.error));
     }
   }
@@ -76,7 +75,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
       DeleteFoodItems event, Emitter<FoodItemsState> emit) async {
     emit(state.copyWith(status: FoodItemsStatus.loading));
     try {
-      List<FoodItem> newFoodItemsList = state.foodItems as List<FoodItem>;
+      List<FoodItem> newFoodItemsList = state.foodItems;
       newFoodItemsList.remove(event.foodItem);
       service.deleteFoodItems(event.foodItem.uid);
       emit(
@@ -86,7 +85,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
             numItems: newFoodItemsList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: FoodItemsStatus.error));
     }
   }
@@ -95,14 +94,14 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
       UpdateFoodItems event, Emitter<FoodItemsState> emit) async {
     emit(state.copyWith(status: FoodItemsStatus.loading));
     try {
-      List<FoodItem> newFoodItemsList = state.foodItems as List<FoodItem>;
+      List<FoodItem> newFoodItemsList = state.foodItems;
       for (int i = 0; i < newFoodItemsList.length; i++) {
         if (newFoodItemsList[i].uid == event.foodItem.uid) {
           newFoodItemsList[i].name = event.foodItem.name;
           newFoodItemsList[i].expDate = event.foodItem.expDate;
         }
       }
-      var food_id = service.updateExistingFoodItem(event.foodItem);
+      service.updateExistingFoodItem(event.foodItem);
       //service.updateFoodItems(food_id.toString());
       emit(
         state.copyWith(
@@ -111,7 +110,7 @@ class FoodItemsBloc extends Bloc<FoodItemsEvents, FoodItemsState> {
             numItems: newFoodItemsList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: FoodItemsStatus.error));
     }
   }

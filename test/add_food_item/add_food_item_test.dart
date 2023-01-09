@@ -13,16 +13,11 @@ import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/containers/containers_bloc.dart';
 import 'package:stow/bloc/food/food_bloc.dart';
-import 'package:stow/bloc/food/food_events.dart';
 import 'package:stow/bloc/grocery_list/grocery_list_bloc.dart';
 import 'package:stow/bloc/recipes_bloc.dart';
-import 'package:stow/models/add_container_argument.dart';
 import 'package:stow/models/food_item.dart';
 import 'package:stow/models/user.dart';
-import 'package:stow/pages/account/account.dart';
-import 'package:stow/pages/add_container/add_container.dart';
 import 'package:stow/pages/add_food_item/add_food_item.dart';
-import 'package:stow/pages/pantry/pantry.dart';
 import 'package:stow/route_generator.dart';
 import 'package:stow/utils/authentication.dart';
 import 'package:stow/utils/firebase.dart';
@@ -46,7 +41,7 @@ void main() {
     when((user.email)).thenReturn('testuser55@gmail.com');
     final firebaseService = FirebaseService(user.uid);
     final storage = MockStorage();
-    final widget = AddFoodItemPage();
+    const widget = AddFoodItemPage();
 
     await tester.pumpWidget(
       MultiBlocProvider(
@@ -94,16 +89,16 @@ void main() {
     //create finders
     final fruitsAndVeggiesFinder = find.textContaining("Fruits and Vegetables");
     final meatAndSeafoodFinder = find.textContaining("Meat and Seafood");
-    final dairyFinder = find.textContaining("Dairy");
-    final bakedGoodsFinder = find.textContaining("BakedGoods");
-    final dryGoodsFinder = find.textContaining("Dry Goods");
-    final bakingFinder = find.textContaining("Baking");
-    final pastaFinder = find.textContaining("Pasta");
-    final spicesAndCondimentsFinder =
-        find.textContaining("Spices and Condiments");
-    final snacksFinder = find.textContaining("Snacks");
-    final createFinder = find.textContaining("Create Custom Food Item!");
-    final scrollFinder = find.byKey(const Key("MainListView"));
+    // final dairyFinder = find.textContaining("Dairy");
+    // final bakedGoodsFinder = find.textContaining("BakedGoods");
+    // final dryGoodsFinder = find.textContaining("Dry Goods");
+    // final bakingFinder = find.textContaining("Baking");
+    // final pastaFinder = find.textContaining("Pasta");
+    // final spicesAndCondimentsFinder =
+    //     find.textContaining("Spices and Condiments");
+    // final snacksFinder = find.textContaining("Snacks");
+    // final createFinder = find.textContaining("Create Custom Food Item!");
+    // final scrollFinder = find.byKey(const Key("MainListView"));
 
     //expect
     expect(fruitsAndVeggiesFinder, findsOneWidget);

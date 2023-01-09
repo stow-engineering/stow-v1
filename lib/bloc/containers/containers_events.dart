@@ -1,12 +1,10 @@
 // Dart imports:
-import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:stow/models/container.dart' as customContainer;
-import 'package:stow/utils/firebase.dart';
+import 'package:stow/models/container.dart' as custom_container;
 
 @immutable
 abstract class ContainersEvent {
@@ -19,7 +17,7 @@ class LoadContainers extends ContainersEvent {
 }
 
 class AddContainer extends ContainersEvent {
-  final customContainer.Container container;
+  final custom_container.Container container;
 
   AddContainer(this.container) : super([container]);
 
@@ -43,7 +41,7 @@ class UpdateContainer extends ContainersEvent {
 }
 
 class DeleteContainer extends ContainersEvent {
-  final customContainer.Container container;
+  final custom_container.Container container;
 
   DeleteContainer(this.container) : super([container]);
 

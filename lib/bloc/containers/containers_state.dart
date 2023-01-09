@@ -1,15 +1,12 @@
 // Dart imports:
-import 'dart:async';
 
 // Flutter imports:
-import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:stow/models/container.dart' as customContainer;
-import 'package:stow/utils/firebase.dart';
+import 'package:stow/models/container.dart' as custom_container;
 
 enum ContainersStatus { initial, success, error, loading }
 
@@ -23,12 +20,11 @@ extension ContainersStatusX on ContainersStatus {
 class ContainersState extends Equatable {
   const ContainersState(
       {this.status = ContainersStatus.initial,
-      List<customContainer.Container>? containers,
-      int numContainers = 0})
-      : containers = containers ?? const [],
-        numContainers = numContainers;
+      List<custom_container.Container>? containers,
+      this.numContainers = 0})
+      : containers = containers ?? const [];
 
-  final List<customContainer.Container> containers;
+  final List<custom_container.Container> containers;
   final int numContainers;
   final ContainersStatus status;
 
@@ -37,7 +33,7 @@ class ContainersState extends Equatable {
 
   ContainersState copyWith({
     ContainersStatus? status,
-    List<customContainer.Container>? containers,
+    List<custom_container.Container>? containers,
     int? numContainers,
   }) {
     return ContainersState(

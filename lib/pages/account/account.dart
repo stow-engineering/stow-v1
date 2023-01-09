@@ -1,17 +1,12 @@
 // Flutter imports:
+// ignore_for_file: sized_box_for_whitespace
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // Project imports:
-import 'package:stow/bloc/auth/auth_bloc.dart';
-import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/pages/home/get_name.dart';
 import 'package:stow/utils/firebase.dart';
@@ -30,7 +25,7 @@ class _AccountPageState extends State<AccountPage> {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final FirebaseService service = FirebaseService(widget.user.uid);
     final GetName fullName = GetName(widget.user.uid, true);
-    final authService = BlocProvider.of<AuthBloc>(context);
+    //final authService = BlocProvider.of<AuthBloc>(context);
     final GlobalKey<ScaffoldState> _key = GlobalKey();
 
     final emailController = TextEditingController();

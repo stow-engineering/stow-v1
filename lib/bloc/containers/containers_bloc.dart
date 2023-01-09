@@ -1,8 +1,5 @@
 // Dart imports:
-import 'dart:async';
-
-// Flutter imports:
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
 // Package imports:
 import 'package:bloc/bloc.dart';
@@ -10,8 +7,10 @@ import 'package:bloc/bloc.dart';
 // Project imports:
 import 'package:stow/bloc/containers/containers_events.dart';
 import 'package:stow/bloc/containers/containers_state.dart';
-import 'package:stow/models/container.dart' as customContainer;
+import 'package:stow/models/container.dart' as customer_container;
 import 'package:stow/utils/firebase.dart';
+
+// Flutter imports:
 
 class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
   ContainersBloc({
@@ -24,7 +23,7 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
     on<UpdateContainer>(_mapUpdateEventToState);
   }
   final FirebaseService service;
-  final customContainer.Container? newContainer;
+  final customer_container.Container? newContainer;
 
   void _mapLoadEventToState(
       LoadContainers event, Emitter<ContainersState> emit) async {
@@ -39,7 +38,7 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
         ),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: ContainersStatus.error));
     }
   }
@@ -48,8 +47,7 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
       AddContainer event, Emitter<ContainersState> emit) async {
     emit(state.copyWith(status: ContainersStatus.loading));
     try {
-      List<customContainer.Container> newContainerList =
-          state.containers as List<customContainer.Container>;
+      List<customer_container.Container> newContainerList = state.containers;
       newContainerList.add(event.container);
       service.updateContainerData(event.container.name, event.container.size,
           event.container.uid, null, null);
@@ -61,7 +59,7 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
             numContainers: newContainerList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: ContainersStatus.error));
     }
   }
@@ -70,8 +68,7 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
       DeleteContainer event, Emitter<ContainersState> emit) async {
     emit(state.copyWith(status: ContainersStatus.loading));
     try {
-      List<customContainer.Container> newContainerList =
-          state.containers as List<customContainer.Container>;
+      List<customer_container.Container> newContainerList = state.containers;
       newContainerList.remove(event.container);
       service.deleteContainer(event.container.uid);
       emit(
@@ -81,7 +78,7 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
             numContainers: newContainerList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: ContainersStatus.error));
     }
   }
@@ -90,8 +87,7 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
       UpdateContainer event, Emitter<ContainersState> emit) async {
     emit(state.copyWith(status: ContainersStatus.loading));
     try {
-      List<customContainer.Container> newContainerList =
-          state.containers as List<customContainer.Container>;
+      List<customer_container.Container> newContainerList = state.containers;
       for (int i = 0; i < newContainerList.length; i++) {
         if (newContainerList[i].uid == event.mac) {
           newContainerList[i].name = event.name;
@@ -107,7 +103,7 @@ class ContainersBloc extends Bloc<ContainersEvent, ContainersState> {
             numContainers: newContainerList.length),
       );
     } catch (error, stacktrace) {
-      print(stacktrace);
+      log(stacktrace.toString());
       emit(state.copyWith(status: ContainersStatus.error));
     }
   }

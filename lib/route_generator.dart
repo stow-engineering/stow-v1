@@ -6,7 +6,7 @@ import 'package:stow/barcode_scanner.dart';
 import 'package:stow/container_widgets/edit_container.dart';
 import 'package:stow/container_widgets/edit_food_item.dart';
 import 'package:stow/models/add_container_argument.dart';
-import 'package:stow/models/container.dart' as customContainer;
+import 'package:stow/models/container.dart' as custom_container;
 import 'package:stow/models/food_item.dart';
 import 'package:stow/models/recipe.dart';
 import 'package:stow/models/user.dart';
@@ -17,7 +17,6 @@ import 'package:stow/pages/create_account/create_account.dart';
 import 'package:stow/pages/grocery_list/add_grocery_list.dart';
 import 'package:stow/pages/grocery_list/edit_grocery_list.dart';
 import 'package:stow/pages/grocery_list/grocery_home.dart';
-import 'package:stow/pages/home/home.dart';
 import 'package:stow/pages/login/login.dart';
 import 'package:stow/pages/login/reset_password.dart';
 import 'package:stow/pages/pantry/pantry.dart';
@@ -50,7 +49,7 @@ class RouteGenerator {
               builder: (_) => const ResetPasswordPage(title: 'Stow'));
         }
       case '/barcode':
-        return MaterialPageRoute(builder: (_) => BarcodeScanner());
+        return MaterialPageRoute(builder: (_) => const BarcodeScanner());
       case '/recipes':
         return MaterialPageRoute(
           builder: (_) => const RecipesPage(),
@@ -97,14 +96,14 @@ class RouteGenerator {
         return errorRoute();
       case '/add-food-item':
         return MaterialPageRoute(
-          builder: (_) => AddFoodItemPage(),
+          builder: (_) => const AddFoodItemPage(),
         );
       case '/add_recipe':
         return MaterialPageRoute(
-          builder: (_) => AddRecipePage(),
+          builder: (_) => const AddRecipePage(),
         );
       case '/edit-container':
-        if (args is customContainer.Container) {
+        if (args is custom_container.Container) {
           return MaterialPageRoute(
             builder: (_) => EditContainer(
               container: args,
@@ -141,11 +140,11 @@ class RouteGenerator {
         return errorRoute();
       case '/grocery-list-home':
         return MaterialPageRoute(
-          builder: (_) => GroceryListHome(),
+          builder: (_) => const GroceryListHome(),
         );
       case '/add-grocery-list':
         return MaterialPageRoute(
-          builder: (_) => AddGroceryList(),
+          builder: (_) => const AddGroceryList(),
         );
       case '/edit-grocery-list':
         if (args is String) {
@@ -165,9 +164,9 @@ class RouteGenerator {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Error'),
+          title: const Text('Error'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('ERROR'),
         ),
       );

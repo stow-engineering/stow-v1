@@ -64,7 +64,8 @@ class GroceryListHome extends StatelessWidget {
 }
 
 class GroceryListCard extends StatelessWidget {
-  GroceryListCard({Key? key, required this.groceryList, required this.index})
+  const GroceryListCard(
+      {Key? key, required this.groceryList, required this.index})
       : super(key: key);
 
   final GroceryList groceryList;
@@ -74,7 +75,7 @@ class GroceryListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String name = groceryList.name ?? "Grocery List: " + index.toString();
     return Padding(
-      padding: EdgeInsets.only(left: 15, right: 15, top: 2, bottom: 2),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 2, bottom: 2),
       child: GestureDetector(
         onTap: () => {
           Navigator.push(context, MaterialPageRoute(builder: (context) {

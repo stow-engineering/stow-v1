@@ -1,6 +1,6 @@
 // Project imports:
 import 'package:stow/bloc/containers/containers_bloc.dart';
-import 'package:stow/models/container.dart' as customContainer;
+import 'package:stow/models/container.dart' as custom_container;
 import 'package:stow/models/food_item.dart';
 
 class GroceryList {
@@ -33,7 +33,7 @@ class GroceryList {
   }
 
   void addLowContainers(ContainersBloc bloc) {
-    List<customContainer.Container> containerList = bloc.state.containers;
+    List<custom_container.Container> containerList = bloc.state.containers;
     List<FoodItem> newFoodItems = [];
     for (int i = 0; i < containerList.length; i++) {
       if (!containerList[i].full) {

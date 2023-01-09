@@ -1,13 +1,10 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/src/provider.dart';
-
 // Stateless entry point - Initial View on Figma
 class EntryPage extends StatelessWidget {
+  const EntryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +13,7 @@ class EntryPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // ignore: sized_box_for_whitespace
             Container(
               width: 200,
               height: 150,

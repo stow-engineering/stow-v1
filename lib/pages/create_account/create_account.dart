@@ -19,9 +19,6 @@ class CreateAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var boxColor1 = Colors.grey;
-    var boxColor2 = Colors.grey;
-    var boxColor3 = Colors.grey;
     final passwordController = TextEditingController();
     final emailController = TextEditingController();
     final confirmController = TextEditingController();

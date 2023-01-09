@@ -2,10 +2,12 @@
 # Note that this configuration is not an exact match to UI settings. Review and adjust as necessary.
 
 workflows:
-  default-workflow:
-    name: Default Workflow
+  ios-workflow:
+    name: iOS Workflow
     max_build_duration: 60
     environment:
+      groups:
+        - APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_KEY_IDENTIFIER, APP_STORE_CONNECT_PRIVATE_KEY
       flutter: default
       xcode: latest
       cocoapods: default
@@ -21,6 +23,11 @@ workflows:
         - pattern: '*'
           include: true
     scripts:
+      - name: Get the latest build number
+        script: |
+          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number $APP_APPLE_ID)
+          cd ./ios # avgtool must run in the folder where xcodeproj file is located
+          agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
       - flutter emulators --launch apple_ios_simulator
       - |
         # set up debug keystore
@@ -54,6 +61,11 @@ workflows:
       - build/windows/**/*.msix
       - flutter_drive.log
     publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
       email:
         recipients:
           - andrew.whitaker987@gmail.com

@@ -1,11 +1,11 @@
 // Flutter imports:
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
@@ -29,7 +29,7 @@ import 'package:stow/widgets/modal_sheet_button.dart';
 import 'package:stow/widgets/splash_screen.dart';
 import '../../container_widgets/container_chart.dart';
 import '../../container_widgets/container_list.dart';
-import '../../models/container.dart' as customContainer;
+import '../../models/container.dart' as custom_container;
 import '../../utils/firebase.dart';
 
 class Pantry extends StatefulWidget {
@@ -46,7 +46,7 @@ class _PantryState extends State<Pantry> {
     getIncomingContainers();
   }
 
-  List<customContainer.Container>? incomingContainers;
+  List<custom_container.Container>? incomingContainers;
 
   void getIncomingContainers() async {
     final stateBloc = BlocProvider.of<ContainersBloc>(context);
@@ -54,7 +54,7 @@ class _PantryState extends State<Pantry> {
     containerStream.listen((event) {
       incomingContainers = event;
       if (incomingContainers != null) {
-        List<customContainer.Container> currentContainers =
+        List<custom_container.Container> currentContainers =
             stateBloc.state.containers;
         currentContainers.sort();
         incomingContainers!.sort();
@@ -89,7 +89,6 @@ class _PantryState extends State<Pantry> {
     }
     final GlobalKey<ScaffoldState> _key = GlobalKey();
     final authBloc = BlocProvider.of<AuthBloc>(context);
-    FirebaseService service = Provider.of<FirebaseService>(context);
 
     return BlocBuilder<ContainersBloc, ContainersState>(
         bloc: stateBloc,
@@ -98,7 +97,7 @@ class _PantryState extends State<Pantry> {
               bloc: authBloc,
               builder: (context, state) {
                 if (state.firstname == null || state.lastname == null) {
-                  return StowSplashScreen();
+                  return const StowSplashScreen();
                 }
                 return Scaffold(
                   key: _key,
@@ -196,11 +195,9 @@ class _PantryState extends State<Pantry> {
                                 List<String>.empty(growable: true);
                             final foodItemBloc =
                                 BlocProvider.of<FoodItemsBloc>(context);
-                            foodItemBloc.state.foodItems.forEach(
-                              (element) {
-                                items.add(element.name);
-                              },
-                            );
+                            for (var element in foodItemBloc.state.foodItems) {
+                              items.add(element.name);
+                            }
                             _launchUrl(items);
                           },
                           child: Row(children: const [
@@ -231,7 +228,7 @@ class _PantryState extends State<Pantry> {
                         //   ]),
                         // ),
                         Padding(
-                          padding: EdgeInsets.only(top: 50),
+                          padding: const EdgeInsets.only(top: 50),
                           child: OutlinedButton(
                               onPressed: () {
                                 context.read<AuthBloc>().add(LogoutEvent());
@@ -255,8 +252,8 @@ class _PantryState extends State<Pantry> {
                     // shape: RoundedRectangleBorder(
                     //     borderRadius: BorderRadius.all(Radius.circular(25))),
                     leading: IconButton(
-                      icon: Icon(Icons.menu),
-                      color: Color.fromARGB(255, 211, 220, 230),
+                      icon: const Icon(Icons.menu),
+                      color: const Color.fromARGB(255, 211, 220, 230),
                       onPressed: () => {_key.currentState!.openDrawer()},
                       iconSize: 45,
                     ),
@@ -275,7 +272,7 @@ class _PantryState extends State<Pantry> {
                   ),
                   body: ListView(
                     children: <Widget>[
-                      GreetingWidget(),
+                      const GreetingWidget(),
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 20, right: 20, top: 0, bottom: 15),
@@ -293,7 +290,7 @@ class _PantryState extends State<Pantry> {
                                       Text(
                                         containersState.numContainers
                                             .toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 45,
                                             fontWeight: FontWeight.bold),
@@ -326,93 +323,7 @@ class _PantryState extends State<Pantry> {
                     ],
                   ),
                 );
-              }
-              // child: Scaffold(
-              //   floatingActionButton: ExpandableFab(
-              //       initialOpen: false,
-              //       distance: 80.0,
-              //       children: [
-              //         CustomTextButton(
-              //           onPressed: () => {
-              //             Navigator.of(context)
-              //                 .pushNamed(
-              //                   '/provision',
-              //                   arguments: authBloc.state.user,
-              //                 )
-              //                 .then((_) => setState(() {}))
-              //           },
-              //           text: const Text('Add Stow Container',
-              //               style: TextStyle(
-              //                   color: Colors.white, fontWeight: FontWeight.bold)),
-              //         ),
-              //         CustomTextButton(
-              //           onPressed: () => {
-              //             Navigator.of(context)
-              //                 .pushNamed(
-              //                   '/add-food-item',
-              //                 )
-              //                 .then((_) => setState(() {}))
-              //           },
-              //           text: const Text('Add Food Item',
-              //               style: TextStyle(
-              //                   color: Colors.white, fontWeight: FontWeight.bold)),
-              //         ),
-              //       ],
-              //       key: const Key("ExpandableFab")),
-              //   appBar: AppBar(
-              //     backgroundColor: Theme.of(context).primaryColor,
-              //   ),
-              //   body: ListView(
-              //     children: <Widget>[
-              //       Padding(
-              //         padding: const EdgeInsets.only(
-              //             left: 20, right: 20, top: 0, bottom: 15),
-              //         child: Card(
-              //           elevation: 0.0,
-              //           color: const Color.fromARGB(255, 237, 248, 255),
-              //           child: Padding(
-              //             padding: const EdgeInsets.only(
-              //                 left: 20, right: 5, top: 0, bottom: 5),
-              //             child: Row(
-              //               children: <Widget>[
-              //                 Expanded(
-              //                   child: Column(
-              //                     children: <Widget>[
-              //                       Text(
-              //                         state.numContainers.toString(),
-              //                         style: TextStyle(
-              //                             color: Colors.black,
-              //                             fontSize: 45,
-              //                             fontWeight: FontWeight.bold),
-              //                       ),
-              //                       const Text(
-              //                         "Containers",
-              //                         style: TextStyle(
-              //                             color: Colors.black, fontSize: 15),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 Expanded(
-              //                   child: Container(
-              //                     key: const Key("ContainerChart"),
-              //                     height: 175,
-              //                     padding: const EdgeInsets.all(25),
-              //                     child: ContainerChart(
-              //                         data: NumFull.getSeries(state.containers)),
-              //                   ),
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       ContainerListWrapper(),
-              //       FoodItemListWrapper(),
-              //     ],
-              //   ),
-              // ),
-              );
+              });
         });
   }
 
@@ -437,7 +348,7 @@ class _PantryState extends State<Pantry> {
         ),
       );
     }
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
 
   Widget FoodItemListWrapper() {
@@ -467,7 +378,7 @@ class _PantryState extends State<Pantry> {
               ),
             );
           } else {
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           }
         });
   }
@@ -477,9 +388,9 @@ class _PantryState extends State<Pantry> {
 Future<void> _launchUrl(List<String> items) async {
   String site =
       "https://www.instacart.com/store/partner_recipe?title=Stows+Grocery+List";
-  items.forEach((element) {
+  for (var element in items) {
     site = site + "&ingredients%5B%5D=" + element + "%20";
-  });
+  }
   Uri url = Uri.parse(site);
   if (!await launchUrl(url)) {
     throw 'Could not launch $url';
