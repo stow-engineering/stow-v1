@@ -1,4 +1,4 @@
-name: Approval Workflow
+name: Flutter Approval Workflow
 on:
   push:
     branches: [main]
