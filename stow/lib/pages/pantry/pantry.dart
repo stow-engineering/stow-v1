@@ -19,6 +19,7 @@ import 'package:stow/expandable_fab/action_button.dart';
 import 'package:stow/expandable_fab/expandable_fab.dart';
 import 'package:stow/widgets/custom_navbar.dart';
 import 'package:stow/widgets/greeting_widget.dart';
+import 'package:stow/widgets/modal_sheet_button.dart';
 import 'package:stow/widgets/splash_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../container_widgets/container_chart.dart';
@@ -96,6 +97,10 @@ class _PantryState extends State<Pantry> {
                 }
                 return Scaffold(
                   key: _key,
+                  floatingActionButton: HomeActionButton(
+                    onPressed: () => {showBottomButtons(context)},
+                    icon: const Icon(Icons.add),
+                  ),
                   drawer: Drawer(
                       child: ListView(
                           children: [
@@ -129,23 +134,23 @@ class _PantryState extends State<Pantry> {
                             ]),
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(
-                              '/pantry',
-                            );
-                          },
-                          child: Row(children: const [
-                            Icon(Icons.kitchen, color: Colors.black),
-                            Text(
-                              'Check your pantry',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          ]),
-                        ),
+                        // TextButton(
+                        //   onPressed: () {
+                        //     Navigator.of(context).pushNamed(
+                        //       '/pantry',
+                        //     );
+                        //   },
+                        //   child: Row(children: const [
+                        //     Icon(Icons.kitchen, color: Colors.black),
+                        //     Text(
+                        //       'Check your pantry',
+                        //       style: TextStyle(
+                        //           color: Colors.black,
+                        //           fontSize: 20,
+                        //           fontWeight: FontWeight.w300),
+                        //     ),
+                        //   ]),
+                        // ),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(
@@ -205,21 +210,21 @@ class _PantryState extends State<Pantry> {
                             ),
                           ]),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('/barcode');
-                          },
-                          child: Row(children: const [
-                            Icon(Icons.scanner, color: Colors.black),
-                            Text(
-                              'Scan barcode',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          ]),
-                        ),
+                        // TextButton(
+                        //   onPressed: () {
+                        //     Navigator.of(context).pushNamed('/barcode');
+                        //   },
+                        //   child: Row(children: const [
+                        //     Icon(Icons.scanner, color: Colors.black),
+                        //     Text(
+                        //       'Scan barcode',
+                        //       style: TextStyle(
+                        //           color: Colors.black,
+                        //           fontSize: 20,
+                        //           fontWeight: FontWeight.w300),
+                        //     ),
+                        //   ]),
+                        // ),
                         Padding(
                           padding: EdgeInsets.only(top: 50),
                           child: OutlinedButton(
@@ -474,4 +479,35 @@ Future<void> _launchUrl(List<String> items) async {
   if (!await launchUrl(url)) {
     throw 'Could not launch $url';
   }
+}
+
+Future showBottomButtons(context) {
+  return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 175,
+          color: Colors.white,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ModalSheetButton(
+                    text: 'Add Food Item', route: '/add-food-item'),
+                Container(
+                  color: Colors.black,
+                  height: 1,
+                ),
+                ModalSheetButton(
+                    text: 'Add Container',
+                    route: '/provision',
+                    args: BlocProvider.of<AuthBloc>(context).state.user),
+                Container(height: 20),
+              ],
+            ),
+          ),
+        );
+      });
 }
