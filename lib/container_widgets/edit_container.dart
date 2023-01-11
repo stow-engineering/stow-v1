@@ -138,7 +138,7 @@ class _EditContainerState extends State<EditContainer> {
                           controller: nameController,
                           decoration: InputDecoration(
                               labelText: 'Name',
-                              // ignore: prefer_if_null_operators, unnecessary_null_comparison
+                              // ignore: unnecessary_null_comparison, prefer_if_null_operators
                               hintText: widget.container.name == null
                                   ? 'New Container Name'
                                   : widget.container.name,
@@ -189,22 +189,12 @@ class _EditContainerState extends State<EditContainer> {
                         size ??= widget.container.size;
                         // service.updateContainerData(
                         //     name, size, stateBloc.state.user!.uid);
-                        if (name != "") {
-                          context.read<ContainersBloc>().add(UpdateContainer(
-                              widget.container.uid,
-                              name,
-                              size,
-                              widget.container.value,
-                              widget.container.full));
-                        } else {
-                          context.read<ContainersBloc>().add(UpdateContainer(
-                              widget.container.uid,
-                              widget.container.name,
-                              size,
-                              widget.container.value,
-                              widget.container.full));
-                        }
-                        Navigator.of(context).pop();
+                        context.read<ContainersBloc>().add(UpdateContainer(
+                            widget.container.uid,
+                            name,
+                            size,
+                            widget.container.value,
+                            widget.container.full));
                       },
                       child: const Text(
                         'Update',

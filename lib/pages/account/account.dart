@@ -4,15 +4,12 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 // Project imports:
-import 'package:stow/bloc/auth/auth_bloc.dart';
-import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/models/user.dart';
 import 'package:stow/pages/home/get_name.dart';
 import 'package:stow/utils/firebase.dart';
+
+// Package imports:
 
 class AccountPage extends StatefulWidget {
   final StowUser user;
@@ -28,7 +25,7 @@ class _AccountPageState extends State<AccountPage> {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final FirebaseService service = FirebaseService(widget.user.uid);
     final GetName fullName = GetName(widget.user.uid, true);
-    final authService = BlocProvider.of<AuthBloc>(context);
+    // final authService = BlocProvider.of<AuthBloc>(context);
     final GlobalKey<ScaffoldState> _key = GlobalKey();
 
     final emailController = TextEditingController();
@@ -37,200 +34,8 @@ class _AccountPageState extends State<AccountPage> {
 
     return Scaffold(
       key: _key,
-      drawer: Drawer(
-          child: ListView(
-              children: [
-            const Icon(Icons.person_rounded,
-                size: 200, color: Color.fromARGB(255, 0, 176, 80)),
-            Center(child: fullName),
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    '/account',
-                    arguments: widget.user,
-                  );
-                },
-                child: Container(
-                  height: 25,
-                  child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: const <Widget>[
-                        Icon(Icons.settings, color: Colors.black),
-                        Text(
-                          'Profile & Settings',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w300),
-                        ),
-                      ]),
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/pantry',
-                  arguments: widget.user,
-                );
-              },
-              child: Container(
-                height: 25,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: const <Widget>[
-                      Icon(Icons.kitchen, color: Colors.black),
-                      Text(
-                        'Check your pantry',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ]),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/recipes',
-                  arguments: widget.user,
-                );
-              },
-              child: Container(
-                height: 25,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: const <Widget>[
-                      Icon(Icons.blender, color: Colors.black),
-                      Text(
-                        'Browse recipes',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ]),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/grocery-list-home',
-                  arguments: widget.user,
-                );
-              },
-              child: Container(
-                height: 25,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: const <Widget>[
-                      Icon(Icons.settings, color: Colors.black),
-                      Text(
-                        'Update grocery lists',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ]),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed('/barcode', arguments: widget.user);
-              },
-              child: Container(
-                height: 25,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: const <Widget>[
-                      Icon(Icons.scanner, color: Colors.black),
-                      Text(
-                        'Scan barcode',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ]),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: OutlinedButton(
-                  onPressed: () {
-                    authService.add(LogoutEvent());
-                  },
-                  child: const Text(
-                    "Sign Out",
-                    style: TextStyle(color: Colors.red),
-                  )),
-            )
-          ],
-              padding: const EdgeInsets.only(
-                  top: 40, bottom: 40, left: 20, right: 20))),
       backgroundColor: Colors.white,
-      // floatingActionButton: FloatingActionButton(
-      //     onPressed: () {},
-      //     backgroundColor: Colors.green,
-      //     child: const Icon(Icons.add)),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (int selected) => {
-          if (selected == 0)
-            {
-              Navigator.of(context).pushNamed(
-                '/home',
-                arguments: widget.user,
-              )
-            }
-          else if (selected == 1)
-            {
-              Navigator.of(context).pushNamed(
-                '/pantry',
-                arguments: widget.user,
-              )
-            }
-          else if (selected == 2)
-            {
-              Navigator.of(context).pushNamed(
-                '/recipes',
-                arguments: widget.user,
-              )
-            }
-          else if (selected == 3)
-            {
-              Navigator.of(context).pushNamed(
-                '/groceries',
-                arguments: widget.user,
-              )
-            }
-        },
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          // BottomNavigationBarItem(
-          //     icon: Icon(Icons.local_grocery_store), label: 'Groceries'),
-          BottomNavigationBarItem(icon: Icon(Icons.kitchen), label: 'Pantry'),
-          BottomNavigationBarItem(icon: Icon(Icons.blender), label: 'Recipes'),
-        ],
-      ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      appBar: AppBar(
-        leading: IconButton(
-          key: const Key("AppBarMenu"),
-          icon: const Icon(Icons.menu),
-          color: const Color.fromARGB(255, 211, 220, 230),
-          onPressed: () => {_key.currentState!.openDrawer()},
-          iconSize: 45,
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      // body: ContainerList(),
+      appBar: AppBar(),
       body: ListView(
         children: <Widget>[
           Padding(

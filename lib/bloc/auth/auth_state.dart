@@ -1,5 +1,7 @@
 // Dart imports:
 
+// Flutter imports:
+
 // Package imports:
 import 'package:equatable/equatable.dart';
 

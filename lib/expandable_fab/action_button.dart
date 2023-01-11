@@ -33,6 +33,32 @@ class ActionButton extends StatelessWidget {
 }
 
 @immutable
+class HomeActionButton extends StatelessWidget {
+  const HomeActionButton({
+    super.key,
+    this.onPressed,
+    required this.icon,
+  });
+
+  final VoidCallback? onPressed;
+  final Widget icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      shape: const CircleBorder(),
+      clipBehavior: Clip.antiAlias,
+      color: Colors.greenAccent,
+      elevation: 4.0,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: icon,
+      ),
+    );
+  }
+}
+
+@immutable
 class CustomTextButton extends StatelessWidget {
   const CustomTextButton({
     super.key,
