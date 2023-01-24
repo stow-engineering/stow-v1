@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/bloc/auth/auth_state.dart';
+import 'package:stow/utils/apple_signin_available.dart';
 import 'package:stow/utils/bloc_provider.dart';
 import 'package:stow/utils/firebase.dart';
 import 'package:stow/utils/firebase_storage.dart';
@@ -17,7 +18,11 @@ import 'route_generator.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  final appleSignInAvailable = await AppleSignInAvailable.check();
+  runApp(Provider<AppleSignInAvailable>.value(
+    value: appleSignInAvailable,
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

@@ -49,6 +49,7 @@
 		CB3D2A896C2C4C4BA16A2E99 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		D5B699B616893B67267ECDFE /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F90695C127B1A1A200CC7EB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F92797BE297239C1009CD893 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +107,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				F92797BE297239C1009CD893 /* Runner.entitlements */,
 				F90695C127B1A1A200CC7EB3 /* GoogleService-Info.plist */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -343,7 +345,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
@@ -358,14 +360,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = R5634L2KSB;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Stow Pantry";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycontainers.stow;
 				PRODUCT_NAME = "Stow Pantry";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -421,7 +427,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -470,7 +476,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
@@ -487,14 +493,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = R5634L2KSB;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Stow Pantry";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycontainers.stow;
 				PRODUCT_NAME = "Stow Pantry";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -510,14 +520,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = R5634L2KSB;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Stow Pantry";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycontainers.stow;
 				PRODUCT_NAME = "Stow Pantry";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

@@ -1,7 +1,10 @@
+import 'package:apple_sign_in/apple_sign_in_button.dart' as apple;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/auth/auth_events.dart';
+import 'package:stow/utils/apple_signin_available.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
@@ -20,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
     final authBloc = BlocProvider.of<AuthBloc>(context);
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
+    final appleSignInAvailable =
+        Provider.of<AppleSignInAvailable>(context, listen: false);
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
@@ -114,13 +119,14 @@ class _LoginPageState extends State<LoginPage> {
                       width: 372,
                       decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(7)),
                       child: TextButton(
                         onPressed: () {
                           context.read<AuthBloc>().add(LoginEvent(
                               email: emailController.text,
                               password: passwordController.text,
-                              context: context));
+                              context: context,
+                              apple: false));
                         },
                         child: const Text(
                           'Sign In',
@@ -128,6 +134,26 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+                    if (appleSignInAvailable.isAvailable)
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Container(
+                          height: 40,
+                          width: 372,
+                          child: apple.AppleSignInButton(
+                            style: apple.ButtonStyle.black,
+                            type: apple.ButtonType.signIn,
+                            onPressed: () {
+                              print('Apple Sign In');
+                              context.read<AuthBloc>().add(LoginEvent(
+                                  email: '',
+                                  password: '',
+                                  context: context,
+                                  apple: true));
+                            },
+                          ),
+                        ),
+                      ),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed('/reset-password');
