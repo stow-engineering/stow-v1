@@ -1,0 +1,33 @@
+name: Flutter Approval Workflow
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  flutter-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Setting up Java environment for Android
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - name: Installing and setting flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.3.2'
+          channel: 'stable'
+
+      - name: Downloading packages
+        run: flutter pub get
+
+      - name: Formatting files
+        run: flutter format .
+
+      - name: Analyzing packages
+        run: flutter analyze
