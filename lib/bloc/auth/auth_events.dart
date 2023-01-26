@@ -51,15 +51,19 @@ class ResetPasswordEvent extends AuthEvent {
 }
 
 class LoginEvent extends AuthEvent {
-  const LoginEvent(
-      {required this.email, required this.password, required this.context});
+  LoginEvent(
+      {required this.email,
+      required this.password,
+      required this.context,
+      required this.apple});
 
-  final String email;
-  final String password;
-  final BuildContext context;
+  String email;
+  String password;
+  BuildContext context;
+  bool apple;
 
   @override
-  List<Object> get props => [email, password, context];
+  List<Object> get props => [email, password, context, apple];
 
   @override
   String toString() => 'Login Event';

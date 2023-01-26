@@ -1,3 +1,4 @@
+import 'package:apple_sign_in/apple_sign_in.dart';
 // Dart imports:
 import 'dart:developer';
 
@@ -47,9 +48,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _mapLoginEventToState(LoginEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.loading));
+    bool appleError = false;
     try {
-      StowUser? newUser = await authService.signInWithEmailPassword(
-          event.props[0] as String, event.props[1] as String);
+      StowUser? newUser;
+      if (event.props[3] as bool) {
+        try {
+          newUser = await authService
+              .signInWithApple(scopes: [Scope.email, Scope.fullName]);
+        } catch (e) {
+          appleError = true;
+          _showMyDialog(event.context, "Apple Sign In Failed");
+          print(e);
+          emit(state.copyWith(status: AuthStatus.error));
+        }
+      } else {
+        try {
+          newUser = await authService.signInWithEmailPassword(
+              event.props[0] as String, event.props[1] as String);
+        } catch (e) {
+          print(e);
+        }
+      }
       final CollectionReference userCollection =
           FirebaseFirestore.instance.collection('User');
       DocumentSnapshot snapshot = await userCollection.doc(newUser!.uid).get();

@@ -8,7 +8,8 @@
             "type": "dart",
             "args": [
                 "--no-sound-null-safety"
-            ]
+            ],
+            "program": "../lib/main.dart"
         },
         {
             "name": "stow (profile mode)",
@@ -18,7 +19,8 @@
             "flutterMode": "profile",
             "args": [
                 "--no-sound-null-safety"
-            ]
+            ],
+            "program": "../lib/main.dart"
         },
         {
             "name": "stow (release mode)",
@@ -28,7 +30,8 @@
             "flutterMode": "release",
             "args": [
                 "--no-sound-null-safety"
-            ]
+            ],
+            "program": "../lib/main.dart"
         }
     ]
 }
