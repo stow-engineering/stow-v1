@@ -30,7 +30,7 @@ class ResetPasswordPage extends StatelessWidget {
                   children: <Widget>[
                     // ignore: avoid_unnecessary_containers
                     Container(
-                      child: Image.asset('assets/stow_text_logo.png'),
+                      child: Image.asset('assets/text-logo-transparent.png'),
                     ),
                     Form(
                       key: _formKey,
@@ -75,7 +75,7 @@ class ResetPasswordPage extends StatelessWidget {
                       height: 40,
                       width: 372,
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                         onPressed: () {

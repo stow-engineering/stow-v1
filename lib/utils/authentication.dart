@@ -1,8 +1,4 @@
-<<<<<<< HEAD:stow/lib/utils/authentication.dart
 import 'package:apple_sign_in/apple_sign_in.dart';
-=======
-// Package imports:
->>>>>>> main:lib/utils/authentication.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 

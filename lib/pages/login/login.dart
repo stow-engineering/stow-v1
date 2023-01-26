@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             Navigator.of(context).pushNamed(
                               '/create-account',
-                              arguments: 'Welcome to Stow!',
+                              arguments: 'Sign Up',
                             );
                           },
                           child: const Text(

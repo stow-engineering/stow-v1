@@ -26,20 +26,21 @@ class CreateAccount extends StatelessWidget {
     final lastController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
-      ),
+      appBar: AppBar(),
       body: Center(
         child: ListView(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RichText(
-              text: TextSpan(
-                text: data,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 45,
-                  fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(left: 30, top: 40),
+              child: RichText(
+                text: TextSpan(
+                  text: data,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -52,9 +53,22 @@ class CreateAccount extends StatelessWidget {
                         left: 30.0, right: 30.0, top: 25.0, bottom: 0),
                     child: TextFormField(
                       controller: emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                      ),
+                      decoration: InputDecoration(
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                          labelText: 'Email',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 211, 220, 230)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).primaryColor),
+                            borderRadius: BorderRadius.circular(15),
+                          )),
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
@@ -69,9 +83,22 @@ class CreateAccount extends StatelessWidget {
                     child: TextFormField(
                       controller: passwordController,
                       obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                      ),
+                      decoration: InputDecoration(
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                          labelText: 'Password',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 211, 220, 230)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).primaryColor),
+                            borderRadius: BorderRadius.circular(15),
+                          )),
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter a valid password';
@@ -100,9 +127,22 @@ class CreateAccount extends StatelessWidget {
                     child: TextFormField(
                       controller: confirmController,
                       obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Confirm Password',
-                      ),
+                      decoration: InputDecoration(
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                          labelText: 'Confirm Password',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 211, 220, 230)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).primaryColor),
+                            borderRadius: BorderRadius.circular(15),
+                          )),
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please re-enter your password';
@@ -116,9 +156,22 @@ class CreateAccount extends StatelessWidget {
                         left: 30.0, right: 30.0, top: 25.0, bottom: 25.0),
                     child: TextFormField(
                       controller: firstController,
-                      decoration: const InputDecoration(
-                        hintText: 'First Name',
-                      ),
+                      decoration: InputDecoration(
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                          labelText: 'First Name',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 211, 220, 230)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).primaryColor),
+                            borderRadius: BorderRadius.circular(15),
+                          )),
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please provide a first name';
@@ -132,9 +185,22 @@ class CreateAccount extends StatelessWidget {
                         left: 30.0, right: 30.0, top: 25.0, bottom: 25.0),
                     child: TextFormField(
                       controller: lastController,
-                      decoration: const InputDecoration(
-                        hintText: 'Last Name',
-                      ),
+                      decoration: InputDecoration(
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                          labelText: 'Last Name',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 211, 220, 230)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).primaryColor),
+                            borderRadius: BorderRadius.circular(15),
+                          )),
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please provide a last name';
@@ -144,11 +210,11 @@ class CreateAccount extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 50,
-                    width: 250,
+                    height: 40,
+                    width: 372,
                     decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(20)),
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(7)),
                     child: TextButton(
                       onPressed: () {
                         bool emailValid = RegExp(
@@ -231,7 +297,7 @@ class CreateAccount extends StatelessWidget {
                       },
                       child: const Text(
                         'Sign Me Up!',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
                   ),
