@@ -1,4 +1,5 @@
 import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 // Dart imports:
 import 'dart:developer';
 
@@ -25,6 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ResetPasswordEvent>(_mapResetPasswordEventToState);
     on<AlreadyLoggedInEvent>(_mapAlreadyLoggedInEventToState);
     on<GetNameEvent>(_mapGetNameEventToState);
+    on<UpdateProfilePicEvent>(_mapUpdateProfilePicEventToState);
   }
   final AuthenticationService authService;
 
@@ -32,11 +34,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       CreateAccountEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
-      // final newUser = await authService.createUserWithEmailPassword(
-      //     event.props[0] as String,
-      //     event.props[1] as String,
-      //     event.props[2] as String,
-      //     event.props[3] as String);
+      final newUser = await authService.createUserWithEmailPassword(
+          event.props[0] as String,
+          event.props[1] as String,
+          event.props[2] as String,
+          event.props[3] as String);
       emit(
         state.copyWith(status: AuthStatus.success),
       );
@@ -49,8 +51,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _mapLoginEventToState(LoginEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.loading));
     bool appleError = false;
+    bool profilePicError = false;
+    StowUser? newUser;
+    String firstname = "";
+    String lastname = "";
+    String url = "";
     try {
-      StowUser? newUser;
       if (event.props[3] as bool) {
         try {
           newUser = await authService
@@ -73,20 +79,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           FirebaseFirestore.instance.collection('User');
       DocumentSnapshot snapshot = await userCollection.doc(newUser!.uid).get();
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      String firstname = "";
-      String lastname = "";
       if (data.containsKey('first_name')) {
         firstname = "${data['first_name']}";
       }
       if (data.containsKey('last_name')) {
         lastname = "${data['last_name']}";
       }
+      String profilePicId = "profilepic" + newUser.uid;
+      final ref = FirebaseStorage.instance.ref().child(profilePicId);
+      url = await ref.getDownloadURL();
       emit(state.copyWith(
           status: AuthStatus.success,
           user: newUser,
           firstname: firstname,
-          lastname: lastname));
+          lastname: lastname,
+          profilePicUrl: url));
     } catch (error, stacktrace) {
+      if (error is FirebaseException) {
+        if (error.code == "object-not-found") {
+          profilePicError = true;
+        }
+      }
+      if (profilePicError) {
+        emit(state.copyWith(
+            status: AuthStatus.success,
+            user: newUser,
+            firstname: firstname,
+            lastname: lastname,
+            profilePicUrl: null));
+      }
       _showMyDialog(
           event.context, "You entered either an invalid username or password");
       log(stacktrace.toString());
@@ -104,7 +125,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             status: AuthStatus.success,
             user: null,
             firstname: null,
-            lastname: null),
+            lastname: null,
+            profilePicUrl: null),
       );
     } catch (error, stacktrace) {
       log(stacktrace.toString());
@@ -148,7 +170,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           status: AuthStatus.success,
           user: null,
           firstname: null,
-          lastname: null));
+          lastname: null,
+          profilePicUrl: null));
     } catch (error, stacktrace) {
       log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
@@ -163,7 +186,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           status: AuthStatus.success,
           user: event.stowUser,
           firstname: null,
-          lastname: null));
+          lastname: null,
+          profilePicUrl: null));
     } catch (error, stacktrace) {
       log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
@@ -173,25 +197,55 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _mapGetNameEventToState(
       GetNameEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.loading));
+    bool profilePicError = false;
+    String firstname = "";
+    String lastname = "";
     try {
       final CollectionReference userCollection =
           FirebaseFirestore.instance.collection('User');
       DocumentSnapshot snapshot =
           await userCollection.doc(state.user!.uid).get();
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      String firstname = "";
-      String lastname = "";
       if (data.containsKey('first_name')) {
         firstname = "${data['first_name']}";
       }
       if (data.containsKey('last_name')) {
         lastname = "${data['last_name']}";
       }
+      String profilePicId = "profilepic" + state.user!.uid;
+      final ref = FirebaseStorage.instance.ref().child(profilePicId);
+      String url = await ref.getDownloadURL();
       emit(state.copyWith(
           status: AuthStatus.success,
           user: state.user,
           firstname: firstname,
-          lastname: lastname));
+          lastname: lastname,
+          profilePicUrl: url));
+    } catch (error, stacktrace) {
+      if (error is FirebaseException) {
+        if (error.code == "object-not-found") {
+          profilePicError = true;
+        }
+      }
+      if (profilePicError) {
+        emit(state.copyWith(
+            status: AuthStatus.success,
+            user: state.user,
+            firstname: firstname,
+            lastname: lastname,
+            profilePicUrl: null));
+      }
+      log(stacktrace.toString());
+      emit(state.copyWith(status: AuthStatus.error));
+    }
+  }
+
+  void _mapUpdateProfilePicEventToState(
+      UpdateProfilePicEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      emit(state.copyWith(
+          status: AuthStatus.success, profilePicUrl: event.profilePic));
     } catch (error, stacktrace) {
       log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stow/widgets/profile_picture.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
@@ -106,8 +107,9 @@ class _PantryState extends State<Pantry> {
                   drawer: Drawer(
                       child: ListView(
                           children: [
-                        const Icon(Icons.person_rounded,
-                            size: 200, color: Color.fromARGB(255, 0, 176, 80)),
+                        Padding(
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            child: ProfilePicture()),
                         BlocBuilder<AuthBloc, AuthState>(
                             bloc: authBloc,
                             builder: (context, state) {

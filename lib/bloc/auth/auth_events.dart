@@ -96,3 +96,15 @@ class GetNameEvent extends AuthEvent {
   @override
   String toString() => 'Get Name Event';
 }
+
+class UpdateProfilePicEvent extends AuthEvent {
+  const UpdateProfilePicEvent({required this.profilePic});
+
+  final String profilePic;
+
+  @override
+  List<Object> get props => [profilePic];
+
+  @override
+  String toString() => 'Update Profile Pic Event';
+}

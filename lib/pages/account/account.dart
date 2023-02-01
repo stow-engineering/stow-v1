@@ -2,7 +2,13 @@
 // ignore_for_file: sized_box_for_whitespace
 
 // Flutter imports:
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stow/bloc/auth/auth_bloc.dart';
+import 'package:stow/bloc/auth/auth_events.dart';
 
 // Project imports:
 import 'package:stow/models/user.dart';
@@ -10,6 +16,9 @@ import 'package:stow/pages/home/get_name.dart';
 import 'package:stow/utils/firebase.dart';
 
 // Package imports:
+import 'package:image_picker/image_picker.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:stow/widgets/profile_picture.dart';
 
 class AccountPage extends StatefulWidget {
   final StowUser user;
@@ -20,12 +29,14 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
+  String imageUrl = "";
+
   @override
   Widget build(BuildContext context) {
+    final userBloc = BlocProvider.of<AuthBloc>(context);
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final FirebaseService service = FirebaseService(widget.user.uid);
     final GetName fullName = GetName(widget.user.uid, true);
-    // final authService = BlocProvider.of<AuthBloc>(context);
     final GlobalKey<ScaffoldState> _key = GlobalKey();
 
     final emailController = TextEditingController();
@@ -38,13 +49,7 @@ class _AccountPageState extends State<AccountPage> {
       appBar: AppBar(),
       body: ListView(
         children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Container(
-                width: 500,
-                child: const Icon(Icons.person_rounded,
-                    size: 200, color: Colors.black),
-              )),
+          Padding(padding: EdgeInsets.only(top: 25), child: ProfilePicture()),
           Padding(
             padding:
                 const EdgeInsets.only(left: 0, right: 0, top: 30, bottom: 15),

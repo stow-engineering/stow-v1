@@ -22,25 +22,29 @@ class AuthState extends Equatable {
       {this.status = AuthStatus.initial,
       this.user,
       this.firstname,
-      this.lastname});
+      this.lastname,
+      this.profilePicUrl});
 
   final StowUser? user;
   final String? firstname;
   final String? lastname;
+  final String? profilePicUrl;
   final AuthStatus status;
 
   @override
-  List<Object?> get props => [status, user, firstname, lastname];
+  List<Object?> get props => [status, user, firstname, lastname, profilePicUrl];
 
   AuthState copyWith(
       {AuthStatus? status,
       StowUser? user,
       String? firstname,
-      String? lastname}) {
+      String? lastname,
+      String? profilePicUrl}) {
     return AuthState(
         user: user ?? this.user,
         status: status ?? this.status,
         firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname);
+        lastname: lastname ?? this.lastname,
+        profilePicUrl: profilePicUrl ?? this.profilePicUrl);
   }
 }
