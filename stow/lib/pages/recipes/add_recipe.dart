@@ -21,6 +21,19 @@ class _AddRecipePageState extends State<AddRecipePage> {
   static List<String> instructionsList = [""];
   static List<String> ingredientsList = [""];
 
+  void _clearData() {
+    nameController.clear();
+    cookController.clear();
+    prepController.clear();
+    instructionsList.clear();
+    ingredientsList.clear();
+
+    instructionsList.add("");
+    ingredientsList.add(""); 
+
+    setState(() {}); 
+  }
+
   @override
   void initState() {
     super.initState();
@@ -145,6 +158,16 @@ class _AddRecipePageState extends State<AddRecipePage> {
                               prepTimeMin: int.parse(prepController.text));
                       context.read<RecipesBloc>().add(AddRecipe(recipe));
                     }
+
+                    //Resets form data
+                    _clearData();
+
+                    final snackBar = SnackBar(
+                      content: const Text("Recipe Added!"),
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: const Text('Submit'),
                 ),
@@ -215,7 +238,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
             SizedBox(
               width: 16,
             ),
-            // we need add button at last friends row
+            // we need add button at last ingredients row
             _addRemoveButtonIngredients(i == ingredientsList.length - 1, i),
           ],
         ),
@@ -229,7 +252,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
     return InkWell(
       onTap: () {
         if (add) {
-          // add new text-fields at the top of all friends textfields
+          // add new text-fields at the top of all ingredient textfields
           ingredientsList.insert(ingredientsList.length, "");
         } else
           ingredientsList.removeAt(index);
