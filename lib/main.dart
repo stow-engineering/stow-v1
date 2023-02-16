@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/bloc/auth/auth_state.dart';
+import 'package:stow/pages/verify_email/verify_wrapper.dart';
 import 'package:stow/utils/apple_signin_available.dart';
 import 'package:stow/utils/bloc_provider.dart';
 import 'package:stow/utils/firebase.dart';
@@ -86,7 +87,7 @@ class AuthenticationWrapper extends StatelessWidget {
                     create: (_) => Storage(),
                   )
                 ],
-                child: BlocProv(key: key),
+                child: VerifyWrapper(key: key),
               );
       },
     );

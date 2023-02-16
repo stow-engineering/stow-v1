@@ -19,7 +19,7 @@ import 'package:stow/utils/authentication.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required this.authService,
-  }) : super(const AuthState()) {
+  }) : super(AuthState(emailVerified: false)) {
     on<CreateAccountEvent>(_mapCreateEventToState);
     on<LoginEvent>(_mapLoginEventToState);
     on<LogoutEvent>(_mapLogoutEventToState);
@@ -27,6 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AlreadyLoggedInEvent>(_mapAlreadyLoggedInEventToState);
     on<GetNameEvent>(_mapGetNameEventToState);
     on<UpdateProfilePicEvent>(_mapUpdateProfilePicEventToState);
+    on<VerifyEmailEvent>(_mapVerifyEmailEventToState);
   }
   final AuthenticationService authService;
 
@@ -40,8 +41,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           event.props[2] as String,
           event.props[3] as String);
       emit(
-        state.copyWith(status: AuthStatus.success),
+        state.copyWith(status: AuthStatus.success, emailVerified: false),
       );
+    } on FirebaseException catch (error, stacktrace) {
+      log(stacktrace.toString());
+      if (error.code == 'email-already-in-use') {
+        _showMyDialog(event.context, "That Email is already in use.");
+      }
+      emit(state.copyWith(status: AuthStatus.error));
     } catch (error, stacktrace) {
       log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
@@ -73,6 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               event.props[0] as String, event.props[1] as String);
         } catch (e) {
           print(e);
+          emit(state.copyWith(status: AuthStatus.error));
         }
       }
       final CollectionReference userCollection =
@@ -93,7 +101,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: newUser,
           firstname: firstname,
           lastname: lastname,
-          profilePicUrl: url));
+          profilePicUrl: url,
+          emailVerified: true));
     } catch (error, stacktrace) {
       if (error is FirebaseException) {
         if (error.code == "object-not-found") {
@@ -106,7 +115,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             user: newUser,
             firstname: firstname,
             lastname: lastname,
-            profilePicUrl: null));
+            profilePicUrl: null,
+            emailVerified: true));
       }
       _showMyDialog(
           event.context, "You entered either an invalid username or password");
@@ -121,12 +131,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       await authService.signOut();
       emit(
-        const AuthState(
+        AuthState(
             status: AuthStatus.success,
             user: null,
             firstname: null,
             lastname: null,
-            profilePicUrl: null),
+            profilePicUrl: null,
+            emailVerified: false),
       );
     } catch (error, stacktrace) {
       log(stacktrace.toString());
@@ -187,7 +198,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: event.stowUser,
           firstname: null,
           lastname: null,
-          profilePicUrl: null));
+          profilePicUrl: null,
+          emailVerified: authService.isEmailVerified()));
     } catch (error, stacktrace) {
       log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));
@@ -246,6 +258,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       emit(state.copyWith(
           status: AuthStatus.success, profilePicUrl: event.profilePic));
+    } catch (error, stacktrace) {
+      log(stacktrace.toString());
+      emit(state.copyWith(status: AuthStatus.error));
+    }
+  }
+
+  void _mapVerifyEmailEventToState(
+      VerifyEmailEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      emit(state.copyWith(
+          status: AuthStatus.success, emailVerified: event.isVerified));
     } catch (error, stacktrace) {
       log(stacktrace.toString());
       emit(state.copyWith(status: AuthStatus.error));

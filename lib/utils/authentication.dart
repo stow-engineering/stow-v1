@@ -25,6 +25,10 @@ class AuthenticationService {
     return _firebaseAuth.currentUser;
   }
 
+  bool? isEmailVerified() {
+    return _firebaseAuth.currentUser?.emailVerified;
+  }
+
   Future<StowUser?> signInWithEmailPassword(
     String email,
     String password,

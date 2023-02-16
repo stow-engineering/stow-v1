@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -53,14 +54,13 @@ class ProfilePicture extends StatelessWidget {
   }
 
   void pickUploadImage(String uid, BuildContext context) async {
-    final image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 512,
-      maxHeight: 512,
-      imageQuality: 75,
-    );
-
     try {
+      final image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 512,
+        maxHeight: 512,
+        imageQuality: 75,
+      );
       String profilePicId = "profilepic" + uid;
 
       Reference ref = FirebaseStorage.instance.ref().child(profilePicId);
@@ -72,6 +72,9 @@ class ProfilePicture extends StatelessWidget {
             .add(UpdateProfilePicEvent(profilePic: value));
       });
     } catch (e) {
+      if (e is PlatformException) {
+        openAppSettings();
+      }
       print(e);
     }
   }
