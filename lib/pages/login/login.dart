@@ -13,6 +13,7 @@ import 'package:apple_sign_in/apple_sign_in_button.dart' as apple;
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/auth/auth_events.dart';
 import 'package:stow/utils/apple_signin_available.dart';
+import 'package:stow/widgets/pp_tos.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
@@ -121,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
+                    privacyPolicyLinkAndTermsOfService(),
                     Container(
                       height: 40,
                       width: 372,

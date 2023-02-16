@@ -18,33 +18,38 @@ extension AuthStatusX on AuthStatus {
 }
 
 class AuthState extends Equatable {
-  const AuthState(
+  AuthState(
       {this.status = AuthStatus.initial,
       this.user,
       this.firstname,
       this.lastname,
-      this.profilePicUrl});
+      this.profilePicUrl,
+      required this.emailVerified});
 
   final StowUser? user;
   final String? firstname;
   final String? lastname;
   final String? profilePicUrl;
   final AuthStatus status;
+  bool emailVerified;
 
   @override
-  List<Object?> get props => [status, user, firstname, lastname, profilePicUrl];
+  List<Object?> get props =>
+      [status, user, firstname, lastname, profilePicUrl, emailVerified];
 
   AuthState copyWith(
       {AuthStatus? status,
       StowUser? user,
       String? firstname,
       String? lastname,
-      String? profilePicUrl}) {
+      String? profilePicUrl,
+      bool? emailVerified}) {
     return AuthState(
         user: user ?? this.user,
         status: status ?? this.status,
         firstname: firstname ?? this.firstname,
         lastname: lastname ?? this.lastname,
-        profilePicUrl: profilePicUrl ?? this.profilePicUrl);
+        profilePicUrl: profilePicUrl ?? this.profilePicUrl,
+        emailVerified: emailVerified ?? this.emailVerified);
   }
 }

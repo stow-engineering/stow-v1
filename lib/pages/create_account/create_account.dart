@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // Project imports:
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/auth/auth_events.dart';
+import 'package:stow/bloc/auth/auth_state.dart';
+import 'package:stow/widgets/pp_tos.dart';
 
 class CreateAccount extends StatelessWidget {
   CreateAccount({
@@ -209,6 +211,7 @@ class CreateAccount extends StatelessWidget {
                       },
                     ),
                   ),
+                  privacyPolicyLinkAndTermsOfService(),
                   Container(
                     height: 40,
                     width: 372,
@@ -271,8 +274,9 @@ class CreateAccount extends StatelessWidget {
                               email: emailController.text,
                               password: passwordController.text,
                               firstname: firstController.text,
-                              lastname: lastController.text));
-                          Navigator.pop(context);
+                              lastname: lastController.text,
+                              context: context));
+                          //Navigator.pop(context);
                         } else {
                           String errorMessage = "";
                           if (!requiredLength) {
