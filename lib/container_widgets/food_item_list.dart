@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -86,7 +87,7 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
     }
   }
 
-  Image getFoodImage(String name) {
+  ExtendedImage getFoodImage(String name) {
     try {
       List<String> jpgs = [
         'almonds',
@@ -163,19 +164,27 @@ class HorizontalFoodItemDisplay extends StatelessWidget {
       ];
       List<String> jpegs = ['cornstarch', 'cream cheese', 'sour cream'];
       if (jpgs.contains(name)) {
-        return Image(
-            image: AssetImage('assets/' + name + '.jpg'), fit: BoxFit.contain);
+        String imagePath = 'assets/' + name + '.jpg';
+        return ExtendedImage.asset(imagePath, fit: BoxFit.contain);
+        // return Image(
+        //     image: AssetImage('assets/' + name + '.jpg'), fit: BoxFit.contain);
       }
       if (jpegs.contains(name)) {
-        return Image(
-            image: AssetImage('assets/' + name + '.jpeg'), fit: BoxFit.contain);
+        String imagePath = 'assets/' + name + '.jpeg';
+        return ExtendedImage.asset(imagePath, fit: BoxFit.contain);
+        // return Image(
+        //     image: AssetImage('assets/' + name + '.jpeg'), fit: BoxFit.contain);
       } else {
-        return const Image(
-            image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
+        String imagePath = 'assets/stock_food.png';
+        return ExtendedImage.asset(imagePath, fit: BoxFit.fill);
+        // return const Image(
+        //     image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
       }
     } catch (e) {
-      return const Image(
-          image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
+      String imagePath = 'assets/stock_food.png';
+      return ExtendedImage.asset(imagePath, fit: BoxFit.fill);
+      // return const Image(
+      //     image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
     }
   }
 

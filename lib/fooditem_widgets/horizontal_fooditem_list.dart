@@ -2,6 +2,7 @@
 // ignore_for_file: constant_identifier_names, sized_box_for_whitespace
 
 // Flutter imports:
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -25,9 +26,12 @@ enum FoodItemCategory {
 }
 
 class HorizontalFoodItemList extends StatelessWidget {
-  HorizontalFoodItemList({Key? key, required this.category}) : super(key: key);
+  HorizontalFoodItemList(
+      {Key? key, required this.category, required this.keyWord})
+      : super(key: key);
 
   final FoodItemCategory category;
+  final String keyWord;
   final fruitsAndVegtables = [
     'apple',
     'avocado',
@@ -107,66 +111,96 @@ class HorizontalFoodItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var foodList = [];
+    String title = "";
     switch (category) {
       case FoodItemCategory.FruitsAndVegtables:
         {
           foodList = fruitsAndVegtables;
+          title = "Fruits and Vegetables";
         }
         break;
       case FoodItemCategory.BakedGoods:
         {
           foodList = bakedGoods;
+          title = "Baked Goods";
         }
         break;
       case FoodItemCategory.Baking:
         {
           foodList = baking;
+          title = "Baking";
         }
         break;
       case FoodItemCategory.Dairy:
         {
           foodList = dairy;
+          title = "Dairy";
         }
         break;
       case FoodItemCategory.DryGoods:
         {
           foodList = dryGoods;
+          title = "Dry Goods";
         }
         break;
       case FoodItemCategory.MeatAndSeafood:
         {
           foodList = meatAndSeafood;
+          title = "Meat and Seafood";
         }
         break;
       case FoodItemCategory.PastaAndSauces:
         {
           foodList = pastaAndSauces;
+          title = "Pasta and Sauces";
         }
         break;
       case FoodItemCategory.Snacks:
         {
           foodList = snacks;
+          title = "Snacks";
         }
         break;
       case FoodItemCategory.SpicesAndCondiments:
         {
           foodList = spicesAndCondiments;
+          title = "Spices and Condiments";
         }
         break;
     }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: SizedBox(
-        height: 245,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: foodList.length,
-          itemBuilder: (context, index) {
-            return HorizontalMiniFoodItemDisplay(foodItem: foodList[index]);
-          },
-        ),
-      ),
-    );
+    var searchedFoodList = [];
+    for (int i = 0; i < foodList.length; i++) {
+      if ((foodList[i] as String).contains(keyWord) || keyWord == "") {
+        searchedFoodList.add(foodList[i]);
+      }
+    }
+    if (searchedFoodList.isEmpty) {
+      return Container();
+    }
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: SizedBox(
+              height: 245,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: searchedFoodList.length,
+                itemBuilder: (context, index) {
+                  return HorizontalMiniFoodItemDisplay(
+                      foodItem: searchedFoodList[index]);
+                },
+              ),
+            ),
+          ),
+        ]);
   }
 }
 
@@ -176,7 +210,7 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
 
   final String foodItem;
 
-  static Image getFoodImage(String name) {
+  static ExtendedImage getFoodImage(String name) {
     try {
       List<String> jpgs = [
         'almonds',
@@ -252,21 +286,28 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
         'zuccini'
       ];
       List<String> jpegs = ['cornstarch', 'cream cheese', 'sour cream'];
-      name = name.toLowerCase();
       if (jpgs.contains(name)) {
-        return Image(
-            image: AssetImage('assets/' + name + '.jpg'), fit: BoxFit.contain);
+        String imagePath = 'assets/' + name + '.jpg';
+        return ExtendedImage.asset(imagePath, fit: BoxFit.contain);
+        // return Image(
+        //     image: AssetImage('assets/' + name + '.jpg'), fit: BoxFit.contain);
       }
       if (jpegs.contains(name)) {
-        return Image(
-            image: AssetImage('assets/' + name + '.jpeg'), fit: BoxFit.contain);
+        String imagePath = 'assets/' + name + '.jpeg';
+        return ExtendedImage.asset(imagePath, fit: BoxFit.contain);
+        // return Image(
+        //     image: AssetImage('assets/' + name + '.jpeg'), fit: BoxFit.contain);
       } else {
-        return const Image(
-            image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
+        String imagePath = 'assets/stock_food.png';
+        return ExtendedImage.asset(imagePath, fit: BoxFit.fill);
+        // return const Image(
+        //     image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
       }
     } catch (e) {
-      return const Image(
-          image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
+      String imagePath = 'assets/stock_food.png';
+      return ExtendedImage.asset(imagePath, fit: BoxFit.fill);
+      // return const Image(
+      //     image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
     }
   }
 
