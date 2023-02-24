@@ -25,11 +25,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
     nameController.clear();
     cookController.clear();
     prepController.clear();
-    instructionsList.clear();
-    ingredientsList.clear();
-
-    instructionsList.add("");
-    ingredientsList.add(""); 
+    instructionsList = [""];
+    ingredientsList = [""];
 
     setState(() {}); 
   }
@@ -179,7 +176,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
     );
   }
 
-  /// get instructions text-fields
+  // get instructions text-fields
   List<Widget> _getInstructions() {
     List<Widget> instructionsTextFields = [];
     for (int i = 0; i < instructionsList.length; i++) {
@@ -200,7 +197,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
     return instructionsTextFields;
   }
 
-  /// add / remove button instructions
+  // add / remove button instructions
   Widget _addRemoveButtonInstructions(bool add, int index) {
     return InkWell(
       onTap: () {
