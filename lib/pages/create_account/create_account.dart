@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 // Project imports:
 import 'package:stow/bloc/auth/auth_bloc.dart';
@@ -296,7 +298,14 @@ class CreateAccount extends StatelessWidget {
                           if (!emailValid) {
                             errorMessage = "Please provide a valid email";
                           }
-                          _showMyDialog(context, errorMessage);
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.error,
+                            title: 'Ugh Oh!',
+                            text: errorMessage,
+                            confirmBtnColor: Theme.of(context).primaryColor,
+                            confirmBtnText: 'Ok',
+                          );
                         }
                       },
                       child: const Text(

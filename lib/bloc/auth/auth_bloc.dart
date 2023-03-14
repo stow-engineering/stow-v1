@@ -1,4 +1,4 @@
-import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 // Dart imports:
 import 'dart:developer';
@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 // Project imports:
 import 'package:stow/bloc/auth/auth_events.dart';
@@ -46,7 +48,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on FirebaseException catch (error, stacktrace) {
       log(stacktrace.toString());
       if (error.code == 'email-already-in-use') {
-        _showMyDialog(event.context, "That Email is already in use.");
+        QuickAlert.show(
+          context: event.context,
+          type: QuickAlertType.error,
+          title: 'Ugh Oh!',
+          text: 'That Email is already in use.',
+          confirmBtnColor: Theme.of(event.context).primaryColor,
+          confirmBtnText: 'Ok',
+        );
       }
       emit(state.copyWith(status: AuthStatus.error));
     } catch (error, stacktrace) {
@@ -70,7 +79,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               .signInWithApple(scopes: [Scope.email, Scope.fullName]);
         } catch (e) {
           appleError = true;
-          _showMyDialog(event.context, "Apple Sign In Failed");
           print(e);
           emit(state.copyWith(status: AuthStatus.error));
         }
@@ -83,7 +91,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(state.copyWith(status: AuthStatus.error));
         }
       }
-      final CollectionReference userCollection =
+      CollectionReference userCollection =
           FirebaseFirestore.instance.collection('User');
       DocumentSnapshot snapshot = await userCollection.doc(newUser!.uid).get();
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -94,7 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         lastname = "${data['last_name']}";
       }
       String profilePicId = "profilepic" + newUser.uid;
-      final ref = FirebaseStorage.instance.ref().child(profilePicId);
+      var ref = FirebaseStorage.instance.ref().child(profilePicId);
       url = await ref.getDownloadURL();
       emit(state.copyWith(
           status: AuthStatus.success,
@@ -117,11 +125,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             lastname: lastname,
             profilePicUrl: null,
             emailVerified: true));
+      } else {
+        QuickAlert.show(
+          context: event.context,
+          type: QuickAlertType.error,
+          title: 'Sign-In Failed!',
+          text: 'Check your email and password. Please try again.',
+          confirmBtnColor: Theme.of(event.context).primaryColor,
+          confirmBtnText: 'Ok',
+        );
+        log(stacktrace.toString());
+        emit(state.copyWith(status: AuthStatus.error));
       }
-      _showMyDialog(
-          event.context, "You entered either an invalid username or password");
-      log(stacktrace.toString());
-      emit(state.copyWith(status: AuthStatus.error));
     }
   }
 

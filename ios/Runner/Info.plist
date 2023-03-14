@@ -51,5 +51,7 @@
 	<string>Stow needs Photos to find profile pictures</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

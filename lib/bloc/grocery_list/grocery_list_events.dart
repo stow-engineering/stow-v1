@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:stow/models/grocery_item.dart';
 
 // Project imports:
 
@@ -18,7 +19,7 @@ class LoadGroceryList extends GroceryListEvents {
 }
 
 class AddNewGroceryList extends GroceryListEvents {
-  final List<String> foodItems;
+  final List<GroceryItem> foodItems;
   final bool containerGroceryList;
   final String name;
 
@@ -31,13 +32,26 @@ class AddNewGroceryList extends GroceryListEvents {
 }
 
 class AddToGroceryList extends GroceryListEvents {
-  final List<String> foodItems;
+  final List<GroceryItem> foodItems;
   final String id;
 
   AddToGroceryList(this.foodItems, this.id) : super([foodItems, id]);
 
   @override
   String toString() => 'AddToGroceryList { foodItem: $foodItems }';
+}
+
+class CheckGroceryItem extends GroceryListEvents {
+  final String id;
+  final bool checked;
+  final int index;
+
+  CheckGroceryItem(this.id, this.checked, this.index)
+      : super([id, checked, index]);
+
+  @override
+  String toString() =>
+      'CheckGroceryItem { id: $id, checked: $checked, index: $index}';
 }
 
 class DeleteFoodItemGroceryList extends GroceryListEvents {

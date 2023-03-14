@@ -24,27 +24,27 @@ class GreetingWidget extends StatelessWidget {
                   bottomRight: Radius.circular(50))),
           child: Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  "Hi there, ",
-                  style: TextStyle(
-                      color: Colors.greenAccent,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold),
-                ),
-                BlocBuilder<AuthBloc, AuthState>(
-                    bloc: BlocProvider.of<AuthBloc>(context),
-                    builder: (context, state) {
-                      String fullname = state.firstname ?? '';
-                      return Text(fullname,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold));
-                    }),
-              ],
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    "Hi there, ",
+                    style: TextStyle(
+                        color: Colors.greenAccent, fontWeight: FontWeight.bold),
+                  ),
+                  BlocBuilder<AuthBloc, AuthState>(
+                      bloc: BlocProvider.of<AuthBloc>(context),
+                      builder: (context, state) {
+                        String fullname = state.firstname ?? '';
+                        return Text(fullname,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold));
+                      }),
+                ],
+              ),
             ),
           ),
         ),

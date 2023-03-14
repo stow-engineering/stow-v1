@@ -283,29 +283,52 @@ class HorizontalMiniFoodItemDisplay extends StatelessWidget {
         'tomato',
         'tortilla',
         'watermelon',
-        'zuccini'
+        'zuccini',
+        'cornstarch',
+        'cream cheese',
+        'sour cream'
       ];
-      List<String> jpegs = ['cornstarch', 'cream cheese', 'sour cream'];
+      List<String> jpegs = [];
       if (jpgs.contains(name)) {
-        String imagePath = 'assets/' + name + '.jpg';
-        return ExtendedImage.asset(imagePath, fit: BoxFit.contain);
+        String imagePath = 'assets/food_items_comp/' + name + '.jpg';
+        return ExtendedImage.asset(
+          imagePath,
+          fit: BoxFit.contain,
+          cacheHeight: 150,
+          cacheWidth: 200,
+        );
         // return Image(
         //     image: AssetImage('assets/' + name + '.jpg'), fit: BoxFit.contain);
       }
       if (jpegs.contains(name)) {
-        String imagePath = 'assets/' + name + '.jpeg';
-        return ExtendedImage.asset(imagePath, fit: BoxFit.contain);
+        String imagePath = 'assets/food_items_comp/' + name + '.jpeg';
+        return ExtendedImage.asset(
+          imagePath,
+          fit: BoxFit.contain,
+          cacheHeight: 150,
+          cacheWidth: 200,
+        );
         // return Image(
         //     image: AssetImage('assets/' + name + '.jpeg'), fit: BoxFit.contain);
       } else {
-        String imagePath = 'assets/stock_food.png';
-        return ExtendedImage.asset(imagePath, fit: BoxFit.fill);
+        String imagePath = 'assets/food_items_comp/stock_food.png';
+        return ExtendedImage.asset(
+          imagePath,
+          fit: BoxFit.fill,
+          cacheHeight: 150,
+          cacheWidth: 200,
+        );
         // return const Image(
         //     image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
       }
     } catch (e) {
-      String imagePath = 'assets/stock_food.png';
-      return ExtendedImage.asset(imagePath, fit: BoxFit.fill);
+      String imagePath = 'assets/food_items_comp/stock_food.png';
+      return ExtendedImage.asset(
+        imagePath,
+        fit: BoxFit.fill,
+        cacheHeight: 150,
+        cacheWidth: 200,
+      );
       // return const Image(
       //     image: AssetImage('assets/stock_food.png'), fit: BoxFit.contain);
     }
