@@ -3,16 +3,11 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-
-// Dart imports:
 import 'dart:async' as _i7;
 
-// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart' as _i2;
 import 'package:firebase_storage/firebase_storage.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-
-// Project imports:
 import 'package:stow/models/container.dart' as _i8;
 import 'package:stow/models/food_item.dart' as _i4;
 import 'package:stow/models/grocery_lists.dart' as _i10;
@@ -104,6 +99,32 @@ class MockFirebaseService extends _i1.Mock implements _i6.FirebaseService {
   }
 
   @override
+  int get numWrites => (super.noSuchMethod(
+        Invocation.getter(#numWrites),
+        returnValue: 0,
+      ) as int);
+  @override
+  set numWrites(int? _numWrites) => super.noSuchMethod(
+        Invocation.setter(
+          #numWrites,
+          _numWrites,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  int get numReads => (super.noSuchMethod(
+        Invocation.getter(#numReads),
+        returnValue: 0,
+      ) as int);
+  @override
+  set numReads(int? _numReads) => super.noSuchMethod(
+        Invocation.setter(
+          #numReads,
+          _numReads,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   String get uid => (super.noSuchMethod(
         Invocation.getter(#uid),
         returnValue: '',
@@ -192,6 +213,14 @@ class MockFirebaseService extends _i1.Mock implements _i6.FirebaseService {
         ),
         returnValue: _i7.Future<dynamic>.value(),
       ) as _i7.Future<dynamic>);
+  @override
+  _i7.Future<List<String>> getFirstAndLastName() => (super.noSuchMethod(
+        Invocation.method(
+          #getFirstAndLastName,
+          [],
+        ),
+        returnValue: _i7.Future<List<String>>.value(<String>[]),
+      ) as _i7.Future<List<String>>);
   @override
   _i7.Future<dynamic> updateContainers(String? mac) => (super.noSuchMethod(
         Invocation.method(

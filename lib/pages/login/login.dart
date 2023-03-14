@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:apple_sign_in/apple_sign_in_button.dart' as apple;
+import 'package:the_apple_sign_in/the_apple_sign_in.dart' as apple;
 
 // Project imports:
 import 'package:stow/bloc/auth/auth_bloc.dart';

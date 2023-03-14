@@ -1,4 +1,4 @@
-import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
@@ -64,7 +64,7 @@ class AuthenticationService {
 
   Future<StowUser?> signInWithApple({List<Scope> scopes = const []}) async {
     // 1. perform the sign-in request
-    final result = await AppleSignIn.performRequests(
+    final result = await TheAppleSignIn.performRequests(
         [AppleIdRequest(requestedScopes: scopes)]);
     // 2. check the result
     switch (result.status) {
@@ -89,8 +89,8 @@ class AuthenticationService {
             if (userCredential.user?.uid != null) {
               String userUid = userCredential.user?.uid ?? "";
               String userEmail = userCredential.user?.email ?? "";
-              await FirebaseService(userUid).updateUserData(
-                  userEmail, fullName.givenName, fullName.familyName);
+              await FirebaseService(userUid).updateUserData(userEmail,
+                  fullName.givenName ?? "", fullName.familyName ?? "");
               return _userFromFirebase(userCredential.user);
             }
           }

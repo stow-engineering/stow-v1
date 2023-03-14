@@ -1,6 +1,7 @@
 // Flutter imports:
 
 // Dart imports:
+import 'dart:convert';
 import 'dart:developer';
 
 // Package imports:
@@ -10,9 +11,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stow/models/food_item.dart';
 import 'package:stow/models/grocery_lists.dart';
 import 'package:stow/models/recipe.dart';
+import 'package:stow/models/grocery_item.dart';
 import '../models/container.dart' as custom_container;
 
 class FirebaseService {
+  int numWrites = 0;
+  int numReads = 0;
   final String uid;
   FirebaseService(this.uid);
 
@@ -30,6 +34,8 @@ class FirebaseService {
 
   //Creates new user in database
   Future updateUserData(String email, String firstName, String lastName) async {
+    numWrites += 1;
+    log("numWrites: " + numWrites.toString());
     return await userCollection.doc(uid).set({
       'email': email,
       'first_name': firstName,
@@ -41,6 +47,8 @@ class FirebaseService {
   // Updates a users info
   Future updateUserDataNoContainers(
       String email, String firstName, String lastName) async {
+    numWrites += 1;
+    log("numWrites: " + numWrites.toString());
     return await userCollection
         .doc(uid)
         .set({'email': email, 'first_name': firstName, 'last_name': lastName});
@@ -48,6 +56,8 @@ class FirebaseService {
 
   // get first and last names
   Future<List<String>> getFirstAndLastName() async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -66,6 +76,10 @@ class FirebaseService {
   }
 
   Future updateContainers(String mac) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -83,6 +97,10 @@ class FirebaseService {
 
   Future updateContainerData(
       String name, String size, String mac, int? value, bool? full) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     return await containerCollection.doc(mac).set({
       'barcode': null,
       'full': full ?? false,
@@ -95,6 +113,10 @@ class FirebaseService {
 
   Future updateContainerNameAndSize(
       String name, String size, String mac) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     return await containerCollection
         .doc(mac)
         .update({'name': name, 'size': size});
@@ -102,12 +124,20 @@ class FirebaseService {
 
   //updates container with name
   Future updateContainerName(String mac, String name) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     return await containerCollection.doc(mac).update({
       'name': name,
     });
   }
 
   Future deleteContainer(String mac) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -124,6 +154,10 @@ class FirebaseService {
   }
 
   Future deleteRecipe(String recipeId) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -150,6 +184,10 @@ class FirebaseService {
       int cookTimeMin,
       int prepTimeMin) async {
     //If update recipe is called without an ID probably should just throw error
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     if (recipeId == "") {
       return await recipeCollection.doc(uid).set({
         'recipeId': uid,
@@ -174,6 +212,10 @@ class FirebaseService {
   }
 
   Future updateRecipes(String argId) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -197,6 +239,8 @@ class FirebaseService {
   }
 
   Future<List<String>> getAddresses() async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -211,6 +255,8 @@ class FirebaseService {
   }
 
   Future<List<String>> getRecipeAddresses() async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -225,6 +271,8 @@ class FirebaseService {
   }
 
   Future<List<String>> getFoodAddresses() async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -239,6 +287,8 @@ class FirebaseService {
   }
 
   Future<bool> getFull(String address) async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await containerCollection
         .doc(address)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -252,6 +302,8 @@ class FirebaseService {
   }
 
   Future<int> getVal(String address) async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await containerCollection
         .doc(address)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -265,6 +317,8 @@ class FirebaseService {
   }
 
   Future<String> getSize(String address) async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await containerCollection
         .doc(address)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -280,7 +334,8 @@ class FirebaseService {
   //Watches for changes in the container collection
   Future<Stream<List<custom_container.Container>>> get containers async {
     final containerList = await getAddresses();
-
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     return containerCollection
         .where('mac', whereIn: containerList.isEmpty ? ['-1'] : containerList)
         .snapshots()
@@ -299,6 +354,8 @@ class FirebaseService {
       } else {
         addressBatch = containerList.sublist(lowerBound, lowerBound + 10);
       }
+      numReads += 1;
+      log("numReads: " + numReads.toString());
       List<custom_container.Container> subsetList = await containerCollection
           .where('mac',
               whereIn:
@@ -325,6 +382,8 @@ class FirebaseService {
   //gets current list of recpies
   Future<List<Recipe>?> getRecipeList() async {
     final recipeList = await getRecipeAddresses();
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     return recipeCollection
         .where('recipeId', whereIn: recipeList)
         .get()
@@ -405,6 +464,8 @@ class FirebaseService {
 
   //gets current list of food items
   Future<List<FoodItem>?> getFoodItemList() async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     var foodList = await getFoodAddresses();
     List<FoodItem> combinedList = [];
     for (int i = 0; i < foodList.length / 10; i++) {
@@ -440,6 +501,10 @@ class FirebaseService {
   }
 
   Future updateFoodItemData(String name, DateTime? expDate) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     final result = await foodItemCollection.add({
       'barcode': null,
       'value': 0,
@@ -452,6 +517,10 @@ class FirebaseService {
   }
 
   Future updateExistingFoodItem(FoodItem foodItem) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     return await foodItemCollection.doc(foodItem.uid).set({
       'barcode': foodItem.barcode,
       'value': foodItem.value,
@@ -462,6 +531,10 @@ class FirebaseService {
   }
 
   Future updateFoodItems(mac) async {
+    numWrites += 2;
+    numReads += 3;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -480,6 +553,10 @@ class FirebaseService {
   }
 
   Future deleteFoodItems(String mac) async {
+    numWrites += 4;
+    numReads += 5;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     DocumentSnapshot<Map<String, dynamic>> snapshot = await userCollection
         .doc(uid)
         .get() as DocumentSnapshot<Map<String, dynamic>>;
@@ -496,6 +573,8 @@ class FirebaseService {
 
   //get grocery lists
   Future<List<GroceryList>?> getGroceryLists() async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     return groceryListCollection
         .where('uid', isEqualTo: uid)
         .get()
@@ -505,8 +584,14 @@ class FirebaseService {
         DateTime date = (doc.data() as Map<String, dynamic>)['date'].toDate() ??
             DateTime.now();
         var foodList = (doc.data() as Map<String, dynamic>)['list'] ?? [];
-        var castedFoodList =
+        var jsonFoodList =
             (foodList as List).map((item) => item as String).toList();
+        var castedFoodList = <GroceryItem>[];
+        for (int i = 0; i < jsonFoodList.length; i++) {
+          Map<String, dynamic> groceryMap = jsonDecode(jsonFoodList[i]);
+          GroceryItem groceryItem = GroceryItem.fromJson(groceryMap);
+          castedFoodList.add(groceryItem);
+        }
         return groceryList.copyWith(
             creationDate: date,
             foodItems: castedFoodList,
@@ -520,9 +605,18 @@ class FirebaseService {
 
   //create grocery list
   Future createGroceryList(GroceryList groceryList) async {
+    numWrites += 1;
+    log("numWrites: " + numWrites.toString());
+    var jsonGroceryItems = <String>[];
+    for (int i = 0; i < groceryList.foodItems!.length; i++) {
+      if (groceryList.foodItems?[i] != null) {
+        String jsonGroceryItem = jsonEncode(groceryList.foodItems![i]);
+        jsonGroceryItems.add(jsonGroceryItem);
+      }
+    }
     final groceryDatabaseEntry = {
       'uid': uid,
-      'list': groceryList.foodItems,
+      'list': jsonGroceryItems,
       'date': groceryList.creationDate,
       'name': groceryList.name,
       'container': groceryList.containerGroceryList
@@ -532,16 +626,31 @@ class FirebaseService {
 
   //delete grocery lists
   Future deleteGroceryList(String id) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     await groceryListCollection.doc(id).delete();
   }
 
   //update grocery list
   Future updateGroceryList(String id, GroceryList newGroceryList) async {
+    numWrites += 1;
+    numReads += 1;
+    log("numWrites: " + numWrites.toString());
+    log("numReads: " + numReads.toString());
     if (id == "") {
       throw Exception("Grocery List ID not found!");
     }
+    var jsonGroceryItems = <String>[];
+    for (int i = 0; i < newGroceryList.foodItems!.length; i++) {
+      if (newGroceryList.foodItems?[i] != null) {
+        String jsonGroceryItem = jsonEncode(newGroceryList.foodItems![i]);
+        jsonGroceryItems.add(jsonGroceryItem);
+      }
+    }
     return await groceryListCollection.doc(id).update({
-      'list': newGroceryList.foodItems,
+      'list': jsonGroceryItems,
       'date': newGroceryList.creationDate,
       'name': newGroceryList.name,
       'container': newGroceryList.containerGroceryList
@@ -550,6 +659,8 @@ class FirebaseService {
 
   //check if there exists a low container grocery list in the database
   Future<bool> checkLowContainerGroceryList() async {
+    numReads += 1;
+    log("numReads: " + numReads.toString());
     QuerySnapshot snapshot =
         await groceryListCollection.where('uid', isEqualTo: uid).get();
     try {
