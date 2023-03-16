@@ -15,7 +15,6 @@ import 'package:stow/pages/add_container/add_container.dart';
 import 'package:stow/pages/add_food_item/add_food_item.dart';
 import 'package:stow/pages/create_account/create_account.dart';
 import 'package:stow/pages/grocery_list/add_grocery_list.dart';
-import 'package:stow/pages/grocery_list/edit_grocery_list.dart';
 import 'package:stow/pages/grocery_list/grocery_home.dart';
 import 'package:stow/pages/login/login.dart';
 import 'package:stow/pages/login/reset_password.dart';
@@ -146,15 +145,6 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const AddGroceryList(),
         );
-      case '/edit-grocery-list':
-        if (args is String) {
-          return MaterialPageRoute(
-            builder: (_) => EditGroceryList(
-              id: args,
-            ),
-          );
-        }
-        return errorRoute();
       default:
         return errorRoute();
     }

@@ -2,10 +2,11 @@
 import 'package:stow/bloc/containers/containers_bloc.dart';
 import 'package:stow/models/container.dart' as custom_container;
 import 'package:stow/models/food_item.dart';
+import 'package:stow/models/grocery_item.dart';
 
 class GroceryList {
   DateTime? creationDate;
-  List<String>? foodItems;
+  List<GroceryItem>? foodItems;
   String? id;
   String? name;
   bool? containerGroceryList;
@@ -19,7 +20,7 @@ class GroceryList {
 
   GroceryList copyWith(
       {DateTime? creationDate,
-      List<String>? foodItems,
+      List<GroceryItem>? foodItems,
       String? id,
       String? name,
       bool? containerGroceryList}) {

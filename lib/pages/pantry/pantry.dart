@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stow/bloc/grocery_list/grocery_list_bloc.dart';
+import 'package:stow/bloc/grocery_list/grocery_list_events.dart';
 import 'package:stow/widgets/profile_picture.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -81,11 +83,13 @@ class _PantryState extends State<Pantry> {
     context.read<ContainersBloc>().add(LoadContainers());
     context.read<RecipesBloc>().add(LoadRecipes());
     context.read<FoodItemsBloc>().add(LoadFoodItems());
-    //context.read<RecipesBloc>().add(LoadRecipes());
     final userBloc = BlocProvider.of<AuthBloc>(context);
     if (userBloc.state.firstname == null || userBloc.state.lastname == null) {
       userBloc.add(GetNameEvent());
     }
+    context
+        .read<GroceryListBloc>()
+        .add(LoadGroceryList(userBloc.state.user!.uid));
     final GlobalKey<ScaffoldState> _key = GlobalKey();
     final authBloc = BlocProvider.of<AuthBloc>(context);
 
