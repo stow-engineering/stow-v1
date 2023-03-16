@@ -1,35 +1,35 @@
-// Flutter imports:
-// ignore_for_file: curly_braces_in_flow_control_structures, prefer_const_constructors_in_immutables
-
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uuid/uuid.dart';
-
-// Project imports:
 import 'package:stow/bloc/auth/auth_bloc.dart';
 import 'package:stow/bloc/recipes_bloc.dart';
 import 'package:stow/bloc/recipes_events.dart';
 import '../../models/recipe.dart';
+import 'package:uuid/uuid.dart';
 
 class AddRecipePage extends StatefulWidget {
-  const AddRecipePage({super.key});
-
   @override
   _AddRecipePageState createState() => _AddRecipePageState();
 }
 
 class _AddRecipePageState extends State<AddRecipePage> {
   final _formKey = GlobalKey<FormState>();
-  final uuid = const Uuid();
+  final uuid = Uuid();
   TextEditingController nameController = TextEditingController();
   TextEditingController prepController = TextEditingController();
   TextEditingController cookController = TextEditingController();
 
   static List<String> instructionsList = [""];
   static List<String> ingredientsList = [""];
+
+  void _clearData() {
+    nameController.clear();
+    cookController.clear();
+    prepController.clear();
+    instructionsList = [""];
+    ingredientsList = [""];
+
+    setState(() {}); 
+  }
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: const Text('Add Recipe'),
+        title: Text('Add Recipe'),
       ),
       body: Form(
         key: _formKey,
@@ -61,10 +61,10 @@ class _AddRecipePageState extends State<AddRecipePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // name textfield
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
-                const Text(
+                Text(
                   'Name of Recipe',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                 ),
@@ -72,8 +72,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   padding: const EdgeInsets.only(right: 32.0),
                   child: TextFormField(
                     controller: nameController,
-                    decoration:
-                        const InputDecoration(hintText: 'Enter your name'),
+                    decoration: InputDecoration(hintText: 'Enter your name'),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -82,10 +81,10 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     },
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
-                const Text(
+                Text(
                   'Prep Time',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                 ),
@@ -93,8 +92,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   padding: const EdgeInsets.only(right: 32.0),
                   child: TextFormField(
                     controller: prepController,
-                    decoration:
-                        const InputDecoration(hintText: 'Enter prep time'),
+                    decoration: InputDecoration(hintText: 'Enter prep time'),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -103,10 +101,10 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     },
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
-                const Text(
+                Text(
                   'Cook Time',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                 ),
@@ -114,8 +112,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   padding: const EdgeInsets.only(right: 32.0),
                   child: TextFormField(
                     controller: cookController,
-                    decoration:
-                        const InputDecoration(hintText: 'Enter cook time'),
+                    decoration: InputDecoration(hintText: 'Enter cook time'),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -124,23 +121,23 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     },
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
-                const Text(
+                Text(
                   'Instructions',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                 ),
                 ..._getInstructions(),
-                const SizedBox(
+                SizedBox(
                   height: 40,
                 ),
-                const Text(
+                Text(
                   'Ingredients',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                 ),
                 ..._getIngredients(),
-                const SizedBox(
+                SizedBox(
                   height: 40,
                 ),
                 ElevatedButton(
@@ -158,6 +155,16 @@ class _AddRecipePageState extends State<AddRecipePage> {
                               prepTimeMin: int.parse(prepController.text));
                       context.read<RecipesBloc>().add(AddRecipe(recipe));
                     }
+
+                    //Resets form data
+                    _clearData();
+
+                    final snackBar = SnackBar(
+                      content: const Text("Recipe Added!"),
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: const Text('Submit'),
                 ),
@@ -169,7 +176,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
     );
   }
 
-  /// get instructions text-fields
+  // get instructions text-fields
   List<Widget> _getInstructions() {
     List<Widget> instructionsTextFields = [];
     for (int i = 0; i < instructionsList.length; i++) {
@@ -178,7 +185,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
         child: Row(
           children: [
             Expanded(child: InstructionsTextFields(i)),
-            const SizedBox(
+            SizedBox(
               width: 16,
             ),
             // we need add button at last instructions row
@@ -190,16 +197,15 @@ class _AddRecipePageState extends State<AddRecipePage> {
     return instructionsTextFields;
   }
 
-  /// add / remove button instructions
+  // add / remove button instructions
   Widget _addRemoveButtonInstructions(bool add, int index) {
     return InkWell(
       onTap: () {
         if (add) {
           // add new text-fields at the top of all friends textfields
           instructionsList.insert(instructionsList.length, "");
-        } else {
+        } else
           instructionsList.removeAt(index);
-        }
         setState(() {});
       },
       child: Container(
@@ -226,10 +232,10 @@ class _AddRecipePageState extends State<AddRecipePage> {
         child: Row(
           children: [
             Expanded(child: IngredientsTextFields(i)),
-            const SizedBox(
+            SizedBox(
               width: 16,
             ),
-            // we need add button at last friends row
+            // we need add button at last ingredients row
             _addRemoveButtonIngredients(i == ingredientsList.length - 1, i),
           ],
         ),
@@ -243,7 +249,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
     return InkWell(
       onTap: () {
         if (add) {
-          // add new text-fields at the top of all friends textfields
+          // add new text-fields at the top of all ingredient textfields
           ingredientsList.insert(ingredientsList.length, "");
         } else
           ingredientsList.removeAt(index);
@@ -267,7 +273,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
 
 class InstructionsTextFields extends StatefulWidget {
   final int index;
-  const InstructionsTextFields(this.index, {super.key});
+  InstructionsTextFields(this.index);
   @override
   _InstructionsTextFieldsState createState() => _InstructionsTextFieldsState();
 }
@@ -290,14 +296,13 @@ class _InstructionsTextFieldsState extends State<InstructionsTextFields> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       instructionsController.text =
-          _AddRecipePageState.instructionsList[widget.index];
+          _AddRecipePageState.instructionsList[widget.index] ?? '';
     });
 
     return TextFormField(
       controller: instructionsController,
       onChanged: (v) => _AddRecipePageState.instructionsList[widget.index] = v,
-      decoration:
-          const InputDecoration(hintText: 'Enter the step\'s instructions'),
+      decoration: InputDecoration(hintText: 'Enter the step\'s instructions'),
       validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter some text';
@@ -310,7 +315,7 @@ class _InstructionsTextFieldsState extends State<InstructionsTextFields> {
 
 class IngredientsTextFields extends StatefulWidget {
   final int index;
-  IngredientsTextFields(this.index, {super.key});
+  IngredientsTextFields(this.index);
   @override
   _IngredientsTextFieldsState createState() => _IngredientsTextFieldsState();
 }
@@ -333,13 +338,13 @@ class _IngredientsTextFieldsState extends State<IngredientsTextFields> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ingredinetsController.text =
-          _AddRecipePageState.ingredientsList[widget.index];
+          _AddRecipePageState.ingredientsList[widget.index] ?? '';
     });
 
     return TextFormField(
       controller: ingredinetsController,
       onChanged: (v) => _AddRecipePageState.ingredientsList[widget.index] = v,
-      decoration: const InputDecoration(hintText: 'Enter an ingredient'),
+      decoration: InputDecoration(hintText: 'Enter an ingredient'),
       validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter some text';

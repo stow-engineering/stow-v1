@@ -100,7 +100,7 @@ class RouteGenerator {
         );
       case '/add_recipe':
         return MaterialPageRoute(
-          builder: (_) => const AddRecipePage(),
+          builder: (_) => AddRecipePage(),
         );
       case '/edit-container':
         if (args is custom_container.Container) {

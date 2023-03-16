@@ -1,7 +1,4 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Project imports:
 import 'package:stow/models/recipe.dart';
 
 class ViewRecipePage extends StatefulWidget {
@@ -14,6 +11,10 @@ class ViewRecipePage extends StatefulWidget {
 }
 
 class _ViewRecipePageState extends State<ViewRecipePage> {
+  static List<String> instructionsList = [""];
+  static List<String> ingredientsList = [""];
+
+
   @override
   void initState() {
     super.initState();
@@ -21,57 +22,121 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
 
   @override
   Widget build(BuildContext context) {
+  instructionsList = widget.recipe.instructions;//["step1", "step2","I need to check if line overfill works and hopefully it does because it could be a pain to fix if it does not." , "step3"];
+  ingredientsList = widget.recipe.ingredients;//["ing1", "ing2", "ing3", "I need to check if line overfill works and hopefully it does because it could be a pain to fix if it does not."];
     return Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: Text(widget.recipe.name),
         ),
-        body: Card(
-          child: Column(children: [
-            const ListTile(
-              title: Text(
-                "Ingredients List:", //widget.recipe.name,
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 24.0),
-              ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // name textfield
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Name of Recipe',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 32.0),
+                  child: Text(
+                    widget.recipe.name
+                  ),
+                ),
+                Divider(thickness: 3, color: Theme.of(context).colorScheme.secondary,),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Ready Time',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 32.0),
+                  child: Text(
+                    (widget.recipe.prepTimeMin + widget.recipe.cookTimeMin).toString() + " mins"
+                  ),
+                ),
+                Divider(thickness: 3, color: Theme.of(context).colorScheme.secondary,),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Ingredients',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+                ..._getIngredients(),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(thickness: 3, color: Theme.of(context).colorScheme.secondary,),
+                Text(
+                  'Instructions',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+                ..._getInstructions(),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
-            //Divider(thickness: 1, color: Theme.of(context).colorScheme.secondary),
-            ListTile(
-              title: Text(
-                widget.recipe.ingredients
-                    .toString()
-                    .replaceAll(RegExp(r']'), "")
-                    .replaceAll(RegExp(r'\['), ""),
-                style: const TextStyle(
-                    fontWeight: FontWeight.w400, fontSize: 20.0),
-              ),
-            ),
-            Divider(
-                thickness: 2, color: Theme.of(context).colorScheme.secondary),
-            const ListTile(
-              title: Text(
-                "Recipe Instructions:", //widget.recipe.name,
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 24.0),
-              ),
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                itemCount: widget.recipe.instructions.length,
-                itemBuilder: (BuildContext context, index) {
-                  return
-                      //Divider(thickness: 2, color: Theme.of(context).colorScheme.secondary),
-                      ListTile(
-                    title: Text(
-                      "Step " +
-                          (index + 1).toString() +
-                          ": " +
-                          widget.recipe.instructions[index],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 20.0),
-                    ),
-                  );
-                }),
-          ]),
-        ));
+          ),
+        ),
+      );
   }
+
+  // get instructions text-fields
+  List<Widget> _getInstructions() {
+    List<Widget> instructionsTextFields = [];
+    for (int i = 0; i < instructionsList.length; i++) {
+      instructionsTextFields.add(Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Step " + (i+1).toString() + ": " + instructionsList[i]),
+            SizedBox(
+               width: 16,
+             ),
+            Divider(thickness: 1, color: Theme.of(context).colorScheme.secondary,),
+          ],
+        ),
+      ));
+    }
+    return instructionsTextFields;
+  }
+
+  // get firends text-fields
+  List<Widget> _getIngredients() {
+    List<Widget> ingredientsTextFields = [];
+    for (int i = 0; i < ingredientsList.length; i++) {
+      ingredientsTextFields.add(Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(ingredientsList[i]),
+            SizedBox(
+               width: 16,
+             ),
+            Divider(thickness: 1, color: Theme.of(context).colorScheme.secondary,),
+          ],
+        ),
+      ));
+    }
+    return ingredientsTextFields;
+  }
+
 }
+
+
